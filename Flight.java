@@ -8,21 +8,17 @@ public class Flight {
     private static int flightId = 0;
     private Airport departureAirportICAO;
     private Airport destinationAirportICAO;
-    private Date flightDate;
-    private Date timeDeparture;
-    private Date timeDestination;
+    private Date departureDate;
+    private Date destinationDate;
     ArrayList<Person> flightCrew;
     ArrayList<Ticket> tickets;
 
-    public Flight(
-        String gateName, Airport departureAirportICAO, Airport destinationAirportICAO,
-        String flightDate, String timeDeparture, String timeDestination) {
+    public Flight(String gateName, Airport departureAirportICAO, Airport destinationAirportICAO, String departureDate, String destinationDate) {
             ++flightId;
             this.departureAirportICAO = departureAirportICAO;
             this.destinationAirportICAO = destinationAirportICAO;
-            setFlightDate(flightDate);
-            setTimeDeparture(timeDeparture);
-            setTimeDestination(timeDestination);   
+            setDepartureDate(departureDate);
+            setDestinationDate(destinationDate);   
             this.flightCrew = new ArrayList<Person>();
             this.tickets = new ArrayList<Ticket>();
     }
@@ -47,47 +43,50 @@ public class Flight {
 		return this.destinationAirportICAO;
 	}
 
-    public void setFlightDate(String flightDate) {
+    public void setDepartureDate(String departureDate) {
         try {
-            this.flightDate = new SimpleDateFormat("dd/MM/yyyy").parse(flightDate);
+            this.departureDate =  new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(departureDate);
         } catch(ParseException e) {
             e.printStackTrace();
-            System.out.println("You should type flighDate in format 'dd/MM/yyyy'");
+            System.out.println("You should type departureDate in format 'dd/MM/yyyy HH:mm'");
         }
     }
 
-	public Date getFlightDate() {
-		return flightDate;
+	public Date getDepartureDate() {
+		return departureDate;
 	}
 
-    public void setTimeDeparture(String timeDeparture) {
+    public void setDestinationDate(String destinationDate) {
         try {
-            this.timeDeparture =  new SimpleDateFormat("HH:mm").parse(timeDeparture);
+            this.destinationDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(destinationDate);
         } catch(ParseException e) {
             e.printStackTrace();
-            System.out.println("You should type timeDeparture in format 'HH:mm'");
+            System.out.println("You should type destinationDate in format 'dd/MM/yyyy HH:mm'");
         }
     }
 
-	public Date getTimeDeparture() {
-		return timeDeparture;
+	public Date getDestinationDate() {
+		return destinationDate;
 	}
 
-    public void setTimeDestination(String timeDestination) {
-        try {
-            this.timeDestination = new SimpleDateFormat("HH:mm").parse(timeDestination);
-        } catch(ParseException e) {
-            e.printStackTrace();
-            System.out.println("You should type timeDestination in format 'HH:mm'");
+    public void addFlightCrew(Person employee) {
+        if (!this.flightCrew.contains(employee)) {
+            this.flightCrew.add(employee);
+        } else {
+            System.out.println("This employee already exists in this flight");
         }
     }
-
-	public Date getTimeDestination() {
-		return timeDestination;
-	}
 
     public ArrayList<Person> getFlightCrew() {
         return this.flightCrew;
+    }
+
+    public void addTicket(Ticket ticket) {
+        if(!this.tickets.contains(ticket)) {
+            this.tickets.add(ticket);
+        } else {
+            System.out.println("This ticket is already exists");
+        }
     }
 
     public ArrayList<Ticket> getTickets() {

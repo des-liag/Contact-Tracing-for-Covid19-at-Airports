@@ -32,8 +32,24 @@ public class Airport {
         return this.airportName;
     }
 
+    public void addStore(AirportSection store) {
+        if(!this.stores.contains(store)){
+            this.stores.add(store);
+        } else {
+            System.out.println("This store already exists");
+        }
+    }
+
     public ArrayList<AirportSection> getStores() {
         return this.stores;
+    }
+
+    public void addGate(AirportSection gate) {
+        if(!this.gates.contains(gate)){
+            this.gates.add(gate);
+        } else {
+            System.out.println("This gate already exists");
+        }
     }
 
     public ArrayList<AirportSection> getGates() {

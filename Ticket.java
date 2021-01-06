@@ -66,6 +66,14 @@ public class Ticket {
         return this.destinationGateName;
     }
 
+    public void addDepartureVisitedStore(VisitedStore store) {
+        if(!this.departureVisitedStores.contains(store)) {
+            this.departureVisitedStores.add(store);
+        } else {
+               System.out.println("This store has already been visited");
+        }
+    }
+
     public ArrayList<VisitedStore> getDepartureVisitedStores() {
         return this.departureVisitedStores;
     }
