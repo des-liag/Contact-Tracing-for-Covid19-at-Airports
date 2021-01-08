@@ -39,4 +39,8 @@ public class AirportStuff extends Person {
         return this.endTime;
     }
 
+    public String getWorkHours() {
+        return getStartTime().toString() + "-" + getEndTime().toString();
+    }
+
 }
