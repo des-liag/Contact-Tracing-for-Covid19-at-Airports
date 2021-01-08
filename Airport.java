@@ -5,7 +5,9 @@ public class Airport {
     private String airportICAO;
     private String airportName;
     private AirportSection checkInPlace;
+    // An ArrayList that contains objects AirportSection which are the stores of this airport
     private ArrayList<AirportSection> stores;
+    // An ArrayList that contains objects AirportSection which are the gates of this airport
     private ArrayList<AirportSection> gates;
 
 
@@ -16,9 +18,6 @@ public class Airport {
      * @param airportName The name of the airport
      * @param checkInPlace An object AirportSection representing the checkIn place of the airport
      *                      It's only one for each airport
-     * @param stores An ArrayList that contains objects AirportSection which are the stores of this airport
-     * @param gates An ArrayList that contains objects AirportSection which are the gates of this airport
-     * @see AirportSection
      */
     public Airport(String airportICAO, String airportName, AirportSection checkInPlace) {
         this.airportICAO = airportICAO;
@@ -127,7 +126,7 @@ public class Airport {
 
     /**
      * Gets the airport's checkIn place
-     * @return AirportSection reprecenting the airport's checkIn place 
+     * @return AirportSection representing the airport's checkIn place 
      */
     public AirportSection getCheckInPlace() {
         return this.checkInPlace;

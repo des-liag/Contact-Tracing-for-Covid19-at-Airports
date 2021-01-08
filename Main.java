@@ -2,7 +2,7 @@ public class Main {
 
     public static void main(String args[]) {
 
-    //     // testing
+    // testing
     //     AirportStuff airportStuff1 = new AirportStuff("262046671", "Gianna", "Petsi", "Larisa", "6974832784", "00:00", "8:00");
     //     // System.out.println(airportStuff1.getFullName());
         
