@@ -6,51 +6,38 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
 import java.io.FileInputStream;
+
 public class Main extends Application {
 
     @Override
     public void start(javafx.stage.Stage primaryStage) throws Exception{
 
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
+        gridPane.setHgap(1);
         gridPane.setVgap(10);
 
-     BackgroundFill background_fill = new BackgroundFill(Color.ORANGE,
+        javafx.scene.layout.BackgroundFill background_fill = new javafx.scene.layout.BackgroundFill(Color.ORANGE,
              CornerRadii.EMPTY, Insets.EMPTY);
-     Background backgroundCOLOR = new Background(background_fill);
-
-
+        javafx.scene.layout.Background backgroundCOLOR = new javafx.scene.layout.Background(background_fill);
 
         FileInputStream input2 = new FileInputStream("im3.jpg");
         Image image2 = new Image(input2);
         ImageView imageView = new ImageView(image2);
-
         imageView.setFitHeight(400);
         imageView.setFitWidth(800);
-     imageView.setPreserveRatio(true);
-
-
-
-
-
-     BackgroundImage backgroundimage2 = new BackgroundImage(image2,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-        new BackgroundPosition(Side.RIGHT,100,false, Side.BOTTOM, 100, false),
-        new BackgroundSize(100,100,false, false,false,false));
-           Background background2 = new Background(backgroundimage2)  ;
-
-
+        imageView.setPreserveRatio(true);
 
         Label labelName = new Label("Please enter your first and last name");
         GridPane.setRowIndex(labelName,1);
@@ -137,17 +124,92 @@ public class Main extends Application {
         list2.add("Store Stuff");
         list2.add("Gate Stuff");
 
-       pas.setOnAction(new EventHandler <ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-             if (pas.isSelected()) {
-                combo2.setDisable(true);
-             }
-          }
-       });
+          pas.setOnAction(new EventHandler <ActionEvent>() {
+              @Override
+            public void handle(ActionEvent event) {
+              boolean disableButtons = pas.isSelected() || emp.isSelected();
+             combo2.setDisable(disableButtons);
+            }
+          });
+
+        Button okButton = new Button("OK") ;
+        GridPane.setColumnIndex(okButton,200);
+        GridPane.setRowIndex(okButton,22);
+        Button helpButton = new Button("HELP");
+        GridPane.setRowIndex(helpButton, 22);
+        GridPane.setColumnIndex(helpButton,210);
+
+        helpButton.setOnMouseClicked(new javafx.event.EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Dialog dialog = new Dialog<>();
+                dialog.initOwner(gridPane.getScene().getWindow());
+                dialog.setTitle("HELP");
+                dialog.setHeaderText("Information for the user");
+                dialog.setContentText("1. Please use this application only if you are or you were positive to COVID-19 within the past month. " +
+                        "2. Please enter valid personal data. ");
+                dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+                java.util.Optional<javafx.scene.control.ButtonType> result = dialog.showAndWait();
+            }
+        });
+
+        okButton.setOnMouseClicked(new javafx.event.EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                primaryStage.close();
+                GridPane gridPane = new GridPane();
+                gridPane.setHgap(1);
+                gridPane.setVgap(10);
+
+                FileInputStream input = null;
+                try {
+                    input = new java.io.FileInputStream("globe-and-airplane-logo-or-icon-vector-5271553.jpg");
+                } catch (java.io.FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Image image = new Image(input);
+               BackgroundImage backgroundimage = new BackgroundImage(image,
+                       BackgroundRepeat.NO_REPEAT,
+                       BackgroundRepeat.NO_REPEAT,
+                       BackgroundPosition.DEFAULT,
+                       new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
+                                true, true, true, true));
+
+                Background background = new Background(backgroundimage);
+                Label label = new Label("We are processing your data...PLEASE WAIT");
+                GridPane.setRowIndex(label, 1);
+                GridPane.setColumnIndex(label, 1);
+                label.setAlignment(Pos.TOP_CENTER);
+                label.setTextFill(Paint.valueOf("black"));
+                label.wrapTextProperty();
+                label.setFont(Font.font("Arial Rounded MT Bold", 24));
+                gridPane.getChildren().addAll(label);
+                gridPane.setBackground(background);
+                primaryStage.setScene(new javafx.scene.Scene(gridPane, 1000, 800));
+                primaryStage.show();
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         gridPane.getChildren().addAll(labelName, textArea, labelVatNumber, ps, labelTest, test1, test2,
-                labelDay, date,labelTypeOfUser, pas, emp, labelTypeOfEmployee, combo2,imageView);
+                labelDay, date,labelTypeOfUser, pas, emp, labelTypeOfEmployee, combo2,imageView, okButton,
+                helpButton);
         gridPane.setBackground(backgroundCOLOR);
         primaryStage.setTitle("Airport application for COVID-19");
         primaryStage.setScene(new javafx.scene.Scene(gridPane, 1500, 1000));
