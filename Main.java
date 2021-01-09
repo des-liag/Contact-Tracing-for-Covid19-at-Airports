@@ -1,23 +1,21 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import  javafx.collections.ObservableList;
-import javafx.scene.paint.Color;
-import javafx.geometry.Insets;
-import java.io.*;
-import javafx.scene.image.Image;
-import javafx.geometry.Side;
-import  javafx.scene.image.ImageView;
 
+import java.io.FileInputStream;
 public class Main extends Application {
 
     @Override
@@ -112,16 +110,19 @@ public class Main extends Application {
         labelTypeOfUser.setTextFill(Paint.valueOf("black"));
         labelTypeOfUser.wrapTextProperty();
         labelTypeOfUser.setFont(Font.font("Arial Rounded MT Bold" ,16));
-        ComboBox<String> combo = new ComboBox<String>();
-        combo.setPromptText("Select");
-        GridPane.setRowIndex(combo,11);
-        GridPane.setColumnIndex(combo,1);
-        ObservableList<String> list = combo.getItems();
-        list.add("Passenger");
-        list.add("Employee");
+        ToggleGroup grp = new ToggleGroup();
+        RadioButton pas = new RadioButton("Passenger");
+        GridPane.setRowIndex(pas,11);
+        GridPane.setColumnIndex(pas,1);
+        pas.setToggleGroup(group);
+        RadioButton emp = new RadioButton("Employee");
+        GridPane.setRowIndex(emp,12);
+        GridPane.setColumnIndex(emp,1);
+        emp.setToggleGroup(group);
+
 
         Label labelTypeOfEmployee = new Label("If you are an Employee please select the type of Employee you are");
-        GridPane.setRowIndex(labelTypeOfEmployee,12);
+        GridPane.setRowIndex(labelTypeOfEmployee,13);
         GridPane.setColumnIndex(labelTypeOfEmployee,1);
         labelTypeOfEmployee.setAlignment(Pos.TOP_LEFT);
         labelTypeOfEmployee.setTextFill(Paint.valueOf("black"));
@@ -129,17 +130,26 @@ public class Main extends Application {
         labelTypeOfEmployee.setFont(Font.font("Arial Rounded MT Bold" ,16));
         ComboBox<String> combo2 = new ComboBox<String>();
         combo2.setPromptText("Employee Type");
-        GridPane.setRowIndex(combo2,13);
+        GridPane.setRowIndex(combo2,14);
         GridPane.setColumnIndex(combo2,1);
         ObservableList<String> list2 = combo2.getItems();
         list2.add("Flight Crew");
         list2.add("Store Stuff");
         list2.add("Gate Stuff");
 
+       pas.setOnAction(new EventHandler <ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+             if (pas.isSelected()) {
+                combo2.setDisable(true);
+             }
+          }
+       });
+
         gridPane.getChildren().addAll(labelName, textArea, labelVatNumber, ps, labelTest, test1, test2,
-                labelDay, date,labelTypeOfUser, combo,labelTypeOfEmployee, combo2,imageView);
+                labelDay, date,labelTypeOfUser, pas, emp, labelTypeOfEmployee, combo2,imageView);
         gridPane.setBackground(backgroundCOLOR);
-         primaryStage.setTitle("Airport application for COVID-19");
+        primaryStage.setTitle("Airport application for COVID-19");
         primaryStage.setScene(new javafx.scene.Scene(gridPane, 1500, 1000));
         primaryStage.show();
     }
