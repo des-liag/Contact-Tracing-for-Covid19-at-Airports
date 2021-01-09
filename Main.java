@@ -27,7 +27,7 @@ public class Main extends Application {
 //             CornerRadii.EMPTY, Insets.EMPTY);
 //        javafx.scene.layout.Background backgroundCOLOR = new javafx.scene.layout.Background(background_fill);
 
-        FileInputStream input2 = new FileInputStream("using-video-to-contain-coronavirus.png");
+        FileInputStream input2 = new FileInputStream("Ζωγραφική 3D 9_1_2021 8_41_53 μμ 2.png");
         Image image2 = new Image(input2);
         BackgroundImage backgroundimage = new BackgroundImage(image2,
                 BackgroundRepeat.NO_REPEAT,
@@ -198,7 +198,7 @@ public class Main extends Application {
                 helpButton);
         gridPane.setBackground(background);
         primaryStage.setTitle("Airport application for COVID-19");
-        primaryStage.setScene(new javafx.scene.Scene(gridPane, 1500, 1000));
+        primaryStage.setScene(new javafx.scene.Scene(gridPane, 1950, 1000));
         primaryStage.show();
     }
 
