@@ -155,52 +155,60 @@ public class Main extends Application {
         okButton.setOnMouseClicked(new javafx.event.EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                primaryStage.close();
-                GridPane gridPane = new GridPane();
-                gridPane.setHgap(1);
-                gridPane.setVgap(10);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Send your data");
+                alert.setContentText("Are you sure? Press OK to confirm, or Cancel to back out.");
+                java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && (result.get() == ButtonType.OK)) {
 
-                FileInputStream input = null;
-                try {
-                    input = new java.io.FileInputStream("globe-and-airplane-logo-or-icon-vector-5271553.jpg");
-                } catch (java.io.FileNotFoundException e) {
-                    e.printStackTrace();
+                    primaryStage.close();
+                    GridPane gridPane = new GridPane();
+                    gridPane.setHgap(1);
+                    gridPane.setVgap(10);
+
+                    FileInputStream input = null;
+                    try {
+                        input = new java.io.FileInputStream("globe-and-airplane-logo-or-icon-vector-5271553.jpg");
+                    } catch (java.io.FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Image image = new Image(input);
+                    BackgroundImage backgroundimage = new BackgroundImage(image,
+                            BackgroundRepeat.NO_REPEAT,
+                            BackgroundRepeat.NO_REPEAT,
+                            BackgroundPosition.DEFAULT,
+                            new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
+                                    true, true, true, true));
+
+                    Background background = new Background(backgroundimage);
+                    Label label = new Label("We are processing your data...PLEASE WAIT");
+                    GridPane.setRowIndex(label, 1);
+                    GridPane.setColumnIndex(label, 1);
+                    label.setAlignment(Pos.TOP_CENTER);
+                    label.setTextFill(Paint.valueOf("black"));
+                    label.wrapTextProperty();
+                    label.setFont(Font.font("Arial Rounded MT Bold", 24));
+                    gridPane.getChildren().addAll(label);
+                    gridPane.setBackground(background);
+                    primaryStage.setScene(new javafx.scene.Scene(gridPane, 1000, 800));
+                    primaryStage.show();
+
+                } else {
+                    alert.close();
+                    primaryStage.show();
                 }
-                Image image = new Image(input);
-               BackgroundImage backgroundimage = new BackgroundImage(image,
-                       BackgroundRepeat.NO_REPEAT,
-                       BackgroundRepeat.NO_REPEAT,
-                       BackgroundPosition.DEFAULT,
-                       new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
-                                true, true, true, true));
-
-                Background background = new Background(backgroundimage);
-                Label label = new Label("We are processing your data...PLEASE WAIT");
-                GridPane.setRowIndex(label, 1);
-                GridPane.setColumnIndex(label, 1);
-                label.setAlignment(Pos.TOP_CENTER);
-                label.setTextFill(Paint.valueOf("black"));
-                label.wrapTextProperty();
-                label.setFont(Font.font("Arial Rounded MT Bold", 24));
-                gridPane.getChildren().addAll(label);
-                gridPane.setBackground(background);
-                primaryStage.setScene(new javafx.scene.Scene(gridPane, 1000, 800));
-                primaryStage.show();
             }
         });
 
-
-
-
-
         gridPane.getChildren().addAll(labelName, textArea, labelVatNumber, ps, labelTest, test1, test2,
-                labelDay, date,labelTypeOfUser, pas, emp, labelTypeOfEmployee, combo2, okButton,
-                helpButton);
+                   labelDay, date, labelTypeOfUser, pas, emp, labelTypeOfEmployee, combo2, okButton,
+                   helpButton);
         gridPane.setBackground(background);
         primaryStage.setTitle("Airport application for COVID-19");
         primaryStage.setScene(new javafx.scene.Scene(gridPane, 1950, 1000));
         primaryStage.show();
     }
+
 
 
     public static void main(String[] args) {
