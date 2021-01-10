@@ -27,6 +27,14 @@ public class Airport {
         this.gates = new ArrayList<AirportSection>();
     }
 
+    public Airport(String airportICAO, String airportName) {
+        this.airportICAO = airportICAO;
+        this.airportName = airportName;
+        this.checkInPlace = new AirportSection(airportICAO + "CheckInPlace");
+        this.stores = new ArrayList<AirportSection>();
+        this.gates = new ArrayList<AirportSection>();
+    }
+
 
     /**
      * Sets the airport's ICAO

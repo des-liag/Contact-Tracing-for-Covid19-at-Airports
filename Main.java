@@ -1,6 +1,61 @@
+import java.io.IOException;
+import java.util.ArrayList;
+
+
 public class Main {
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
+        ArrayList<Airport> airports;
+        // ArrayList<Person> flightCrew;
+        // ArrayList<Person> pasengers;
+
+
+        // Administrator admin = new Administrator();
+        // FileManager manager = new FileManager();
+        // airports = manager.
+        airports = FileManager.loadAirports("CSVFiles//airports.csv//");
+        // flightCrew = manager.getFlightCrew("CSVFiles/people.csv");
+        // pasengers = manager.getPassengers("CSVFiles/people.csv");
+
+
+       
+        // for(int i = 0; i < airports.size(); i++) {
+            // System.out.println(airports.get(i).getAirportICAO());
+            // System.out.println(airports.get(i).getAirportName());
+            // System.out.println(airports.get(i).stores);
+            // System.out.println(airports.get(i).getGates());
+            // System.out.println(airports.get(i).getGates().size());
+            // for(int j = 0; j < airports.get(0).getGates().size(); j++){
+            //     for (int k = 0; k < airports.get(0).getGates().get(j).getSectionStuff().size(); k++ )
+            //         System.out.println(airports.get(0).getGates().get(j).getSectionStuff().get(k).getFullName());
+            //     System.out.println("----------------------------------------------------");
+            //     System.out.println(airports.get(0).getGates().get(j).getSectionName());
+
+            //     System.out.println("----------------------------------------------------");
+            // }
+        // }
+        for(int j = 0; j < airports.get(0).getStores().size(); j++){
+            for (int k = 0; k < airports.get(0).getStores().get(j).getSectionStuff().size(); k++ )
+                System.out.println(airports.get(0).getStores().get(j).getSectionStuff().get(k).getFullName());
+        }
+
+        // for(int i = 0; i < flightCrew.size(); i++) {
+        //     System.out.println(flightCrew.get(i).getFullName());
+        // }
+        // for(int i = 0; i < pasengers.size(); i++) {
+        //     System.out.println(pasengers.get(i).getFullName());
+        // }
+
+        // FileManager.loadAirports("airports.csv");
+
+        // if (!admin.loadFlights()){
+        //     admin.initializeFromFile();
+        // }
+
+
+
+
+        
 
     // testing
     //     AirportStuff airportStuff1 = new AirportStuff("262046671", "Gianna", "Petsi", "Larisa", "6974832784", "00:00", "8:00");
