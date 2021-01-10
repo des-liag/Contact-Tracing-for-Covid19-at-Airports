@@ -3,7 +3,6 @@ import java.util.HashMap;
 
 public class Mymap<T,E> extends HashMap<String[], E> {
     
-    
     public boolean containsKey1(String key1) {
         ArrayList<String[]> keysList = new ArrayList<String[]>(this.keySet());
         for( String[] key : keysList){
