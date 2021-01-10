@@ -31,7 +31,6 @@ public class VisitedStore {
             // convert String to Date (HH:mm)
             this.entranceTime = new SimpleDateFormat("HH:mm").parse(entranceTime);
         } catch (ParseException e) {
-            e.printStackTrace();
             System.out.println("You should type entranceTime in format 'HH:mm'");
         }
     }

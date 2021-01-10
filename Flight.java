@@ -94,11 +94,10 @@ public class Flight {
             // convert String to Date (dd/MM/yyyy HH:mm)
             this.departureDate =  new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(departureDate);
         } catch(ParseException e) {
-            e.printStackTrace();
             System.out.println("You should type departureDate in format 'dd/MM/yyyy HH:mm'");
         }
     }
-
+  
 
     /**
      * Gets the date and time of this flight's departure
@@ -119,7 +118,6 @@ public class Flight {
             // convert String to Date (dd/MM/yyyy HH:mm)
             this.destinationDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(destinationDate);
         } catch(ParseException e) {
-            e.printStackTrace();
             System.out.println("You should type destinationDate in format 'dd/MM/yyyy HH:mm'");
         }
     }

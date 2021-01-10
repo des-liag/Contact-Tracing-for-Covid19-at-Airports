@@ -38,7 +38,6 @@ public class AirportStuff extends Person {
             // convert String to Date (HH:mm)
             this.startTime = new SimpleDateFormat("HH:mm").parse(startTime);
         } catch(ParseException e) {
-            e.printStackTrace();
             System.out.println("You should type startTime in format 'HH:mm'");
         }
     }
@@ -63,7 +62,6 @@ public class AirportStuff extends Person {
             // convert String to Date (HH:mm)
             this.endTime = new SimpleDateFormat("HH:mm").parse(endTime);
         } catch(ParseException e) {
-            e.printStackTrace();
             System.out.println("You should type endTime in format 'HH:mm'");
         }
     }

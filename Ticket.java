@@ -63,7 +63,6 @@ public class Ticket {
         // convert String to Date (HH:mm)
         this.checkInTime = new SimpleDateFormat("HH:mm").parse(checkInTime);
         } catch(ParseException e) {
-            e.printStackTrace();
             System.out.println("You should type checkInTime in format 'HH:mm'");
         }
     }
