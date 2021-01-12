@@ -1,9 +1,11 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Airport {
+public class Airport implements Serializable {
 
     private String airportICAO;
     private String airportName;
+    // An object AirportSection representing the checkIn place of the airport. It's only one for each airport
     private AirportSection checkInPlace;
     // An ArrayList that contains objects AirportSection which are the stores of this airport
     private ArrayList<AirportSection> stores;
@@ -15,14 +17,12 @@ public class Airport {
      * Constructor of the class
      * Creates an airport with the specified ICAO, name and checkIn place
      * @param airportICAO A unique code for each airport
-     * @param airportName The name of the airport
-     * @param checkInPlace An object AirportSection representing the checkIn place of the airport
-     *                      It's only one for each airport
+     * @param airportName The name of the airport                 
      */
-    public Airport(String airportICAO, String airportName, AirportSection checkInPlace) {
+    public Airport(String airportICAO, String airportName) {
         this.airportICAO = airportICAO;
         this.airportName = airportName;
-        this.checkInPlace = checkInPlace;
+        this.checkInPlace = new AirportSection(airportICAO + "CheckInPlace");
         this.stores = new ArrayList<AirportSection>();
         this.gates = new ArrayList<AirportSection>();
     }
@@ -130,6 +130,20 @@ public class Airport {
      */
     public AirportSection getCheckInPlace() {
         return this.checkInPlace;
+    }
+
+    /**
+     * Gets the airport's store by its name
+     * @param storeName String containing the name of the store
+     * @return AirportSection representing the Object store with this storeName
+     */
+    public AirportSection getStoreByName(String storeName){
+        for (AirportSection store : this.getStores()){
+            if(store.getSectionName().equals(storeName)){
+                return store;
+            }
+        }
+        return null;
     }
 
 }

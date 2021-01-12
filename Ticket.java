@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Ticket {
+public class Ticket implements Serializable {
 
     private Person passenger;
     private Date checkInTime;
@@ -60,10 +61,10 @@ public class Ticket {
     public void setCheckInTime(String checkInTime) {
         // handle ParseException if input has other form
         try {
-        // convert String to Date (HH:mm)
-        this.checkInTime = new SimpleDateFormat("HH:mm").parse(checkInTime);
+        // TODO convert String to Date (HH:mm)
+        this.checkInTime = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkInTime);
         } catch(ParseException e) {
-            System.out.println("You should type checkInTime in format 'HH:mm'");
+            System.out.println("You should type checkInTime in format 'dd/MM/yyyy HH:mm'");
         }
     }
 
@@ -97,7 +98,7 @@ public class Ticket {
 
     /**
      * Sets the gate of the departure's airport
-     * @param departureGateName Object AirportSection containing the gate of the departure's airport
+     * @param departureGate Object AirportSection containing the gate of the departure's airport
      * @see AirportSection
      */
     public void setDepartureGate(AirportSection departureGate) {
@@ -116,7 +117,7 @@ public class Ticket {
 
     /**
      * Sets the gate of the destination's airport
-     * @param destinationGateName Object AirportSection containing the gate of the destination's airport
+     * @param destinationGate Object AirportSection containing the gate of the destination's airport
      * @see AirportSection
      */
     public void setDestinationGate(AirportSection destinationGate) {

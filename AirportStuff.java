@@ -4,9 +4,8 @@ import java.util.Date;
 
 public class AirportStuff extends Person {
 
-    private Date startTime;
-    private Date endTime;
-
+    // Each column is about the time that employee start working every day of the week
+    private Date[][] workHours = new Date[1][7];
 
     /**
      * Constructor of the class
@@ -18,70 +17,37 @@ public class AirportStuff extends Person {
      * @param lastName The last name of the employee
      * @param address The address of the employee
      * @param phone The phone of the employee
-     * @param startTime The time employee starts working
-     * @param endTime The time employee ends working
+     * @param workHours An array of employee's work hours
      */
-    public AirportStuff(String ssn, String name, String lastName, String address, String phone, String startTime, String endTime) {
+    public AirportStuff(String ssn, String name, String lastName, String address, String phone, String[][] workHours) {
         super(ssn, name, lastName, address, phone);
-        setStartTime(startTime);
-        setEndTime(endTime);
+        setWorkHours(workHours);
     }
 
 
     /**
-     * Sets the time that employee starts working
-     * @param startTime String containing the time employee starts working
+     * Sets the work hours that employee starts working
+     * @param workHours String 2D-array containing the work hours of employee
      */
-    public void setStartTime(String startTime) {
+    public void setWorkHours(String[][] workHours) {
         // handle ParseException if input has other form
         try {
-            // convert String to Date (HH:mm)
-            this.startTime = new SimpleDateFormat("HH:mm").parse(startTime);
+            for (int i = 0; i < 7; i++) {
+                // TODO convert String to Date (HH:mm)
+                this.workHours[0][i ]= new SimpleDateFormat("HH:mm").parse(workHours[0][i]);
+            }
         } catch(ParseException e) {
-            System.out.println("You should type startTime in format 'HH:mm'");
+            System.out.println("You should type workHours in format 'HH:mm'");
         }
     }
 
 
     /**
-     * Gets the time that employee starts working
-     * @return Date representing the time employee starts working
+     * Gets the work hours of the employee
+     * @return Date[][] representing the work hours of employee
      */
-    public Date getStartTime() {
-        return this.startTime;
-    }
-
-
-    /**
-     * Sets the time that employee ends working
-     * @param endTime String containing the time employee ends working
-     */
-    public void setEndTime(String endTime) {
-        // handle ParseException if input has other form
-        try {
-            // convert String to Date (HH:mm)
-            this.endTime = new SimpleDateFormat("HH:mm").parse(endTime);
-        } catch(ParseException e) {
-            System.out.println("You should type endTime in format 'HH:mm'");
-        }
-    }
-
-
-    /**
-     * Gets the time that employee ends working
-     * @return Date representing the time employee ends working
-     */
-    public Date getEndTime() {
-        return this.endTime;
-    }
-
-
-    /**
-     * Gets the work hours of employee
-     * @return String the work hours of employee
-     */
-    public String getWorkHours() {
-        return getStartTime().toString() + "-" + getEndTime().toString();
+    public Date[][] getWorkHours() {
+        return this.workHours;
     }
 
 }

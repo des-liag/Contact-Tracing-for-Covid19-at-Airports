@@ -1,14 +1,15 @@
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Flight {
+public class Flight implements Serializable {
 
     // A unique id for each flight
     private static int flightId = 0;
-    private Airport departureAirportICAO;
-    private Airport destinationAirportICAO;
+    private Airport departureAirport;
+    private Airport destinationAirport;
     private Date departureDate;
     private Date destinationDate;
     // An ArrayList that contains objects Person which are the crew of this flight
@@ -20,14 +21,14 @@ public class Flight {
     /**
      * Constructor of the class
      * Creates a flight with the specified gate's name, departure and destination airport's ICAO and flight's date
-     * @param departureAirportICAO The code of the airport where flight departs
-     * @param destinationAirportICAO The code of the airport where flight arrives
+     * @param departureAirport The airport where flight departs
+     * @param destinationAirport The airport where flight arrives
      * @param departureDate The date and time of take off
      * @param destinationDate The date and time of landing
      */
-    public Flight(Airport departureAirportICAO, Airport destinationAirportICAO, String departureDate, String destinationDate) {
-            this.departureAirportICAO = departureAirportICAO;
-            this.destinationAirportICAO = destinationAirportICAO;
+    public Flight(Airport departureAirport, Airport destinationAirport, String departureDate, String destinationDate) {
+            this.departureAirport = departureAirport;
+            this.destinationAirport = destinationAirport;
             setDepartureDate(departureDate);
             setDestinationDate(destinationDate);   
             this.flightCrew = new ArrayList<Person>();
@@ -47,40 +48,40 @@ public class Flight {
 
 
     /**
-     * Sets the aiport's ICAO where flight departs
-     * @param departureAirportICAO Object Airport containing the airport's ICAO
+     * Sets the aiport where flight departs
+     * @param departureAirport Object Airport containing the airport of departure
      * @see Airport
      */
-    public void setDepartureAirportICAO(Airport departureAirportICAO) {
-        this.departureAirportICAO = departureAirportICAO;
+    public void setDepartureAirport(Airport departureAirport) {
+        this.departureAirport = departureAirport;
     }
 
 
     /**
-     * Gets the aiport's ICAO where flight departs
-     * @return Airport representing the airport's ICAO
+     * Gets the aiport where flight departs
+     * @return Airport representing the airport of departure
      */
-    public Airport getDepartureAirportICAO() {
-        return this.departureAirportICAO;
+    public Airport getDepartureAirport() {
+        return this.departureAirport;
     }
 
 
     /**
-     * Sets the aiport's ICAO where flight arrives
-     * @param destinationAirportICAO Object Airport containing the airport's ICAO
+     * Sets the aiport where flight arrives
+     * @param destinationAirport Object Airport containing the airport of destination
      * @see Airport
      */
-    public void setDestinationAirportICAO(Airport destinationAirportICAO) {
-		this.destinationAirportICAO = destinationAirportICAO;
+    public void setDestinationAirport(Airport destinationAirport) {
+		this.destinationAirport = destinationAirport;
 	}
 
 
     /**
-     * Gets the aiport's ICAO where flight arrives
-     * @return Airport representing the airport's ICAO
+     * Gets the aiport where flight arrives
+     * @return Airport representing the airport of destination
      */
-    public Airport getDestinationAirportICAO() {
-		return this.destinationAirportICAO;
+    public Airport getDestinationAirport() {
+		return this.destinationAirport;
 	}
 
 
@@ -91,7 +92,7 @@ public class Flight {
     public void setDepartureDate(String departureDate) {
         // handle ParseException if input has other form
         try {
-            // convert String to Date (dd/MM/yyyy HH:mm)
+            // TODO convert String to Date (dd/MM/yyyy HH:mm)
             this.departureDate =  new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(departureDate);
         } catch(ParseException e) {
             System.out.println("You should type departureDate in format 'dd/MM/yyyy HH:mm'");
@@ -115,7 +116,7 @@ public class Flight {
     public void setDestinationDate(String destinationDate) {
         // handle ParseException if input has other form
         try {
-            // convert String to Date (dd/MM/yyyy HH:mm)
+            // TODO convert String to Date (dd/MM/yyyy HH:mm)
             this.destinationDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(destinationDate);
         } catch(ParseException e) {
             System.out.println("You should type destinationDate in format 'dd/MM/yyyy HH:mm'");
@@ -180,4 +181,29 @@ public class Flight {
     public ArrayList<Ticket> getTickets() {
         return this.tickets;
     }
+
+
+    /**
+     * Gets the travel of the flight
+     * @return String representing the departure and destination of the flight
+     */
+    public String getTravel() {
+        return getDepartureAirport().getAirportICAO() + "-" + getDestinationAirport().getAirportICAO();
+    }
+
+    /**
+     * Gets the ticket of a specific passenger
+     * @param ssn String containing the ssn of passenger that we search for his ticket
+     * @return Ticket representing the ticket of passenger with this ssn
+     * @see Ticket
+     */
+    public Ticket getTicketBySSN(String ssn){
+        for (Ticket ticket : getTickets()){
+            if(ticket.getPassenger().getSSN().equals(ssn)){
+                return ticket;
+            }
+        }
+        return null;
+    }
+
 }

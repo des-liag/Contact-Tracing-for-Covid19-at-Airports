@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AirportSection {
+public class AirportSection implements Serializable {
 
     private String sectionName;
     // An ArrayList that contains objects AirportStuff which are the employees of this section

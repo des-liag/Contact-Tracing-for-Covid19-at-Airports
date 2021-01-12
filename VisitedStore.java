@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class VisitedStore {
+public class VisitedStore implements Serializable {
 
     private Date entranceTime;
     private AirportSection store;
@@ -28,10 +29,10 @@ public class VisitedStore {
     public void setEntranceTime(String entranceTime) {
         // handle ParseException if input has other form
         try {
-            // convert String to Date (HH:mm)
-            this.entranceTime = new SimpleDateFormat("HH:mm").parse(entranceTime);
+            // TODO convert String to Date (HH:mm)
+            this.entranceTime = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(entranceTime);
         } catch (ParseException e) {
-            System.out.println("You should type entranceTime in format 'HH:mm'");
+            System.out.println("You should type entranceTime in format 'dd/MM/yyyy HH:mm'");
         }
     }
 
