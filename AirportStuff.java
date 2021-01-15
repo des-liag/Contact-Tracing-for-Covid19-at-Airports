@@ -1,87 +1,32 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.time.*; 
 
 public class AirportStuff extends Person {
 
-    private Date startTime;
-    private Date endTime;
+    private HashMap<DayOfWeek, ArrayList<LocalTime[]>> workHoursMap; 
 
-
-    /**
-     * Constructor of the class
-     * Creates an employee (storeStuff, gateStuff or checkInStuff) with the specified elements which are inherited by class Person
-     * {@see Person} and its work hours
-     * Work hours of each employee are stable
-     * @param ssn The SSN of the employee
-     * @param name The first name of the employee
-     * @param lastName The last name of the employee
-     * @param address The address of the employee
-     * @param phone The phone of the employee
-     * @param startTime The time employee starts working
-     * @param endTime The time employee ends working
-     */
-    public AirportStuff(String ssn, String name, String lastName, String address, String phone, String startTime, String endTime) {
-        super(ssn, name, lastName, address, phone);
-        setStartTime(startTime);
-        setEndTime(endTime);
+    public AirportStuff(String SSN, String name, String lastName, String address, String phone) {
+        super(SSN, name, lastName, address, phone);
+        this.workHoursMap = new  HashMap<DayOfWeek,ArrayList<LocalTime[]>>();
+        setWorkHoursMap();
     }
 
-
-    /**
-     * Sets the time that employee starts working
-     * @param startTime String containing the time employee starts working
-     */
-    public void setStartTime(String startTime) {
-        // handle ParseException if input has other form
-        try {
-            // convert String to Date (HH:mm)
-            this.startTime = new SimpleDateFormat("HH:mm").parse(startTime);
-        } catch(ParseException e) {
-            System.out.println("You should type startTime in format 'HH:mm'");
+    public void setWorkHoursMap() {
+        for(DayOfWeek day : DayOfWeek.values()){
+            workHoursMap.put(day, new ArrayList<LocalTime[]>());
         }
     }
 
-
-    /**
-     * Gets the time that employee starts working
-     * @return Date representing the time employee starts working
-     */
-    public Date getStartTime() {
-        return this.startTime;
+    public boolean addWorkHours(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
+        return this.workHoursMap.get(day).add(new LocalTime[]{startTime, endTime});
     }
 
-
-    /**
-     * Sets the time that employee ends working
-     * @param endTime String containing the time employee ends working
-     */
-    public void setEndTime(String endTime) {
-        // handle ParseException if input has other form
-        try {
-            // convert String to Date (HH:mm)
-            this.endTime = new SimpleDateFormat("HH:mm").parse(endTime);
-        } catch(ParseException e) {
-            System.out.println("You should type endTime in format 'HH:mm'");
-        }
+    public boolean addWorkHours(DayOfWeek day, String startTime, String endTime) {
+        LocalTime startTimeDate = LocalTime.parse(startTime);
+        LocalTime endTimeDate = LocalTime.parse(endTime);
+        return this.workHoursMap.get(day).add(new LocalTime[]{startTimeDate, endTimeDate});
     }
 
-
-    /**
-     * Gets the time that employee ends working
-     * @return Date representing the time employee ends working
-     */
-    public Date getEndTime() {
-        return this.endTime;
-    }
-
-
-    /**
-     * Gets the work hours of employee
-     * @return String the work hours of employee
-     */
-    public String getWorkHours() {
-        return getStartTime().toString() + "-" + getEndTime().toString();
-    }
 
 }
