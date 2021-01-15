@@ -1,48 +1,40 @@
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class VisitedStore implements Serializable {
 
-    private Date entranceTime;
+    private LocalDateTime entranceDateTime;
     private AirportSection store;
 
 
     /**
      * Constructor of the class
-     * Creates a visited store with the specified entrance time and the object store
-     * @param entranceTime The time when passenger visited the store
+     * Creates a visited store with the specified entrance date and time and the object store
+     * @param entranceDateTime The date and the time when passenger visited the store
      * @param store An object AirportSection representing the store that is visited
      * @see AirportSection
      */
-    public VisitedStore(String entranceTime, AirportSection store) {
-        setEntranceTime(entranceTime);
+    public VisitedStore(String entranceDateTime, AirportSection store) {
+        setEntranceDateTime(entranceDateTime);
         this.store = store;
     }
 
 
     /**
-     * Sets the time when passenger visited the store
-     * @param entranceTime String containing the time when passenger visited the store
+     * Sets the date and the time when passenger visited the store
+     * @param entranceDateTime String containing the date and the time when passenger visited the store
      */
-    public void setEntranceTime(String entranceTime) {
-        // handle ParseException if input has other form
-        try {
-            // TODO convert String to Date (HH:mm)
-            this.entranceTime = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(entranceTime);
-        } catch (ParseException e) {
-            System.out.println("You should type entranceTime in format 'dd/MM/yyyy HH:mm'");
-        }
+    public void setEntranceDateTime(String entranceDateTime) {
+        this.entranceDateTime = LocalDateTime.parse(entranceDateTime);
     }
 
 
     /**
-     * Gets the time when passenger visited the store
-     * @return Date representing the time when passenger visited the store
+     * Gets the date and the time when passenger visited the store
+     * @return LocalDateTime representing the date and the time when passenger visited the store
      */
-    public Date getEntranceTime() {
-        return this.entranceTime;
+    public LocalDateTime getEntranceDateTime() {
+        return this.entranceDateTime;
     }
 
 

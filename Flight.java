@@ -1,8 +1,6 @@
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Flight implements Serializable {
 
@@ -10,8 +8,8 @@ public class Flight implements Serializable {
     private static int flightId = 0;
     private Airport departureAirport;
     private Airport destinationAirport;
-    private Date departureDate;
-    private Date destinationDate;
+    private LocalDateTime departureDateTime;
+    private LocalDateTime destinationDateTime;
     // An ArrayList that contains objects Person which are the crew of this flight
     private ArrayList<Person> flightCrew;
     // An ArrayList that contains objects Ticket which are the tickets of this flight
@@ -23,14 +21,14 @@ public class Flight implements Serializable {
      * Creates a flight with the specified gate's name, departure and destination airport's ICAO and flight's date
      * @param departureAirport The airport where flight departs
      * @param destinationAirport The airport where flight arrives
-     * @param departureDate The date and time of take off
-     * @param destinationDate The date and time of landing
+     * @param departureDateTime The date and time of take off
+     * @param destinationDateTime The date and time of landing
      */
-    public Flight(Airport departureAirport, Airport destinationAirport, String departureDate, String destinationDate) {
+    public Flight(Airport departureAirport, Airport destinationAirport, String departureDateTime, String destinationDateTime) {
             this.departureAirport = departureAirport;
             this.destinationAirport = destinationAirport;
-            setDepartureDate(departureDate);
-            setDestinationDate(destinationDate);   
+            setDepartureDateTime(departureDateTime);
+            setDestinationDateTime(destinationDateTime);    
             this.flightCrew = new ArrayList<Person>();
             this.tickets = new ArrayList<Ticket>();
             // when create a flight object, flight id increase by 1
@@ -87,49 +85,39 @@ public class Flight implements Serializable {
 
     /**
      * Set the date and time when airplane takes off
-     * @param departureDate Sting containing the date and time of this flight's departure
+     * @param departureDateTime String containing the date and time of this flight's departure
      */
-    public void setDepartureDate(String departureDate) {
-        // handle ParseException if input has other form
-        try {
-            // TODO convert String to Date (dd/MM/yyyy HH:mm)
-            this.departureDate =  new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(departureDate);
-        } catch(ParseException e) {
-            System.out.println("You should type departureDate in format 'dd/MM/yyyy HH:mm'");
-        }
+    public void setDepartureDateTime(String departureDateTime) {
+        // Convert String departureDateTime to LocalDateTime
+        this.departureDateTime = LocalDateTime.parse(departureDateTime);
     }
   
 
     /**
      * Gets the date and time of this flight's departure
-     * @return Date representing the date and time of this flight's departure
+     * @return LocalDateTime representing the date and time of this flight's departure
      */
-    public Date getDepartureDate() {
-		return departureDate;
+    public LocalDateTime getDepartureDateTime() {
+		return departureDateTime;
 	}
 
 
     /**
      * Set the date and time when airplane lands
-     * @param destinationDate Sting containing the date and time of this flight's destination
+     * @param destinationDateTime String containing the date and time of this flight's destination
      */
-    public void setDestinationDate(String destinationDate) {
-        // handle ParseException if input has other form
-        try {
-            // TODO convert String to Date (dd/MM/yyyy HH:mm)
-            this.destinationDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(destinationDate);
-        } catch(ParseException e) {
-            System.out.println("You should type destinationDate in format 'dd/MM/yyyy HH:mm'");
-        }
+    public void setDestinationDateTime(String destinationDateTime) {
+        // Convert String destinationDateTime to LocalDateTime
+        this.destinationDateTime = LocalDateTime.parse(destinationDateTime);
     }
 
 
     /**
      * Gets the date and time of this flight's destination
-     * @return Date representing the date and time of this flight's destination
+     * @return LocalDateTime representing the date and time of this flight's destination
      */
-    public Date getDestinationDate() {
-		return destinationDate;
+    public LocalDateTime getDestinationDateTime() {
+		return destinationDateTime;
 	}
 
 

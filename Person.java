@@ -7,10 +7,6 @@ public class Person implements Serializable {
     private String lastName;
     private String address;
 	private String phone;
-	// A variable that shows if the covid test of person is positive
-	private boolean isPositive;
-	// A variable that shows whether person is informed or not
-    private boolean isInformed;
 
 
 	/**
@@ -29,8 +25,6 @@ public class Person implements Serializable {
 		this.lastName = lastName;
 		this.address = address;
 		this.phone = phone;
-		this.isPositive = false;
-		this.isInformed = false;
 	}
 
 
@@ -121,43 +115,6 @@ public class Person implements Serializable {
 	 */
 	public String getPhone() {
 		return phone;
-	}
-
-
-	/**
-	 * Sets the variable isPositive as true if covid test of this person is positive
-	 * @param isPositive Boolean containing the information about covid test of this person
-	 */
-	public void setPositive(boolean isPositive) {
-		this.isPositive = isPositive;
-	}
-
-
-	/**
-	 * Gets the variable isPositive informing about covid test of this person
-	 * @return boolean representing the information about covid test of this person
-	 */
-	public boolean getPositive() {
-		return isPositive;
-	}
-
-
-	/**
-	 * Sets the variable isInformed as true if this person has been informed that he/she maybe has been
-	 * in contact with a coronavirus case
-	 * @param isInformed Boolean containing the information if this person has been informed
-	 */
-	public void setInformed(boolean isInformed) {
-		this.isInformed = isInformed;
-	}
-
-
-	/**
-	 * Gets the variable isInformed that declares if this person has been informed
-	 * @return boolean depending on whether this person has been informed or not
-	 */
-	public boolean getInformed() {
-		return isInformed;
 	}
 
 

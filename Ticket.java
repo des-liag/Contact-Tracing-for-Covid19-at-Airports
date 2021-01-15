@@ -1,13 +1,11 @@
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Ticket implements Serializable {
 
     private Person passenger;
-    private Date checkInTime;
+    private LocalDateTime checkInDateTime;
     private boolean ifLuggage;
     private AirportSection departureGate;
     private AirportSection destinationGate;
@@ -18,16 +16,16 @@ public class Ticket implements Serializable {
 
     /**
      * Constructor of the class
-     * Creates a ticket with the specified passenger, checkIn time, luggage and gates of the airports of departure and destination
+     * Creates a ticket with the specified passenger, checkIn date and time, luggage and gates of the airports of departure and destination
      * @param passenger An object Person representing the passenger of this ticket
-     * @param checkInTime The time when passenger arrives to the airport
+     * @param checkInDateTime The date and the time when passenger arrives to the airport
      * @param ifLuggage  A variable that says if passenger has luggages
-     * @param departureGateName The gate of the departure's airport
-     * @param destinationGateName The gate of the destination's airport
+     * @param departureGate The gate of the departure's airport
+     * @param destinationGate The gate of the destination's airport
      */
-    public Ticket(Person passenger, String checkInTime, boolean ifLuggage, AirportSection departureGate, AirportSection destinationGate) {
+    public Ticket(Person passenger, String checkInDateTime, boolean ifLuggage, AirportSection departureGate, AirportSection destinationGate) {
         this.passenger = passenger;
-        setCheckInTime(checkInTime);
+        setCheckInDateTime(checkInDateTime);
         this.ifLuggage = ifLuggage;
         this.departureGate = departureGate;
         this.destinationGate = destinationGate;
@@ -55,26 +53,20 @@ public class Ticket implements Serializable {
 
 
     /**
-     * Sets the time when passenger arrives to the airport
-     * @param checkInTime String containing the time when passenger arrives to the airport
+     * Sets the date and the time when passenger arrives to the airport
+     * @param checkInDateTime String containing the date and the time when passenger arrives to the airport
      */
-    public void setCheckInTime(String checkInTime) {
-        // handle ParseException if input has other form
-        try {
-        // TODO convert String to Date (HH:mm)
-        this.checkInTime = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(checkInTime);
-        } catch(ParseException e) {
-            System.out.println("You should type checkInTime in format 'dd/MM/yyyy HH:mm'");
-        }
+    public void setCheckInDateTime(String checkInDateTime) {
+        this.checkInDateTime = LocalDateTime.parse(checkInDateTime);
     }
 
 
     /**
-     * Gets the time when passenger arrives to the airport
-     * @return Date representing the time when passenger arrives to the airport
+     * Gets the date and the time when passenger arrives to the airport
+     * @return Date representing the date and the time when passenger arrives to the airport
      */
-    public Date getCheckInTime() {
-		return checkInTime;
+    public LocalDateTime getCheckInDateTime() {
+		return checkInDateTime;
     }
 
 
