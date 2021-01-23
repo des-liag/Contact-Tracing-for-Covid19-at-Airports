@@ -6,7 +6,7 @@ public class AirportStuff extends Person {
 
     // A map that has as key one of the days of the week, and as value an arraylist which has inside an array with 2 rows
     // The first row is about the time when employee starts working this day and the second is about the time of the end of working
-    private HashMap<DayOfWeek, ArrayList<LocalTime[]>> workHoursMap; 
+    private HashMap<DayOfWeek, ArrayList<LocalTime[]>> workHoursMap;
 
     /**
      * Constructor of the class
@@ -18,12 +18,11 @@ public class AirportStuff extends Person {
      * @param address The address of the employee
      * @param phone The phone of the employee
      */
-    public AirportStuff(String ssn, String name, String lastName, String address, String phone) {
-        super(ssn, name, lastName, address, phone);
+    public AirportStuff(String SSN, String name, String lastName, String address, String phone) {
+        super(SSN, name, lastName, address, phone);
         this.workHoursMap = new  HashMap<DayOfWeek,ArrayList<LocalTime[]>>();
         setWorkHoursMap();
     }
-
 
     /**
      * Sets the work hours of the employee for everyday
@@ -34,6 +33,13 @@ public class AirportStuff extends Person {
         }
     }
 
+    /**
+     * Gets the work hours of the employee for every day
+     * @return HashMap representing the hours that each employee works
+     */
+    public HashMap<DayOfWeek, ArrayList<LocalTime[]>> getWorkHoursMap() {
+        return workHoursMap;
+    }
 
     /**
      * Adds the work hour of one day of the week for an employee
@@ -45,7 +51,6 @@ public class AirportStuff extends Person {
     public boolean addWorkHours(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
         return this.workHoursMap.get(day).add(new LocalTime[]{startTime, endTime});
     }
-
 
     /**
      * Adds the work hour of one day of the week for an employee
@@ -61,5 +66,23 @@ public class AirportStuff extends Person {
         LocalTime endTimeDate = LocalTime.parse(endTime);
         return this.workHoursMap.get(day).add(new LocalTime[]{startTimeDate, endTimeDate});
     }
+
+    /**
+     * Gets for a date and time we search for if a employee works at that time
+     * Finds the day of the dateTime and the time of the dateTime
+     * @param dateTime
+     * @return boolean depending if there is someone working the day and time we look for at the workHoursMap
+     */
+    public boolean isWorking(LocalDateTime dateTime){
+        DayOfWeek day = dateTime.getDayOfWeek();
+        LocalTime time = dateTime.toLocalTime();
+        for(LocalTime[] localtimes : this.workHoursMap.get(day)){
+            if(time.isAfter(localtimes[0]) && time.isBefore(localtimes[1])){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

@@ -2,7 +2,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Ticket implements Serializable {
+public class Ticket implements Serializable  {
 
     private Person passenger;
     private LocalDateTime checkInDateTime;
@@ -12,7 +12,6 @@ public class Ticket implements Serializable {
     // An ArrayList that contains objects VisitedStore which are the stores of the departure's airport that passenger visited
     // A passenger may not visit any of the airport's store
     private ArrayList<VisitedStore> departureVisitedStores;
-
 
     /**
      * Constructor of the class
@@ -32,7 +31,6 @@ public class Ticket implements Serializable {
         this.departureVisitedStores = new ArrayList<VisitedStore>();
     }
 
-
     /**
      * Sets the passenger of the ticket
      * @param passenger Object Person containing the passenger of this ticket
@@ -42,7 +40,6 @@ public class Ticket implements Serializable {
         this.passenger = passenger;
     }
 
-
     /**
      * Gets the passenger of the ticket
      * @return Person representing the passenger of this ticket
@@ -50,7 +47,6 @@ public class Ticket implements Serializable {
     public Person getPassenger() {
         return this.passenger;
     }
-
 
     /**
      * Sets the date and the time when passenger arrives to the airport
@@ -60,7 +56,6 @@ public class Ticket implements Serializable {
         this.checkInDateTime = LocalDateTime.parse(checkInDateTime);
     }
 
-
     /**
      * Gets the date and the time when passenger arrives to the airport
      * @return Date representing the date and the time when passenger arrives to the airport
@@ -68,7 +63,6 @@ public class Ticket implements Serializable {
     public LocalDateTime getCheckInDateTime() {
 		return checkInDateTime;
     }
-
 
     /**
      * Sets the variable ifLuggage which has the information about having luggages
@@ -78,7 +72,6 @@ public class Ticket implements Serializable {
 		this.ifLuggage = ifLuggage;
     }
 
-
     /**
      * Gets the variable ifLuggage that declares if passenger has luggages
      * @return boolean depending on whether this passenger has luggages
@@ -86,7 +79,6 @@ public class Ticket implements Serializable {
     public boolean getIfLuggage() {
 		return ifLuggage;
 	}
-
 
     /**
      * Sets the gate of the departure's airport
@@ -97,7 +89,6 @@ public class Ticket implements Serializable {
         this.departureGate = departureGate;
     }
 
-
     /**
      * Gets the gate of the departure's airport
      * @return AirportSection representing the gate of the departure's airport
@@ -105,7 +96,6 @@ public class Ticket implements Serializable {
     public AirportSection getDepartureGate() {
         return this.departureGate;
     }
-
 
     /**
      * Sets the gate of the destination's airport
@@ -116,7 +106,6 @@ public class Ticket implements Serializable {
         this.destinationGate = destinationGate;
     }
 
-
     /**
      * Gets the gate of the destination's airport
      * @return AirportSection representing the gate of the destination's airport
@@ -124,7 +113,6 @@ public class Ticket implements Serializable {
     public AirportSection getDestinationGate() {
         return this.destinationGate;
     }
-
 
     /**
      * Adds an object VisitedStore to the ArrayList departureVisitedStore
@@ -140,13 +128,30 @@ public class Ticket implements Serializable {
         }
     }
 
-
     /**
      * Gets the ArrayList departureVisitedStores with all stores that passenger visited
      * @return ArrayList<VisitedStore> containing objects VisitedStore representing the stores that passenger visited
      */
     public ArrayList<VisitedStore> getDepartureVisitedStores() {
         return this.departureVisitedStores;
+    }
+
+    /**
+     * Gets passenger that has been in a store
+     * @param AirportStuff employee that works in a store
+     * @param AirportSection a store an employee works
+     * @return Person Passenger that has been in this store the time this employee works
+     */
+    public Person getContactFromVisitedStores(AirportStuff employee, AirportSection store) {
+        for (VisitedStore visitedStore : this.getDepartureVisitedStores()) {
+            if (visitedStore.getStore().equals(store)) {
+                LocalDateTime dateTime = visitedStore.getEntranceDateTime();
+                if(employee.isWorking(dateTime)) {
+                    return this.getPassenger();
+                }
+            }
+        }
+        return null;
     }
 
 }
