@@ -46,8 +46,8 @@ public class Airport implements Serializable {
     }
 
     /**
-	 * Sets the airport's name
-	 * @param airportName String containing the airport's name
+     * Sets the airport's name
+     * @param airportName String containing the airport's name
      */
     public void setAirportName(String airportName) {
         this.airportName = airportName;
@@ -60,7 +60,6 @@ public class Airport implements Serializable {
     public String getAirportName() {
         return this.airportName;
     }
-
 
     /**
      * Adds an object AirportSection to the ArrayList stores

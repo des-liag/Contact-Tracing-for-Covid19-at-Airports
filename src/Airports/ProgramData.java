@@ -101,72 +101,6 @@ public class ProgramData implements Serializable {
         return flights;
     }
 
-//    /**
-//     * Gets the ArrayList closeContacts with all close contacts
-//     * @return ArrayList<Person> containing Person objects representing the close contacts of a positive case
-//     */
-//    public static ArrayList<Person> getCloseContacts() {
-//        return closeContacts;
-//    }
-//
-//    /**
-//     * Sets the ArrayList closeContacts with all close contacts
-//     * @param closeContac containing the close contacts of a positive case
-//     */
-//    public static void setCloseContacts(Person closeContac) {
-//        closeContacts .add(closeContac);
-//    }
-//
-//    /**
-//     * Gets the ArrayList casualContacts with all casual contacts
-//     * @return ArrayList<Person> containing Person objects representing the casual contacts of a positive case
-//     */
-//    public static ArrayList<Person> getCasualContacts() {
-//        return casualContacts;
-//    }
-//
-//    /**
-//     * Sets the ArrayList casualContacts with all casual contacts
-//     * @param casualContac containing the casual contacts of a positive case
-//     */
-//    public static void setCasualContacts(Person casualContac) {
-//        casualContacts.add(casualContac);
-//    }
-//
-//    /**
-//     * Gets the ArrayList clContacts
-//     * @return ArrayList<Person> containing Person objects representing close contacts
-//     */
-//    public static ArrayList<Person> getClContacts() {
-//        return clContacts;
-//    }
-//
-//    /**
-//     * Sets the ArrayList clContacts
-//     * @param contacts containing close contacts of a positive case
-//     */
-//    public static void setClContacts(ArrayList<Person> contacts) {
-//        clContacts = contacts;
-//    }
-//
-//    /**
-//     * Gets the ArrayList casContacts
-//     * @return ArrayList<Person> containing Person objects representing casual contacts
-//     */
-//    public static ArrayList<Person> getCasContacts() {
-//        return casContacts;
-//    }
-//
-//        /**
-//     * Sets the ArrayList casContacts
-//     * @param contacts containing casual contacts of a positive case
-//     */
-//    public static void setCasContacts(ArrayList<Person> contacts) {
-//        ProgramData.casContacts = contacts;
-//    }
-
-    
-
     /**
      * Gets the ssn that user has typed
      * @return String ssn
@@ -318,7 +252,6 @@ public class ProgramData implements Serializable {
      * Search for close and casual contacts when the positive case is passenger
      */
     public static void searchForPassenger() {
-        clear();
         if (checkDate()) {
             calculateDays();
             int sumFlights = getFlights().size() - 1;
@@ -357,7 +290,6 @@ public class ProgramData implements Serializable {
      * Search for close contacts when the positive case is working as flight crew
      */
     public static void searchForFlightCrew() {
-        clear();
         if (checkDate()) {
             calculateDays();
             int sumFlights = getFlights().size() - 1;
@@ -385,7 +317,6 @@ public class ProgramData implements Serializable {
      * Search for close contacts when the positive case is working as checkIn stuff
      */
     public static void searchForCheckInStuff() {
-//        clear();
         if (checkDate()) {
             calculateDays();
             Airport workingAirport = getWorkingAirport();
@@ -428,7 +359,6 @@ public class ProgramData implements Serializable {
      * Search for casual contacts when the positive case is working as store stuff
      */
     public static void searchForStroreStuff() {
-//        clear();
         if (checkDate()) {
             calculateDays();
             Airport workingAirport = getWorkingAirport();
@@ -473,7 +403,6 @@ public class ProgramData implements Serializable {
      * Search for casual contacts when the positive case is working as gate stuff
      */
     public static void searchForGateStuff() {
-        clear();
         if (checkDate()) {
             calculateDays();
             Airport workingAirport = getWorkingAirport();
@@ -585,21 +514,6 @@ public class ProgramData implements Serializable {
             }
         }
         return passengers;
-    }
-    
-    public static void clear() {
-        if (contacts.size() != 0) {
-            contacts.clear();
-        }
-        if (contacts1.size() != 0) {
-            contacts1.clear();
-        }
-        if(closeContacts.size() != 0) {
-            closeContacts.clear();
-        }
-        if(casualContacts.size() != 0) {
-            casualContacts.clear();
-        }
     }
 
     public static void data() {

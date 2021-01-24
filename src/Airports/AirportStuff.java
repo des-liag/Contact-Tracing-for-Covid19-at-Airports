@@ -20,8 +20,8 @@ public class AirportStuff extends Person {
      * @param address The address of the employee
      * @param phone The phone of the employee
      */
-    public AirportStuff(String SSN, String name, String lastName, String address, String phone) {
-        super(SSN, name, lastName, address, phone);
+    public AirportStuff(String ssn, String name, String lastName, String address, String phone) {
+        super(ssn, name, lastName, address, phone);
         this.workHoursMap = new  HashMap<DayOfWeek,ArrayList<LocalTime[]>>();
         setWorkHoursMap();
     }
