@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class Flight implements Serializable {
 
     // A unique id for each flight
-    private static int flightId = 0;
+    private static int sumFlights = 0;
+    private int flightId = 0;
     private Airport departureAirport;
     private Airport destinationAirport;
     private LocalDateTime departureDateTime;
@@ -14,7 +15,6 @@ public class Flight implements Serializable {
     private ArrayList<Person> flightCrew;
     // An ArrayList that contains objects Ticket which are the tickets of this flight
     private ArrayList<Ticket> tickets;
-
 
     /**
      * Constructor of the class
@@ -28,22 +28,19 @@ public class Flight implements Serializable {
             this.departureAirport = departureAirport;
             this.destinationAirport = destinationAirport;
             setDepartureDateTime(departureDateTime);
-            setDestinationDateTime(destinationDateTime);    
+            setDestinationDateTime(destinationDateTime);
             this.flightCrew = new ArrayList<Person>();
             this.tickets = new ArrayList<Ticket>();
-            // when create a flight object, flight id increase by 1
-            ++flightId;
+            flightId = sumFlights += 1;
     }
-
 
     /**
      * Gets the id of the flight
      * @return int representing the flight id
      */
-    public static int getFlightId() {
+    public int getFlightId() {
 		return flightId;
 	}
-
 
     /**
      * Sets the aiport where flight departs
@@ -54,7 +51,6 @@ public class Flight implements Serializable {
         this.departureAirport = departureAirport;
     }
 
-
     /**
      * Gets the aiport where flight departs
      * @return Airport representing the airport of departure
@@ -62,7 +58,6 @@ public class Flight implements Serializable {
     public Airport getDepartureAirport() {
         return this.departureAirport;
     }
-
 
     /**
      * Sets the aiport where flight arrives
@@ -73,7 +68,6 @@ public class Flight implements Serializable {
 		this.destinationAirport = destinationAirport;
 	}
 
-
     /**
      * Gets the aiport where flight arrives
      * @return Airport representing the airport of destination
@@ -82,16 +76,14 @@ public class Flight implements Serializable {
 		return this.destinationAirport;
 	}
 
-
     /**
      * Set the date and time when airplane takes off
      * @param departureDateTime String containing the date and time of this flight's departure
      */
     public void setDepartureDateTime(String departureDateTime) {
-        // Convert String departureDateTime to LocalDateTime
+		// Convert String departureDateTime to LocalDateTime
         this.departureDateTime = LocalDateTime.parse(departureDateTime);
     }
-  
 
     /**
      * Gets the date and time of this flight's departure
@@ -101,16 +93,13 @@ public class Flight implements Serializable {
 		return departureDateTime;
 	}
 
-
     /**
      * Set the date and time when airplane lands
      * @param destinationDateTime String containing the date and time of this flight's destination
      */
     public void setDestinationDateTime(String destinationDateTime) {
-        // Convert String destinationDateTime to LocalDateTime
-        this.destinationDateTime = LocalDateTime.parse(destinationDateTime);
+            this.destinationDateTime = LocalDateTime.parse(destinationDateTime);
     }
-
 
     /**
      * Gets the date and time of this flight's destination
@@ -119,7 +108,6 @@ public class Flight implements Serializable {
     public LocalDateTime getDestinationDateTime() {
 		return destinationDateTime;
 	}
-
 
     /**
      * Adds an object Person to the ArrayList flightCrew
@@ -135,7 +123,6 @@ public class Flight implements Serializable {
         }
     }
 
-
     /**
      * Gets the ArrayList flightCrew with this flight's crew
      * @return ArrayList<Person> containing objects Person representing the crew of this flight
@@ -144,7 +131,6 @@ public class Flight implements Serializable {
     public ArrayList<Person> getFlightCrew() {
         return this.flightCrew;
     }
-
 
     /**
      * Adds an object Ticket to the ArrayList tickets
@@ -160,16 +146,14 @@ public class Flight implements Serializable {
         }
     }
 
-
     /**
-     * Gets the ArrayList tickets with all tickets of this flight
-     * @return ArrayList<Ticket> containing objects Ticket representing the tickets of this flight
-     * @Ticket
+	 * Gets the ArrayList tickets with all tickets of this flight
+	 * @return ArrayList<Ticket> containing objects Ticket representing the tickets of this flight
+	 * @Ticket
      */
     public ArrayList<Ticket> getTickets() {
         return this.tickets;
     }
-
 
     /**
      * Gets the travel of the flight
@@ -194,4 +178,165 @@ public class Flight implements Serializable {
         return null;
     }
 
+    /**
+     * Finds the close contacts of a specific passenger
+     * Finds the AirportStuff employees, the FlightCrew employees and the other passengers that had close contact with a specific passenger
+     * @param ssn String containing the ssn of a passenger that we search for his contacts
+     * @return ArrayList<Person> containing objects Person representing the close contacts of this passenger
+     * @see Person
+     */
+    public ArrayList<Person> findCloseContactsOfPassenger(String ssn){
+        ArrayList<Person> closeContacts = new ArrayList<Person>();
+        Ticket ticket = this.getTicketBySSN(ssn);
+
+        if (ticket != null) {
+            LocalDateTime time = ticket.getCheckInDateTime();
+
+            closeContacts.add(this.getDepartureAirport().getWorkingEmployee(time));
+
+            for(Person employee : this.getFlightCrew()){
+                closeContacts.add(employee);
+            }
+            for(Person passenger : this.getPasengers()){
+                if (!passenger.getSSN().equals(ssn)) {
+                    closeContacts.add(passenger);
+                }
+            }
+        }
+        return closeContacts;
+    }
+
+    /**
+     * Finds the casual contacts of a specific passenger
+     * Finds the AirportStuff store employees and the other passengers with luggage that had casual contact with a specific passenger
+     * @param ssn String containing the ssn of a passenger that we search for his contacts
+     * @return ArrayList<Person> containing objects Person representing the casual contacts of this passenger
+     * @see Person
+     */
+    public ArrayList<Person> findCasualContactsOfPassenger(String ssn){
+        ArrayList<Person> casualContacts = new ArrayList<Person>();
+        LocalDateTime flightDateTime = this.getDepartureDateTime();
+
+        Ticket ticket = this.getTicketBySSN(ssn);
+        if (ticket != null) {
+            for(AirportStuff employee : ticket.getDepartureGate().getSectionStuff()){
+                if(employee.isWorking(flightDateTime)){
+                    casualContacts.add(employee);
+                }
+            }
+            for(VisitedStore visitedStore : ticket.getDepartureVisitedStores()){
+                for(AirportStuff employee : visitedStore.getStore().getSectionStuff()){
+                    if(employee.isWorking(visitedStore.getEntranceDateTime())){
+                        casualContacts.add(employee);
+                    }
+                }
+            }
+            if (ticket.getIfLuggage()) {
+                ArrayList<Person> peopleWithLuggage = new ArrayList<Person>();
+                peopleWithLuggage = Main.baggageReclaimArea(this);
+                if(peopleWithLuggage != null) {
+                }
+
+                for(Person person: peopleWithLuggage) {
+                    casualContacts.add(person);
+                }
+            }
+        }
+        return casualContacts;
+    }
+
+
+    /**
+     * Gets an ArrayList with all the passengers
+     * @return ArrayList<Person> containing all the passengers
+     * @see Person
+     */
+    public ArrayList<Person> getPasengers(){
+        ArrayList<Person> passengers = new ArrayList<Person>();
+        for(Ticket ticket : this.getTickets()){
+            passengers.add(ticket.getPassenger());
+        }
+        return passengers;
+    }
+
+    /**
+     * Gets all the close contacts of a FlightCrew member
+     * Finds all the other FlightCrew members that work with this employee and all the passengers that were in the flight this passenger works
+     * @param ssn String containing the ssn of employee that we search for his close contacts
+     * @return ArrayList<Person> containing objects Person representing the close contacts of this flight crew member
+     */
+    public ArrayList<Person> findCloseContactsOfFlightCrew(String ssn) {
+        ArrayList<Person> closeContacts = new ArrayList<Person>();
+        for(Person flightCrew : this.getFlightCrew()) {
+            if(!flightCrew.getSSN().equals(ssn)) {
+                closeContacts.add(flightCrew);
+            }
+        }
+        for(Person passenger : this.getPasengers()){
+            closeContacts.add(passenger);
+        }
+        return closeContacts;
+    }
+
+    /**
+     * Gets the close contacts of a specific CheckInStuff employee
+     * @param employee AirportStuff containing the employee we search for his close contacts
+     * @return ArrayList<Person> containing objects Person representing the passengers that are close contacts of this check in employee
+     */
+    public ArrayList<Person> findCloseContactsOfCheckInStuff(AirportStuff employee) {
+        ArrayList<Person> closeContacts = new ArrayList<Person>();
+        for (Ticket ticket : this.getTickets()) {
+            LocalDateTime dateTime = ticket.getCheckInDateTime();
+            if (employee.isWorking(dateTime)) {
+                closeContacts.add(ticket.getPassenger());
+            }
+        }
+        return closeContacts;
+    }
+
+    /**
+     * Finds if a FlightCrew employee exists
+     * @param ssn String containing the ssn of a person that we want to see if he is FlightCrew
+     * @return boolean depending on if this person exists as a flight crew member
+     */
+    public boolean ifExistsFlightCrew(String ssn) {
+        for(Person person : this.getFlightCrew()) {
+            if (person.getSSN().equals(ssn)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Gets casual contacts of a specific employee that works in a store
+     * @param employee AirportStuff representing the employee that we search for his casual contacts
+     * @return ArrayList<Person> containing objects Person representing the casual contacts of this employee
+     */
+    public ArrayList<Person> findCasualContactsOfStoreStuff(AirportStuff employee, AirportSection store) {
+        ArrayList<Person> casualContacts = new ArrayList<Person>();
+        Person contact;
+        for (Ticket ticket : this.getTickets()) {
+            contact = ticket.getContactFromVisitedStores(employee, store);
+            if (contact != null) {
+                casualContacts.add(contact);
+            }
+        }
+        return casualContacts;
+    }
+
+    /**
+     * Gets casual contacts of a specific employee that works at a gate
+     * @param gate AirportSection containing the gate this employee works
+     * @return ArrayList<Person> containing objects Person representing the passengers that passed through this gate
+     */
+    public ArrayList<Person> findCasualContactsOfGateStuff(AirportSection gate) {
+        ArrayList<Person> casualContacts = new ArrayList<Person>();
+        if (this.getTickets().get(0).getDepartureGate().equals(gate)) {
+            for (Ticket ticket : this.getTickets()) {
+                casualContacts.add(ticket.getPassenger());
+            }
+        }
+        return casualContacts;
+    }
 }
