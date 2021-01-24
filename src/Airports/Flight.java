@@ -27,13 +27,13 @@ public class Flight implements Serializable {
      * @param destinationDateTime The date and time of landing
      */
     public Flight(Airport departureAirport, Airport destinationAirport, String departureDateTime, String destinationDateTime) {
-            this.departureAirport = departureAirport;
-            this.destinationAirport = destinationAirport;
-            setDepartureDateTime(departureDateTime);
-            setDestinationDateTime(destinationDateTime);
-            this.flightCrew = new ArrayList<Person>();
-            this.tickets = new ArrayList<Ticket>();
-            flightId = sumFlights += 1;
+        this.departureAirport = departureAirport;
+        this.destinationAirport = destinationAirport;
+        setDepartureDateTime(departureDateTime);
+        setDestinationDateTime(destinationDateTime);
+        this.flightCrew = new ArrayList<Person>();
+        this.tickets = new ArrayList<Ticket>();
+        flightId = sumFlights += 1;
     }
 
     /**
