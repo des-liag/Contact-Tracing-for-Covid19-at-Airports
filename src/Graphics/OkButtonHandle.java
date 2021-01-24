@@ -1,3 +1,5 @@
+package Graphics;
+
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;

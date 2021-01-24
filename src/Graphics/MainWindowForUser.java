@@ -1,3 +1,5 @@
+package Graphics;
+
 import javafx.scene.layout.GridPane;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

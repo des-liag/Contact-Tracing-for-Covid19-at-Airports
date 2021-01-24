@@ -1,3 +1,4 @@
+package Graphics;
 
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.*;

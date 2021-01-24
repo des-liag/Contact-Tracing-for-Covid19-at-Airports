@@ -1,3 +1,5 @@
+package Graphics;
+
 import java.text.MessageFormat;
 
 import javafx.application.Application;
