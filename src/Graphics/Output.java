@@ -1,6 +1,7 @@
 package Graphics;
 
 
+import Airports.Person;
 import javafx.scene.control.*;
 import java.util.ArrayList;
 import javafx.scene.paint.Paint;
@@ -45,7 +46,7 @@ public class Output {
      * @param casualContacts contains people that should be informed such as low risk tracers
      * suitable messages if the lists with contacts are null
      */
-    public static void contacts(ArrayList<String> closeContacts, ArrayList<String> casualContacts) {
+    public static void contacts(ArrayList<Person> closeContacts, ArrayList<Person> casualContacts) {
         GridPane gridPane = new GridPane();
         Stage stage = new Stage();
         SetStyles.creatWindow("CONTACTS TO BE INFORMED",1000,800,stage,gridPane);
@@ -55,11 +56,11 @@ public class Output {
 
         if (MainWindowForUser.pas.isSelected()) {
             if (casualContacts.size() != 0 && closeContacts.size() != 0) {
-                for (String closecontacts : closeContacts) {
-                    listViewCloseContacts.getItems().add(closecontacts);
+                for (Person closecontacts : closeContacts) {
+                    listViewCloseContacts.getItems().add(closecontacts.getFullName() + "  " + closecontacts.getPhone());
                 }
-                for (String casualcontacts : casualContacts) {
-                    listViewCasualContacts.getItems().add(casualcontacts);
+                for (Person casualcontacts : casualContacts) {
+                    listViewCasualContacts.getItems().add(casualcontacts.getFullName() + "  " + casualcontacts.getPhone());
                 }
                 Label labelclose = SetStyles.createLabels("CLOSE CONTACTS", 0, 0, Paint.valueOf("black"),
                         Font.font("Arial Rounded MT Bold", 24));
@@ -81,8 +82,8 @@ public class Output {
         }
         if (MainWindowForUser.combo2.getValue().equals("Flight Crew") || MainWindowForUser.combo2.getValue().equals("CheckIn Stuff")) {
             if (closeContacts.size() != 0) {
-                for (String closecontacts : closeContacts) {
-                    listViewCloseContacts.getItems().add(closecontacts);
+                for (Person closecontacts : closeContacts) {
+                    listViewCloseContacts.getItems().add(closecontacts.getFullName() + "  " + closecontacts.getPhone());
                 }
                 Label labelclose = SetStyles.createLabels("CLOSE CONTACTS", 0, 0, Paint.valueOf("black"),
                         Font.font("Arial Rounded MT Bold", 24));
@@ -103,8 +104,8 @@ public class Output {
                 }
         } else if (MainWindowForUser.combo2.getValue().equals("Gate Stuff") || MainWindowForUser.combo2.getValue().equals("Store Stuff")) {
             if (casualContacts.size() != 0) {
-                for (String casualcontacts : casualContacts) {
-                    listViewCasualContacts.getItems().add(casualcontacts);
+                for (Person casualcontacts : casualContacts) {
+                    listViewCasualContacts.getItems().add(casualcontacts.getFullName() + "  " + casualcontacts.getPhone());
                 }
                 Label labelcasual = SetStyles.createLabels("CASUAL CONTACTS", 0, 4, Paint.valueOf("black"),
                         Font.font("Arial Rounded MT Bold", 24));

@@ -1,16 +1,10 @@
 package Graphics;
 
 import javafx.scene.layout.GridPane;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import java.io.FileInputStream;
 
  public class MainWindowForUser {
     protected static TextField textArea1 = new TextField();
@@ -25,6 +19,56 @@ import java.io.FileInputStream;
     protected static RadioButton pas = new RadioButton("Passenger");
     protected static RadioButton emp = new RadioButton("Employee");
     protected static ComboBox<String> combo2 = new ComboBox<>();
+
+    public static TextField getTextArea1() {
+        return textArea1;
+    }
+
+    public static TextField getTextArea2() {
+        return textArea2;
+    }
+
+    public static TextField getTextArea3() {
+        return textArea3;
+    }
+
+    public static PasswordField getPs() {
+        return ps;
+    }
+
+    public static ToggleGroup getGrp() {
+        return grp;
+    }
+
+    public static ToggleGroup getGroup() {
+        return group;
+    }
+
+    public static RadioButton getTest1() {
+        return test1;
+    }
+
+    public static RadioButton getTest2() {
+        return test2;
+    }
+
+    public static DatePicker getDate() {
+        return date;
+    }
+
+    public static RadioButton getPas() {
+        return pas;
+    }
+
+    public static RadioButton getEmp() {
+        return emp;
+    }
+
+    public static ComboBox<String> getCombo2() {
+        return combo2;
+    }
+    
+    
 
     public static void start(javafx.stage.Stage primaryStage) throws Exception {
         javafx.scene.layout.GridPane gridPane = new javafx.scene.layout.GridPane();
@@ -97,27 +141,24 @@ import java.io.FileInputStream;
          * @method pas.setOnAction inactive the comboBox of employee type
          * and the employee working airport ,if the user is a passenger
          */
-
         pas.setOnAction(event -> {
             combo2.setDisable(true);
             textArea3.setDisable(true);
-
         });
+
         /**
          * @method emp.setOnAction actives the comboBox of employee type
          * and the employee working airport, if the user is an employee
          */
-
         emp.setOnAction(event -> {
             combo2.setDisable(false);
             textArea3.setDisable(false);
-
         });
+
         /**
          * create buttons: OK for submit data
          *                HELP information about the application
          */
-
         Button okButton = new Button("OK");
         SetStyles.setStyleForButtons(okButton, 40, 200);
         Button helpButton = new Button("HELP");
@@ -127,12 +168,11 @@ import java.io.FileInputStream;
          */
 
         helpButton.setOnMouseClicked(event ->
-                HelpInformation.start(gridPane));
+            HelpInformation.start(gridPane));
 
         okButton.setOnMouseClicked(event -> {
             OkButtonHandle.checkInput(primaryStage);
             OkButtonHandle.ifNotNull(primaryStage);
-
         });
 
         gridPane.getChildren().addAll(labelFName, labelLName, textArea1, textArea2, labelSSNNumber, ps, labelTest, test1, test2,

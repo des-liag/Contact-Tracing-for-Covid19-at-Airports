@@ -14,7 +14,6 @@ import javafx.geometry.Pos;
  * @class Entrance create the main window of our app
  * the user can select either a regular user or the administrator of the app
  */
-
 public class Entrance extends Application {
 
     @Override
@@ -52,28 +51,24 @@ public class Entrance extends Application {
          * if the user button is selected the user transferred to the main window for users
          * @see class MainWindowForUser
          */
-
         userButton.setOnMouseClicked(event -> {
-            try {
-                MainWindowForUser.start(primaryStage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            MainWindowForUser.start(primaryStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         });
 
         addButton.setOnMouseClicked(event -> {
             primaryStage.close();
             AddingData.start();
-
         });
-
 
         gridPane.getChildren().addAll(welcome, message, user, admin, userButton, addButton);
         primaryStage.setTitle("Airport application for COVID-19");
         gridPane.setBackground(background);
         primaryStage.setScene(new Scene(gridPane, 1950, 1000));
         primaryStage.show();
-
     }
 
     public void setLabel(Label name, int row, int column, Paint color, Font font) {
@@ -81,7 +76,10 @@ public class Entrance extends Application {
         GridPane.setColumnIndex(name, column);
         name.setTextFill(color);
         name.setFont(font);
+    }
 
+    public static void main(String[] args) {
+        launch(args);
     }
 
 

@@ -1,10 +1,9 @@
 package Graphics;
 
+import Airports.ProgramData;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;
-import java.io.FileInputStream;
-import javafx.scene.image.Image;
 import javafx.scene.Scene;
 import javafx.scene.paint.Paint;
 import javafx.geometry.Pos;
@@ -18,7 +17,6 @@ public class OkButtonHandle  {
      * and create a warning window which inform the user
      * what field he left null
      */
-
     public static void checkInput(Stage primaryStage)  {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Null Data");
@@ -125,6 +123,7 @@ public class OkButtonHandle  {
             }
         }
     }
+
     /**
      * @method ifNotNull checking if all data are properly filled in and SSN and ICAO constrains are applied
      * call method start
@@ -137,11 +136,10 @@ public class OkButtonHandle  {
                 start(primaryStage);
             } else if (checkICAO && MainWindowForUser.combo2.getValue() != null) {
                    start(primaryStage);
-               }
-
+            }
         }
-
     }
+
     /**
      * @method start create a confirmation window so the user can be sure about sending his data
      * If user press OK , a new waiting scene is created
@@ -169,42 +167,25 @@ public class OkButtonHandle  {
             gridPane.setBackground(background);
             primaryStage.setScene(new Scene(gridPane, 1000, 800));
             primaryStage.show();
+            primaryStage.close();
+            searchForTracers();
+        } else alert.close();
+    }
+    
 
-//            TESTING FOR OUTPUT CLASS (DONT NEED THEM HERE)
-
-//            Output.employeeNotFound();
-//            Output.icaoNotFound();
-//            Output.dateOutOfBounds();
-//           java.util.ArrayList<String> array1 = new java.util.ArrayList<>();
-//           array1.add("katerina");
-//           array1.add("despoina");
-//            array1.add("hat");
-//            array1.add("hat");
-//            array1.add("hat");
-//            array1.add("hat");
-//            array1.add("hat");
-//            array1.add("hat");
-//            array1.add("hat");
-//            array1.add("hat");
-//            java.util.ArrayList<String> array2 = new java.util.ArrayList<>();
-//            array2.add("Gkrintzou");
-//            array2.add("Liaggou");
-//            array2.add("hat");
-//            array2.add("hat");
-//            array2.add("hat");
-//            array2.add("hat");
-//            array2.add("hat");
-//            array2.add("hat");
-//            array2.add("hat");
-//            array2.add("hat");
-//            array2.add("hat");
-//            array2.add("hat");
-//            array2.add("hat");
-//            array2.add("hat");
-//            array2.add("hat");
-//            Output.contacts(array1,array2);
+    public static void searchForTracers() {
+        ProgramData.data();
+        if(MainWindowForUser.getPas().isSelected()) {
+            ProgramData.searchForPassenger();
+        } else if(MainWindowForUser.getCombo2().getValue().equals("Flight Crew")) {
+            ProgramData.searchForFlightCrew();
+        } else if(MainWindowForUser.getCombo2().getValue().equals("CheckIn Stuff")) {
+            ProgramData.searchForCheckInStuff();
+        } else if(MainWindowForUser.getCombo2().getValue().equals("Store Stuff")){
+            ProgramData.searchForStroreStuff();
+        } else if(MainWindowForUser.getCombo2().getValue().equals("Gate Stuff")){
+            ProgramData.searchForGateStuff();
         }
-        else alert.close();
     }
 }
 
