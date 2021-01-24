@@ -63,20 +63,21 @@ public class Output {
                     listViewCasualContacts.getItems().add(casualcontacts.getFullName() + "  " + casualcontacts.getPhone());
                 }
                 Label labelclose = SetStyles.createLabels("CLOSE CONTACTS", 0, 0, Paint.valueOf("black"),
-                        Font.font("Arial Rounded MT Bold", 24));
+                    Font.font("Arial Rounded MT Bold", 24));
                 Label message = SetStyles.createLabels("HIGH RISK OF CONTAGION!", 1, 0, Paint.valueOf("red"),
-                        Font.font("Arial Rounded MT Bold", 18));
+                    Font.font("Arial Rounded MT Bold", 18));
                 VBox vbox3 = SetStyles.createVBox(5.0, 2, 1,  labelclose, message, listViewCloseContacts);
 
                 Label labelcasual = SetStyles.createLabels("CASUAL CONTACTS", 0, 4, Paint.valueOf("black"),
-                        Font.font("Arial Rounded MT Bold", 24));
+                    Font.font("Arial Rounded MT Bold", 24));
                 Label message2 = SetStyles.createLabels("LOW RISK OF CONTAGION!", 1, 4, Paint.valueOf("green"),
-                        Font.font("Arial Rounded MT Bold", 18));
+                    Font.font("Arial Rounded MT Bold", 18));
                 VBox vbox4 = SetStyles.createVBox(5.0, 2, 4,  labelcasual, message2, listViewCasualContacts);
                 gridPane.getChildren().addAll(vbox3, vbox4);
 
             } else {
-                createAlert("There are not tickets for passenger with SSN " +MainWindowForUser.ps.getText() +
+                stage.close();
+                createAlert("There are no tickets for passenger with SSN " +MainWindowForUser.ps.getText() +
                         " ,so there is no risk of contagion");
                 }
         }
@@ -94,12 +95,14 @@ public class Output {
                 gridPane.getChildren().addAll(vbox1);
 
             } else
+                stage.close();
                 if (MainWindowForUser.combo2.getValue().equals("Flight Crew")) {
-                createAlert("There are not flights, containing the employee with SSN " + MainWindowForUser.ps.getText() +
+                createAlert("There are no flights, containing the employee with SSN " + MainWindowForUser.ps.getText() +
                         " that need to be informed.                                       " +
                         "                        Please press OK to exit the application");
             } else {
-                createAlert("There are not contacts to be informed. No risk of contagion                             " +
+                stage.close();
+                createAlert("There are no contacts to be informed. No risk of contagion                             " +
                         "                              Please press OK to exit the application");
                 }
         } else if (MainWindowForUser.combo2.getValue().equals("Gate Stuff") || MainWindowForUser.combo2.getValue().equals("Store Stuff")) {
@@ -116,11 +119,12 @@ public class Output {
                 gridPane.getChildren().addAll(vbox2);
 
             } else {
+                stage.close();
                 if (MainWindowForUser.combo2.getValue().equals("Store Stuff")) {
-                    createAlert("There are not contacts to be informed. No risk of contagion                             " +
+                    createAlert("There are no contacts to be informed. No risk of contagion                             " +
                             "                              Please press OK to exit the application");
                 } else if (MainWindowForUser.combo2.getValue().equals("Gate Stuff")) {
-                    createAlert("There are not contacts to be informed. No risk of contagion                             " +
+                    createAlert("There are no contacts to be informed. No risk of contagion                             " +
                             "                              Please press OK to exit the application");
                 }
             }

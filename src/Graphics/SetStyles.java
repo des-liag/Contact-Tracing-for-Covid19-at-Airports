@@ -29,7 +29,6 @@ public class SetStyles {
      * @method setStyleForText create the appearance of all Text Fields ( field for first and last name)
      * @method setStyleForButtons  create the appearance of all Buttons ( OK and HELP at the main window)
      */
-
     public static void setStyleForLabel(Label name, int value, Pos position, Paint color, Font font) {
         GridPane.setRowIndex(name,value);
         GridPane.setColumnIndex(name, 2);
@@ -58,7 +57,7 @@ public class SetStyles {
     public static Background setBackground(String filePath) {
        FileInputStream input = null;
         try {
-            input = new FileInputStream(filePath);
+            input = new FileInputStream("graphicFotos//" + filePath);
         } catch (java.io.FileNotFoundException e) {
             e.printStackTrace();
         }

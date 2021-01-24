@@ -283,6 +283,7 @@ public class ProgramData implements Serializable {
             } else {
                 System.out.println("Close: " + closeContacts  + "\ncasual: " + casualContacts );
             }
+            Output.contacts(closeContacts, casualContacts);
         }
     }
 
@@ -341,12 +342,11 @@ public class ProgramData implements Serializable {
                             }
                         }
                     }
-                    System.out.println("INNN");
-                                                if (closeContacts.size() == 0) {
-                                System.out.println("There are no tracers");
-                            } else {
-                                System.out.println(closeContacts);
-                            }
+                    if (closeContacts.size() == 0) {
+                        System.out.println("There are no tracers");
+                    } else {
+                        System.out.println(closeContacts);
+                    }
                     Output.contacts(closeContacts, casualContacts);
                 } else {
                     Output.employeeNotFound();
@@ -386,11 +386,11 @@ public class ProgramData implements Serializable {
                             }
                         }
                     }
-                                                if (casualContacts.size() == 0) {
-                                System.out.println("There are no tracers");
-                            } else {
-                                System.out.println(casualContacts);
-                            }
+                    if (casualContacts.size() == 0) {
+                        System.out.println("There are no tracers");
+                    } else {
+                        System.out.println(casualContacts);
+                    }
                     Output.contacts(closeContacts, casualContacts);
                 } else {
                     Output.employeeNotFound();
@@ -429,11 +429,11 @@ public class ProgramData implements Serializable {
                             }
                         }
                     }
-                                                if (casualContacts.size() == 0) {
-                                System.out.println("There are no tracers");
-                            } else {
-                                System.out.println(casualContacts);
-                            }
+                    if (casualContacts.size() == 0) {
+                        System.out.println("There are no tracers");
+                    } else {
+                        System.out.println(casualContacts);
+                    }
                     Output.contacts(closeContacts, casualContacts);
                 } else {
                     Output.employeeNotFound();
@@ -518,6 +518,18 @@ public class ProgramData implements Serializable {
 
     public static void data() {
         ProgramData programData = new ProgramData();
+    }
+
+    public static void clear() {
+        if (!contacts.isEmpty()) {
+            contacts.clear();
+        } else if(!contacts1.isEmpty()) {
+            contacts1.clear();
+        } else if(!closeContacts.isEmpty()) {
+            closeContacts.clear();
+        } else if(!casualContacts.isEmpty()) {
+            casualContacts.clear();
+        }
     }
     
 }
