@@ -1,3 +1,5 @@
+package Airports;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -233,7 +235,7 @@ public class Flight implements Serializable {
             }
             if (ticket.getIfLuggage()) {
                 ArrayList<Person> peopleWithLuggage = new ArrayList<Person>();
-                peopleWithLuggage = Main.baggageReclaimArea(this);
+                peopleWithLuggage = ProgramData.baggageReclaimArea(this);
                 if(peopleWithLuggage != null) {
                 }
 
