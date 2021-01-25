@@ -22,13 +22,13 @@ import java.util.ArrayList;
 public class ProgramData implements Serializable {
     
     // An arrayList with the data of Airport Objects
-    private static ArrayList<Airport> airports;
+    private static ArrayList<Airport> airports = new ArrayList<Airport>();
     // An arrayList with the data of Person flightCrew Objects
-    private static ArrayList<Person> flightCrew;
+    private static ArrayList<Person> flightCrew = new ArrayList<Person>();
     // An arrayList with the data of Person passengers Objects
-    private static ArrayList<Person> pasengers;
+    private static ArrayList<Person> pasengers = new ArrayList<Person>();
     // An arrayList with the data of Flight Objects
-    private static ArrayList<Flight> flights;
+    private static ArrayList<Flight> flights = new ArrayList<Flight>();
     
     // An arrayList that will be filled when we are searching for close contacts
     private static ArrayList<Person> closeContacts =  new ArrayList<Person>();
@@ -36,19 +36,17 @@ public class ProgramData implements Serializable {
     private static ArrayList<Person> casualContacts =  new ArrayList<Person>();
     // A temp arrayList with Person Objects
     private static ArrayList<Person> contacts =  new ArrayList<Person>();
-    //A temp arrayList with Person objects
-    private static ArrayList<Person> contacts1 =  new ArrayList<Person>();
 
     
-    // The ssn that user has typed
+    //The ssn that user has typed
     private static String ssn = MainWindowForUser.getPs().getText();
     // The date of results of the positive test
     private static LocalDate positiveDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
     // The date of today in order to compare the dates
-    private static LocalDate nowDate = LocalDate.parse("2020-11-02"); //LocalDate.now()
+    private static LocalDate nowDate = LocalDate.parse("2020-12-30"); //LocalDate.now()
     // The last day that we have to search for tracers
     private static LocalDate lastSearchDate;
-
+    
     /**
      * Constructor of the class
      * If there aren't data to binary files, calls the methods initializeFromFile and saveData
@@ -274,11 +272,11 @@ public class ProgramData implements Serializable {
                             }
                         }
                     }
-                    contacts1 = getFlights().get(id).findCasualContactsOfPassenger(ssn);
-                    if (contacts1.size() != 0) {
-                        for (int i = 0; i < contacts1.size(); i++ ) {
-                            if (!casualContacts.contains(contacts1.get(i))) {
-                                casualContacts.add(contacts1.get(i));
+                    contacts = getFlights().get(id).findCasualContactsOfPassenger(ssn);
+                    if (contacts.size() != 0) {
+                        for (int i = 0; i < contacts.size(); i++ ) {
+                            if (!casualContacts.contains(contacts.get(i))) {
+                                casualContacts.add(contacts.get(i));
                             }
                         }
                     }
@@ -290,7 +288,12 @@ public class ProgramData implements Serializable {
             } else {
                 System.out.println("Close: " + closeContacts  + "\ncasual: " + casualContacts );
             }
-            Output.contacts(closeContacts, casualContacts);
+            try {
+                Output.contacts(closeContacts, casualContacts);
+            } catch (NullPointerException e) {
+                //empty arraylists
+            }
+
         }
     }
 
@@ -315,8 +318,11 @@ public class ProgramData implements Serializable {
                     }
                 }
             }
-            Output.contacts(closeContacts, casualContacts);
-
+            try {
+                Output.contacts(closeContacts, casualContacts);
+            } catch (NullPointerException e) {
+                //empty arraylists
+            }
 
         }
     }
@@ -354,7 +360,11 @@ public class ProgramData implements Serializable {
                     } else {
                         System.out.println(closeContacts);
                     }
-                    Output.contacts(closeContacts, casualContacts);
+                    try {
+                        Output.contacts(closeContacts, casualContacts);
+                    } catch (NullPointerException e) {
+                        //empty arraylists
+                    }
                 } else {
                     Output.employeeNotFound();
                 }  
@@ -398,7 +408,11 @@ public class ProgramData implements Serializable {
                     } else {
                         System.out.println(casualContacts);
                     }
-                    Output.contacts(closeContacts, casualContacts);
+                    try {
+                        Output.contacts(closeContacts, casualContacts);
+                    } catch (NullPointerException e) {
+                        //empty arraylists
+                    }
                 } else {
                     Output.employeeNotFound();
                 }
@@ -441,7 +455,11 @@ public class ProgramData implements Serializable {
                     } else {
                         System.out.println(casualContacts);
                     }
-                    Output.contacts(closeContacts, casualContacts);
+                    try {
+                        Output.contacts(closeContacts, casualContacts);
+                    } catch (NullPointerException e) {
+                        //empty arraylists
+                    }
                 } else {
                     Output.employeeNotFound();
                 }
@@ -530,9 +548,8 @@ public class ProgramData implements Serializable {
     public static void clear() {
         if (!contacts.isEmpty()) {
             contacts.clear();
-        } else if(!contacts1.isEmpty()) {
-            contacts1.clear();
-        } else if(!closeContacts.isEmpty()) {
+        }
+         else if(!closeContacts.isEmpty()) {
             closeContacts.clear();
         } else if(!casualContacts.isEmpty()) {
             casualContacts.clear();
