@@ -70,16 +70,16 @@ public class AirportStuff extends Person {
     }
 
     /**
-     * Gets for a date and time we search for if a employee works at that time
+     * Gets for a date and time we search for if an employee works at that time
      * Finds the day of the dateTime and the time of the dateTime
-     * @param dateTime
+     * @param dateTime the date and the time we want to search for
      * @return boolean depending if there is someone working the day and time we look for at the workHoursMap
      */
     public boolean isWorking(LocalDateTime dateTime){
         DayOfWeek day = dateTime.getDayOfWeek();
         LocalTime time = dateTime.toLocalTime();
         for(LocalTime[] localtimes : this.workHoursMap.get(day)){
-            if (localtimes[1].equals(LocalTime.parse("00:00"))) {
+            if(localtimes[1].equals(LocalTime.parse("00:00"))) {
                 localtimes[1] = LocalTime.parse("23:59");
             }
             if(time.isAfter(localtimes[0]) && time.isBefore(localtimes[1])){

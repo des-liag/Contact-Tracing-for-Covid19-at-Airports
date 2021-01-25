@@ -43,7 +43,7 @@ public class ProgramData implements Serializable {
     // The date of results of the positive test
     private static LocalDate positiveDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
     // The date of today in order to compare the dates
-    private static LocalDate nowDate = LocalDate.parse("2020-12-30"); //LocalDate.now()
+    private static LocalDate nowDate = LocalDate.parse("2020-11-30"); //LocalDate.now()
     // The last day that we have to search for tracers
     private static LocalDate lastSearchDate;
     
@@ -282,12 +282,6 @@ public class ProgramData implements Serializable {
                     }
                 }
             }
-            if (closeContacts.size() == 0 && casualContacts.size() == 0) {
-                System.out.println("There are no tickets for the passenger with ssn " + ssn);
-                System.out.println("So, there aren't possible tracers");
-            } else {
-                System.out.println("Close: " + closeContacts  + "\ncasual: " + casualContacts );
-            }
             try {
                 Output.contacts(closeContacts, casualContacts);
             } catch (NullPointerException e) {
@@ -518,11 +512,10 @@ public class ProgramData implements Serializable {
     
     public static ArrayList<Person> baggageReclaimArea(Flight flight) {
         ArrayList<Person> passengers = new ArrayList<Person>();
-        ProgramData programData = new ProgramData();
-        int sumFlights = programData.getFlights().size() - 1;
+        int sumFlights = getFlights().size() - 1;
         
         for (int id = sumFlights; id >= 0; id--) {
-            Flight flight2 = programData.getFlights().get(id);
+            Flight flight2 = getFlights().get(id);
             if (flight.getFlightId() != flight2.getFlightId() && flight2.getDestinationAirport().equals(flight.getDestinationAirport())) {
                 LocalDate date1 = flight.getDestinationDateTime().toLocalDate();
                 LocalDate date2 =  flight2.getDestinationDateTime().toLocalDate();
@@ -545,16 +538,6 @@ public class ProgramData implements Serializable {
         ProgramData programData = new ProgramData();
     }
 
-    public static void clear() {
-        if (!contacts.isEmpty()) {
-            contacts.clear();
-        }
-         else if(!closeContacts.isEmpty()) {
-            closeContacts.clear();
-        } else if(!casualContacts.isEmpty()) {
-            casualContacts.clear();
-        }
-    }
 
     /**
      * Add new flight to binary file flights

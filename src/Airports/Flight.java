@@ -195,10 +195,12 @@ public class Flight implements Serializable {
             LocalDateTime time = ticket.getCheckInDateTime();
             
             for(AirportStuff employee : this.getDepartureAirport().getCheckInPlace().getSectionStuff()){
+                System.out.println(employee.getFullName());
                 if(employee.isWorking(time)){
                     closeContacts.add(employee);
                 }
             }
+            System.out.println("PAOK");
 
             for(Person employee : this.getFlightCrew()){
                 closeContacts.add(employee);
@@ -230,6 +232,7 @@ public class Flight implements Serializable {
                     casualContacts.add(employee);
                 }
             }
+            System.out.println("PAOK");
             if (!ticket.getDepartureVisitedStores().isEmpty()) {
                 for(VisitedStore visitedStore : ticket.getDepartureVisitedStores()){
                     for(AirportStuff employee : visitedStore.getStore().getSectionStuff()){
@@ -244,11 +247,12 @@ public class Flight implements Serializable {
                 ArrayList<Person> peopleWithLuggage = new ArrayList<Person>();
                 peopleWithLuggage = ProgramData.baggageReclaimArea(this);
                 if(peopleWithLuggage != null) {
+                    for(Person person : peopleWithLuggage) {
+                        casualContacts.add(person);
+                    }
                 }
 
-                for(Person person: peopleWithLuggage) {
-                    casualContacts.add(person);
-                }
+
             }
         }
         return casualContacts;
