@@ -271,7 +271,7 @@ public class ProgramData implements Serializable {
                                 closeContacts.add(contacts.get(i));
                             }
                         }
-                    }
+                    } 
                     contacts = getFlights().get(id).findCasualContactsOfPassenger(ssn);
                     if (contacts.size() != 0) {
                         for (int i = 0; i < contacts.size(); i++ ) {
