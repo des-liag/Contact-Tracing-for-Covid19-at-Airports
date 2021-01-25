@@ -1,5 +1,12 @@
 package Airports;
 
+import Graphics.AddVisitedStores;
+import Graphics.AddTicket;
+import Graphics.AddStores;
+import  Graphics.AddGate;
+import Graphics.AddAirport;
+import Graphics.AddFlightCrew;
+import Graphics.AddFlight;
 import Graphics.MainWindowForUser;
 import Graphics.Output;
 import java.time.*;
@@ -531,10 +538,199 @@ public class ProgramData implements Serializable {
             casualContacts.clear();
         }
     }
+
+    /**
+     * Add new flight to binary file flights
+     * @return true or false depending on successful or failed addition
+     */
+    public static boolean addFlight() {
+        String depICAO = AddFlight.getDpICAO();
+        String destICAO = AddFlight.getDsICAO();
+        String departureDateTime = AddFlight.getDepTime();
+        String destinationDateTime = AddFlight.getDestTime();
+              
+        Airport departureAirport = null;
+        Airport destinationAirport = null;
+
+        for (Airport airport : getAirports()) {
+            if (airport.getAirportICAO().equals(depICAO)) {
+                departureAirport = airport;
+            } else if(airport.getAirportICAO().equals(destICAO)) {
+                destinationAirport = airport;
+            }
+        }
+
+        if(departureAirport != null && destinationAirport != null) {
+            Flight flight = new Flight(departureAirport, destinationAirport, departureDateTime, destinationDateTime);
+            return true;
+        }
+        return false;
+    }
     
+    /**
+     * Add flightCrew to the arrayList of a specific flight 
+     * If this Person doesn't already exist, he is also added to binary file people
+     * @return true or false depending on successful or failed addition
+     */
+    public static boolean addFlightCrew() {
+        String ssn = AddFlightCrew.getSSN();
+        String name = AddFlightCrew.getName();
+        String lastName = AddFlightCrew.getLastName();
+        String address = AddFlightCrew.getAddress();
+        String phone = AddFlightCrew.getPhone();
+        String flightId = AddFlightCrew.getID();
+                
+        int id = Integer.parseInt(flightId);
+        boolean exists = false;
+        Person flightCrew = null;
+                
+        for(Flight flight: getFlights()) {
+            if(flight.getFlightId() == id) {
+                exists =  true;
+            break;
+            }
+        }
+                
+        if (exists) {
+            for(Person crew: getFlightCrew()) {
+                if(crew.getSSN().equals(ssn)) {
+                    flightCrew = crew;
+                    break;
+                }
+            }
+            if(flightCrew == null) {
+                flightCrew = new Person(ssn, name, lastName, address, phone);
+            }
+            getFlights().get(id).addFlightCrew(flightCrew);
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Add new ticket to a the arrayList of a specific flight and save it to binary file flightsData
+     * If passenger of the ticket doesn't already exist, he is also added to binary file people
+     * @return true or false depending on successful or failed addition
+     */
+    public static boolean addTicket(){
+        String pasSSN = AddTicket.getSSN();
+        String pasName = AddTicket.getName();
+        String pasLastName = AddTicket.getLastName();
+        String pasAddress = AddTicket.getAddress(); 
+        String pasPhone = AddTicket.getPhone();
+        String flightId = AddTicket.getID();
+        String checkInDateTime = AddTicket.getCheckIn();
+        String luggage = AddTicket.getLuggage();
+        String depGateName = AddTicket.getDpgate();
+        String destGateName = AddTicket.getDsgate();
+        String depIcao = AddTicket.getDpICAO();
+        String destIcao = AddTicket.getDsICAO();
+                
+        int flightIdInt = Integer.parseInt(flightId);
+        Boolean ifLuggage = Boolean.parseBoolean(luggage);
+        boolean exists = false;
+        AirportSection departureGate = null;
+        AirportSection destinationGate = null;
+        Person pass = null;
+        boolean existsT = false;
+                
+                
+        for(Flight flight: getFlights()) {
+            if(flight.getFlightId() == flightIdInt) {
+                exists =  true;
+                break;
+            }
+        }
+
+        if (exists) {
+            for(Airport airport: getAirports()) {
+                if (airport.getAirportICAO().equals(depIcao)) {
+                    for (AirportSection section : airport.getGates()) {
+                        if (section.getSectionName().equals(depGateName)) {
+                            departureGate = section;
+                        }
+                    }
+                } else if (airport.getAirportICAO().equals(destIcao)) {
+                    for (AirportSection section : airport.getGates()) {
+                        if (section.getSectionName().equals(destGateName)) {
+                            destinationGate = section;
+                        }
+                    }
+                }
+            }
+            if(departureGate != null && destinationGate != null) {
+                for (Person passenger : getPasengers()) {
+                    if(passenger.getSSN().equals(pasSSN)) {
+                        pass = passenger;
+                        break;
+                    }
+                }
+                if(pass == null) {
+                    pass = new Person(pasSSN, pasName, pasLastName, pasAddress, pasPhone);
+                }
+                for (Ticket ticket : getFlights().get(flightIdInt).getTickets()) {
+                    if (ticket.getPassenger().getSSN().equals(pass.getSSN())) {
+                        existsT = true;
+                    }
+                }
+                if(!existsT) {
+                    getFlights().get(flightIdInt).addTicket(
+                        new Ticket(pass, checkInDateTime, ifLuggage, departureGate, destinationGate));
+                    return true;
+                }
+            
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Add a visited store to the arrayList of a specific ticket
+     * @return true or false depending on successful or failed addition
+     */
+    public static boolean addVisitedStore() {
+        String idString = null;
+        String passengerSSN = null;
+        String entranceDateTime = null;
+        String storeName = null;
+                
+        boolean exists = false;
+        boolean existsStore = false;
+        int idInt = Integer.parseInt(idString);
+        AirportSection airportStore = null;
+                
+        for (Airport airport : getAirports()) {
+            for(AirportSection section : airport.getStores()) {
+                if(section.getSectionName().equals(storeName)) {
+                    airportStore = section;
+                    existsStore = true;
+                }
+            }
+        }
+        if(existsStore) {
+            for(Flight flight: getFlights()) {
+                if(flight.getFlightId() == idInt) {
+                    for (Ticket ticket : flight.getTickets()) {
+                        if(ticket.getPassenger().getSSN().equals(passengerSSN)) {
+                            for (VisitedStore store : ticket.getDepartureVisitedStores()) {
+                                if (store.getStore().getSectionName().equals(storeName)) {
+                                    exists = true;
+                                }
+                            }
+                            if(!exists) {
+                                ticket.addDepartureVisitedStore(new VisitedStore(entranceDateTime, airportStore));
+                                return true;
+                            }
+                        }
+                    }   
+                }
+            }
+        }
+        return false;
+    }
+       
+
 }
-
-
 
 
 
