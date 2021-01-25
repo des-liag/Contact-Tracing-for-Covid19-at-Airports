@@ -51,12 +51,24 @@ public class AddFlightCrew {
               textAreaAddress, phone, textAreaPhone, id, textAreaFlightID, okButton)  ;
     }
 
-    public static String getSSN() { return textAreaSSN.getText(); }
-    public static String getName() {return textAreaName.getText();}
-    public static String getLastName() {return textAreaLastName.getText();}
-    public static String getAddress() {return textAreaAddress.getText();}
-    public  static String getPhone() {return textAreaPhone.getText();}
-    public static String getID() {return textAreaFlightID.getText();}
+    public static String getSSN() { 
+        return textAreaSSN.getText(); 
+    }
+    public static String getName() {
+        return textAreaName.getText();
+    }
+    public static String getLastName() {
+        return textAreaLastName.getText();
+    }
+    public static String getAddress() {
+        return textAreaAddress.getText();
+    }
+    public  static String getPhone() {
+        return textAreaPhone.getText();
+    }
+    public static String getID() {
+        return textAreaFlightID.getText();
+    }
 
 
 }

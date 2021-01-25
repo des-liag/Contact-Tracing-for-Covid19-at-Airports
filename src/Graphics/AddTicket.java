@@ -104,17 +104,41 @@ public class AddTicket {
                 dsICAO, destICAO,okButton, warning)  ;
     }
 
-    public static String getSSN() { return textAreaSSN.getText(); }
-    public static String getName() {return textAreaName.getText();}
-    public static String getLastName() {return textAreaLastName.getText();}
-    public static String getAddress() {return textAreaAddress.getText();}
-    public  static String getPhone() {return textAreaPhone.getText();}
-    public static String getID() {return textAreaFlightID.getText();}
-    public static String getCheckIn() {return checkinTime.getValue().toString();}
-    public static String getLuggage() {return textArealuggage.getText();}
-    public static String getDpgate() {return textAreaDepGate.getText();}
-    public static String getDsgate() {return textAreaDestGate.getText();}
-    public static String getDpICAO() {return  depICAO.getValue();}
-    public static String getDsICAO() {return  destICAO.getValue();}
+    public static String getSSN() { 
+        return textAreaSSN.getText(); 
+    }
+    public static String getName() {
+        return textAreaName.getText();
+    }
+    public static String getLastName() {
+        return textAreaLastName.getText();
+    }
+    public static String getAddress() {
+        return textAreaAddress.getText();
+    }
+    public  static String getPhone() {
+        return textAreaPhone.getText();
+    }
+    public static String getID() {
+        return textAreaFlightID.getText();
+    }
+    public static String getCheckIn() {
+        return checkinTime.getValue().toString();
+    }
+    public static String getLuggage() {
+        return textArealuggage.getText();
+    }
+    public static String getDpgate() {
+        return textAreaDepGate.getText();
+    }
+    public static String getDsgate() {
+        return textAreaDestGate.getText();
+    }
+    public static String getDpICAO() {
+        return  depICAO.getValue();
+    }
+    public static String getDsICAO() {
+        return  destICAO.getValue();
+    }
 
 }

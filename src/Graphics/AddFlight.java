@@ -2,14 +2,8 @@ package Graphics;
 
 import  javafx.scene.layout.GridPane;
 import  javafx.stage.Stage;
-import  javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.paint.Color;
-import javafx.scene.layout.CornerRadii;
-import javafx.geometry.Insets;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ComboBox;
-import javafx.scene.Scene;
 import  javafx.scene.control.Label;
 import  javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -76,8 +70,16 @@ public class AddFlight {
                 okButton, dsICAO, dpICAO);
     }
 
-    public static String getDpICAO() {return  depICAO.getValue();}
-    public static String getDsICAO() {return  destICAO.getValue();}
-    public static String getDestTime() {return destTime.getValue().toString();}
-    public static String getDepTime() {return depTime.getValue().toString();}
+    public static String getDpICAO() {
+        return  depICAO.getValue();
+    }
+    public static String getDsICAO() {
+        return  destICAO.getValue();
+    }
+    public static String getDestTime() {
+        return destTime.getValue().toString();
+    }
+    public static String getDepTime() {
+        return depTime.getValue().toString();
+    }
 }
