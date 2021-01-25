@@ -194,17 +194,18 @@ public class Flight implements Serializable {
         if (ticket != null) {
             LocalDateTime time = ticket.getCheckInDateTime();
             
+            //finds the employee that works in checkIn place the time that passenger did the check-in
             for(AirportStuff employee : this.getDepartureAirport().getCheckInPlace().getSectionStuff()){
-                System.out.println(employee.getFullName());
                 if(employee.isWorking(time)){
                     closeContacts.add(employee);
                 }
             }
-            System.out.println("PAOK");
 
+            //finds the crew that work in this flight
             for(Person employee : this.getFlightCrew()){
                 closeContacts.add(employee);
             }
+            //finds the other passengers that were in this flight
             for(Person passenger : this.getPasengers()){
                 if (!passenger.getSSN().equals(ssn)) {
                     closeContacts.add(passenger);
@@ -227,12 +228,13 @@ public class Flight implements Serializable {
 
         Ticket ticket = this.getTicketBySSN(ssn);
         if (ticket != null) {
+            //finds the employee(s) that work in gate where the flight gone
             for(AirportStuff employee : ticket.getDepartureGate().getSectionStuff()){
                 if(employee.isWorking(flightDateTime)){
                     casualContacts.add(employee);
                 }
             }
-            System.out.println("PAOK");
+            //finds the employee(s) that work in store where passenger visited
             if (!ticket.getDepartureVisitedStores().isEmpty()) {
                 for(VisitedStore visitedStore : ticket.getDepartureVisitedStores()){
                     for(AirportStuff employee : visitedStore.getStore().getSectionStuff()){
@@ -242,7 +244,7 @@ public class Flight implements Serializable {
                     }
                 }   
             }
-
+            //finds the passengers from other flights that have luggage and were in baggage reclaim area in the same time
             if (ticket.getIfLuggage()) {
                 ArrayList<Person> peopleWithLuggage = new ArrayList<Person>();
                 peopleWithLuggage = ProgramData.baggageReclaimArea(this);

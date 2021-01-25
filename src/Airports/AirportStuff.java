@@ -82,7 +82,18 @@ public class AirportStuff extends Person {
             if(localtimes[1].equals(LocalTime.parse("00:00"))) {
                 localtimes[1] = LocalTime.parse("23:59");
             }
-            if(time.isAfter(localtimes[0]) && time.isBefore(localtimes[1])){
+            //in order to include the shift change of employees 
+            if(!localtimes[0].equals(LocalTime.parse("00:00"))) {
+                localtimes[0] = localtimes[0].minusSeconds(1);
+            }
+            if(time.equals(LocalTime.parse("00:00"))) {
+                if (localtimes[0].equals(LocalTime.parse("00:00"))) {
+                    time = time.plusSeconds(1);
+                } else {
+                    time = time.minusMinutes(1);
+                }
+            }
+            if(time.isAfter(localtimes[0]) && time.isBefore(localtimes[1].plusSeconds(1))){
                 return true;
             }
         }

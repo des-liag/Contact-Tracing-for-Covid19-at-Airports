@@ -43,7 +43,7 @@ public class ProgramData implements Serializable {
     // The date of results of the positive test
     private static LocalDate positiveDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
     // The date of today in order to compare the dates
-    private static LocalDate nowDate = LocalDate.parse("2020-11-30"); //LocalDate.now()
+    private static LocalDate nowDate = LocalDate.parse("2021-02-30"); //LocalDate.now()
     // The last day that we have to search for tracers
     private static LocalDate lastSearchDate;
     
@@ -510,6 +510,12 @@ public class ProgramData implements Serializable {
         setLastSearchDate(ProgramData.positiveDate.minusDays(daysBack));
     }
     
+    /**
+     * Searches for passengers that were in the same time in the baggage reclaim area to get their luggages
+     * Passengers get their luggages only from the destination's airport
+     * @param flight Flight containing the flight in which we refer to
+     * @return ArrayList<Person> representing all the passengers that were found in the searching
+     */
     public static ArrayList<Person> baggageReclaimArea(Flight flight) {
         ArrayList<Person> passengers = new ArrayList<Person>();
         int sumFlights = getFlights().size() - 1;
@@ -534,13 +540,16 @@ public class ProgramData implements Serializable {
         return passengers;
     }
 
+    /**
+     * Initializes or just loads the files
+     */
     public static void data() {
         ProgramData programData = new ProgramData();
     }
 
 
     /**
-     * Add new flight to binary file flights
+     * Adds new flight to binary file flights
      * @return true or false depending on successful or failed addition
      */
     public static boolean addFlight() {
@@ -568,7 +577,7 @@ public class ProgramData implements Serializable {
     }
     
     /**
-     * Add flightCrew to the arrayList of a specific flight 
+     * Adds flightCrew to the arrayList of a specific flight 
      * If this Person doesn't already exist, he is also added to binary file people
      * @return true or false depending on successful or failed addition
      */
@@ -608,7 +617,7 @@ public class ProgramData implements Serializable {
     }
     
     /**
-     * Add new ticket to a the arrayList of a specific flight and save it to binary file flightsData
+     * Adds new ticket to a the arrayList of a specific flight and save it to binary file flightsData
      * If passenger of the ticket doesn't already exist, he is also added to binary file people
      * @return true or false depending on successful or failed addition
      */
@@ -685,7 +694,7 @@ public class ProgramData implements Serializable {
     }
 
     /**
-     * Add a visited store to the arrayList of a specific ticket
+     * Adds a visited store to the arrayList of a specific ticket
      * @return true or false depending on successful or failed addition
      */
     public static boolean addVisitedStore() {
