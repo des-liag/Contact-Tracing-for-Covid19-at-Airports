@@ -172,7 +172,7 @@ public class Flight implements Serializable {
      * @see Ticket
      */
     public Ticket getTicketBySSN(String ssn){
-        for (Ticket ticket : getTickets()){
+        for (Ticket ticket : this.getTickets()){
             if(ticket.getPassenger().getSSN().equals(ssn)){
                 return ticket;
             }
@@ -189,12 +189,16 @@ public class Flight implements Serializable {
      */
     public ArrayList<Person> findCloseContactsOfPassenger(String ssn){
         ArrayList<Person> closeContacts = new ArrayList<Person>();
-        Ticket ticket = this.getTicketBySSN(ssn);
-
+        Ticket ticket =  this.getTicketBySSN(ssn);
+ 
         if (ticket != null) {
             LocalDateTime time = ticket.getCheckInDateTime();
-
-            closeContacts.add(this.getDepartureAirport().getWorkingEmployee(time));
+            
+            for(AirportStuff employee : this.getDepartureAirport().getCheckInPlace().getSectionStuff()){
+                if(employee.isWorking(time)){
+                    closeContacts.add(employee);
+                }
+            }
 
             for(Person employee : this.getFlightCrew()){
                 closeContacts.add(employee);
@@ -226,13 +230,16 @@ public class Flight implements Serializable {
                     casualContacts.add(employee);
                 }
             }
-            for(VisitedStore visitedStore : ticket.getDepartureVisitedStores()){
-                for(AirportStuff employee : visitedStore.getStore().getSectionStuff()){
-                    if(employee.isWorking(visitedStore.getEntranceDateTime())){
-                        casualContacts.add(employee);
+            if (!ticket.getDepartureVisitedStores().isEmpty()) {
+                for(VisitedStore visitedStore : ticket.getDepartureVisitedStores()){
+                    for(AirportStuff employee : visitedStore.getStore().getSectionStuff()){
+                        if(employee.isWorking(visitedStore.getEntranceDateTime())){
+                            casualContacts.add(employee);
+                        }
                     }
-                }
+                }   
             }
+
             if (ticket.getIfLuggage()) {
                 ArrayList<Person> peopleWithLuggage = new ArrayList<Person>();
                 peopleWithLuggage = ProgramData.baggageReclaimArea(this);

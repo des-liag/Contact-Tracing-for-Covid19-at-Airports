@@ -138,19 +138,19 @@ public class Airport implements Serializable {
         return null;
     }
 
-    /**
-     * Gets the Employee working that time and date
-     * @param dateTime the time we search for
-     * @return People representing the Employee working that time
-     */
-    public Person getWorkingEmployee(LocalDateTime dateTime){
-        for(AirportStuff employee : this.getCheckInPlace().getSectionStuff()){
-            if(employee.isWorking(dateTime)){
-                return employee;
-            }
-        }
-        return null;
-    }
+//    /**
+//     * Gets the Employee working that time and date
+//     * @param dateTime the time we search for
+//     * @return People representing the Employee working that time
+//     */
+//    public Person getWorkingEmployee(LocalDateTime dateTime){
+//        for(AirportStuff employee : this.getCheckInPlace().getSectionStuff()){
+//            if(employee.isWorking(dateTime)){
+//                return employee;
+//            }
+//        }
+//        return null;
+//    }
 
     /**
      * Gets the ArrayList with all a gate's employees

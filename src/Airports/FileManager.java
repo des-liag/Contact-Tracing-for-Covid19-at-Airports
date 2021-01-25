@@ -189,14 +189,14 @@ public class FileManager {
 
             if(personType.equals("FLIGHTCREW")){
                 for (int j = 0; j < flightCrew.size(); j++) {
-                    if ((flightCrew.get(j).getSSN()).equals(ssn)){
+                    if (flightCrew.get(j).getSSN().equals(ssn)){
                         flights.get(flightId).addFlightCrew(flightCrew.get(j));
                     }
                 }
             } else if (personType.equals("PASSENGER")) {
                 for (int j = 0; j < passengers.size(); j++) {
-                    if ((passengers.get(j).getSSN()).equals(ssn)) {
-                        for(int k = 0; j < flights.get(flightId).getDepartureAirport().getGates().size(); k++) {
+                    if (passengers.get(j).getSSN().equals(ssn)) {
+                        for(int k = 0; k < flights.get(flightId).getDepartureAirport().getGates().size(); k++) {
                             if (flights.get(flightId).getDepartureAirport().getGates().get(k).getSectionName().equals(depGateName)) {
                                 depGate = thisDepAirportGates.get(k);
                                 break;

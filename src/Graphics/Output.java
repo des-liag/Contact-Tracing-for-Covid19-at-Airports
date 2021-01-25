@@ -49,13 +49,13 @@ public class Output {
     public static void contacts(ArrayList<Person> closeContacts, ArrayList<Person> casualContacts) {
         GridPane gridPane = new GridPane();
         Stage stage = new Stage();
-        SetStyles.creatWindow("CONTACTS TO BE INFORMED",1000,800,stage,gridPane);
 
         ListView<String> listViewCloseContacts = new ListView<>();
         ListView<String> listViewCasualContacts = new ListView<>();
 
         if (MainWindowForUser.pas.isSelected()) {
             if (casualContacts.size() != 0 && closeContacts.size() != 0) {
+                SetStyles.creatWindow("CONTACTS TO BE INFORMED",1000,800,stage,gridPane);
                 for (Person closecontacts : closeContacts) {
                     listViewCloseContacts.getItems().add(closecontacts.getFullName() + "  " + closecontacts.getPhone());
                 }
@@ -76,13 +76,14 @@ public class Output {
                 gridPane.getChildren().addAll(vbox3, vbox4);
 
             } else {
-                stage.close();
+//                stage.close();
                 createAlert("There are no tickets for passenger with SSN " +MainWindowForUser.ps.getText() +
                         " ,so there is no risk of contagion");
                 }
         }
         if (MainWindowForUser.combo2.getValue().equals("Flight Crew") || MainWindowForUser.combo2.getValue().equals("CheckIn Stuff")) {
             if (closeContacts.size() != 0) {
+                SetStyles.creatWindow("CONTACTS TO BE INFORMED",1000,800,stage,gridPane);
                 for (Person closecontacts : closeContacts) {
                     listViewCloseContacts.getItems().add(closecontacts.getFullName() + "  " + closecontacts.getPhone());
                 }
@@ -95,18 +96,19 @@ public class Output {
                 gridPane.getChildren().addAll(vbox1);
 
             } else
-                stage.close();
+//                stage.close();
                 if (MainWindowForUser.combo2.getValue().equals("Flight Crew")) {
                 createAlert("There are no flights, containing the employee with SSN " + MainWindowForUser.ps.getText() +
                         " that need to be informed.                                       " +
                         "                        Please press OK to exit the application");
             } else {
-                stage.close();
+//                stage.close();
                 createAlert("There are no contacts to be informed. No risk of contagion                             " +
                         "                              Please press OK to exit the application");
                 }
         } else if (MainWindowForUser.combo2.getValue().equals("Gate Stuff") || MainWindowForUser.combo2.getValue().equals("Store Stuff")) {
             if (casualContacts.size() != 0) {
+                SetStyles.creatWindow("CONTACTS TO BE INFORMED",1000,800,stage,gridPane);
                 for (Person casualcontacts : casualContacts) {
                     listViewCasualContacts.getItems().add(casualcontacts.getFullName() + "  " + casualcontacts.getPhone());
                 }
@@ -119,7 +121,7 @@ public class Output {
                 gridPane.getChildren().addAll(vbox2);
 
             } else {
-                stage.close();
+//                stage.close();
                 if (MainWindowForUser.combo2.getValue().equals("Store Stuff")) {
                     createAlert("There are no contacts to be informed. No risk of contagion                             " +
                             "                              Please press OK to exit the application");

@@ -79,6 +79,9 @@ public class AirportStuff extends Person {
         DayOfWeek day = dateTime.getDayOfWeek();
         LocalTime time = dateTime.toLocalTime();
         for(LocalTime[] localtimes : this.workHoursMap.get(day)){
+            if (localtimes[1].equals(LocalTime.parse("00:00"))) {
+                localtimes[1] = LocalTime.parse("23:59");
+            }
             if(time.isAfter(localtimes[0]) && time.isBefore(localtimes[1])){
                 return true;
             }
