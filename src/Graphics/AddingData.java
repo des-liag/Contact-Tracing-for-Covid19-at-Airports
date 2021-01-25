@@ -1,5 +1,3 @@
-package Graphics;
-
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import  javafx.scene.control.Label;
@@ -46,6 +44,11 @@ public class AddingData {
        flightCrew.setOnMouseClicked(event -> {
            stage.close();
            AddFlightCrew.newFlightCrew();
+       });
+       
+       airportStuff.setOnMouseClicked(event -> {
+           stage.close();
+           AddAirportStuff.newAirportStuff();             //little add//
        });
        flight.setOnMouseClicked(event -> {
            stage.close();
