@@ -68,9 +68,7 @@ public class SetStyles {
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
                         true, true, true, true));
-
-        Background background = new Background(backgroundimage);
-        return background;
+        return new Background(backgroundimage);
     }
 
     public static Label createLabels(String text, int row, int column, Paint color, Font font) {

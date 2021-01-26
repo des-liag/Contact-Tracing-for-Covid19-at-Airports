@@ -3,11 +3,6 @@ package Graphics;
 import Airports.ProgramData;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.scene.layout.*;
-import javafx.scene.Scene;
-import javafx.scene.paint.Paint;
-import javafx.geometry.Pos;
-import javafx.scene.text.Font;
 
 public class OkButtonHandle  {
     private static boolean checkSSN = false;
@@ -151,22 +146,6 @@ public class OkButtonHandle  {
         alert.setContentText("Are you sure? Press OK to confirm, or Cancel to back out.");
         java.util.Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && (result.get() == ButtonType.OK)) {
-            primaryStage.close();
-
-            // Create a new waiting scene
-            //  This scene must stay active while the application searching for the users COVID-contacts
-
-            GridPane gridPane = new GridPane();
-            gridPane.setHgap(1);
-            gridPane.setVgap(10);
-
-            Background background = SetStyles.setBackground("globe-and-airplane-logo-or-icon-vector-5271553.jpg") ;
-            Label label = new Label("We are processing your data...PLEASE WAIT");
-            SetStyles.setStyleForLabel(label, 1, Pos.TOP_CENTER, Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 24));
-            gridPane.getChildren().addAll(label);
-            gridPane.setBackground(background);
-            primaryStage.setScene(new Scene(gridPane, 1000, 800));
-            primaryStage.show();
             primaryStage.close();
             searchForTracers();
         } else alert.close();

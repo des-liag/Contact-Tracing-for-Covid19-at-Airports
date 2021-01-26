@@ -7,6 +7,9 @@ import javafx.scene.control.TextField;
 import  javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
+/**
+ * @class AddFlightCrew adding a new flight crew member
+ */
 
 public class AddFlightCrew {
     protected static TextField textAreaSSN = new TextField();
