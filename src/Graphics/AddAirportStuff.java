@@ -84,11 +84,13 @@ public class AddAirportStuff {
     	  if (combo3.getValue().equals("Store Stuff") ){
 	          combo3.setDisable(false);
 	          textAreaGate.setDisable(true);
+	          textAreaStore.setDisable(false);
 	              
     	  }
     	  else if(combo3.getValue().equals("Gate Stuff")) {
     		  combo3.setDisable(false);
     		  textAreaStore.setDisable(true);
+    		  textAreaGate.setDisable(false);
     		  
     		  
     	  }
