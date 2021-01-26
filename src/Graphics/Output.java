@@ -1,6 +1,5 @@
 package Graphics;
 
-
 import Airports.Person;
 import javafx.scene.control.*;
 import java.util.ArrayList;
@@ -87,12 +86,12 @@ public class Output {
                 for (Person closecontacts : closeContacts) {
                     listViewCloseContacts.getItems().add(closecontacts.getFullName() + "  " + closecontacts.getPhone());
                 }
-                Label labelclose = SetStyles.createLabels("CLOSE CONTACTS", 0, 0, Paint.valueOf("black"),
+                Label labelclose = SetStyles.createLabels("CLOSE CONTACTS", 0, 4, Paint.valueOf("black"),
                         Font.font("Arial Rounded MT Bold", 24));
-                Label message = SetStyles.createLabels("HIGH RISK OF CONTAGION!", 1, 0, Paint.valueOf("red"),
+                Label message = SetStyles.createLabels("HIGH RISK OF CONTAGION!", 1, 4, Paint.valueOf("red"),
                         Font.font("Arial Rounded MT Bold", 18));
 
-                VBox vbox1 = SetStyles.createVBox(5.0, 2, 0, labelclose, message, listViewCloseContacts);
+                VBox vbox1 = SetStyles.createVBox(5.0, 2, 4, labelclose, message, listViewCloseContacts);
                 gridPane.getChildren().addAll(vbox1);
 
             } else

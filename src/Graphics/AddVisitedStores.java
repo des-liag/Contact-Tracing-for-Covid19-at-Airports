@@ -8,6 +8,9 @@ import  javafx.scene.control.Label;
 import  javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import  javafx.scene.control.Button;
+/**
+ * @class AddVisitedStores adding a new store which a passenger can visit
+ */
 
 public class AddVisitedStores {
     protected static TextField textAreaSSN = new TextField();

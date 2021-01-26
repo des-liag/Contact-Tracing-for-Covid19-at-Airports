@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import  javafx.scene.layout.Background;
 
  public class MainWindowForUser {
     protected static TextField textArea1 = new TextField();
@@ -80,7 +81,7 @@ import javafx.scene.text.Font;
          * @see method setBackground
          * create backgroynd for the window
          */
-        javafx.scene.layout.Background background = SetStyles.setBackground("Ζωγραφική 3D 9_1_2021 8_41_53 μμ 2.png");
+        Background background = SetStyles.setBackground("Ζωγραφική 3D 9_1_2021 8_41_53 μμ 2.png");
 
         /**
          * @fields labelFName, labelLName, labelSSNNumber, labelTest, labelDay,
@@ -89,33 +90,33 @@ import javafx.scene.text.Font;
          * Creation of the main window
          */
 
-        javafx.scene.control.Label labelFName = new javafx.scene.control.Label("Please enter first name");
-        SetStyles.setStyleForLabel(labelFName, 1, javafx.geometry.Pos.TOP_LEFT, javafx.scene.paint.Paint.valueOf("white"), javafx.scene.text.Font.font("Arial Rounded MT Bold", 22));
+        Label labelFName = new Label("Please enter first name");
+        SetStyles.setStyleForLabel(labelFName, 1, Pos.TOP_LEFT, Paint.valueOf("white"), Font.font("Arial Rounded MT Bold", 22));
         SetStyles.setStyleForText(textArea1, 2);
 
-        javafx.scene.control.Label labelLName = new javafx.scene.control.Label("Please enter last name");
-        SetStyles.setStyleForLabel(labelLName, 3, javafx.geometry.Pos.TOP_LEFT, javafx.scene.paint.Paint.valueOf("white"), javafx.scene.text.Font.font("Arial Rounded MT Bold", 22));
+        Label labelLName = new Label("Please enter last name");
+        SetStyles.setStyleForLabel(labelLName, 3, Pos.TOP_LEFT, Paint.valueOf("white"), Font.font("Arial Rounded MT Bold", 22));
         SetStyles.setStyleForText(textArea2, 4);
 
-        javafx.scene.control.Label labelSSNNumber = new javafx.scene.control.Label("Please enter SSN Number");
-        SetStyles.setStyleForLabel(labelSSNNumber, 5, javafx.geometry.Pos.TOP_LEFT, javafx.scene.paint.Paint.valueOf("white"), javafx.scene.text.Font.font("Arial Rounded MT Bold", 22));
-        javafx.scene.layout.GridPane.setRowIndex(ps, 6);
-        javafx.scene.layout.GridPane.setColumnIndex(ps, 2);
+        Label labelSSNNumber = new Label("Please enter SSN Number");
+        SetStyles.setStyleForLabel(labelSSNNumber, 5, Pos.TOP_LEFT, Paint.valueOf("white"), Font.font("Arial Rounded MT Bold", 22));
+        GridPane.setRowIndex(ps, 6);
+        GridPane.setColumnIndex(ps, 2);
 
 
         Label labelTest = new Label("Please select the type of the COVID-19 test from the following choices");
-        SetStyles.setStyleForLabel(labelTest, 7, javafx.geometry.Pos.TOP_LEFT, Paint.valueOf("white"), Font.font("Arial Rounded MT Bold", 22));
+        SetStyles.setStyleForLabel(labelTest, 7, Pos.TOP_LEFT, Paint.valueOf("white"), Font.font("Arial Rounded MT Bold", 22));
         SetStyles.setStyleForRadButtons(group, 8, test1);
         SetStyles.setStyleForRadButtons(group, 9, test2);
 
 
         Label labelDay = new Label("Please select the date of the results of the test");
-        SetStyles.setStyleForLabel(labelDay, 10, javafx.geometry.Pos.TOP_LEFT,Paint.valueOf("white"), Font.font("Arial Rounded MT Bold", 22));
+        SetStyles.setStyleForLabel(labelDay, 10, Pos.TOP_LEFT,Paint.valueOf("white"), Font.font("Arial Rounded MT Bold", 22));
         GridPane.setRowIndex(date, 11);
         GridPane.setColumnIndex(date, 2);
         date.setEditable(false);
 
-        Label labelTypeOfUser = new javafx.scene.control.Label("Please select Passenger or Employee");
+        Label labelTypeOfUser = new Label("Please select Passenger or Employee");
         SetStyles.setStyleForLabel(labelTypeOfUser, 12, Pos.TOP_LEFT,Paint.valueOf("white"), Font.font("Arial Rounded MT Bold", 22));
         SetStyles.setStyleForRadButtons(grp, 13, pas);
         SetStyles.setStyleForRadButtons(grp, 14, emp);

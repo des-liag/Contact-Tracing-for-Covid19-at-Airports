@@ -1,3 +1,5 @@
+package Graphics;
+
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import  javafx.scene.control.Label;
@@ -5,8 +7,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import  javafx.scene.control.ToggleGroup;
 import  javafx.scene.control.RadioButton;
-
-
 /**
  * @class AddingData creates a window for the administrator
  * and ask to pick what kind of data wants to add.
@@ -66,9 +66,6 @@ public class AddingData {
            stage.close();
            AddStores.newStore();
        });
-
-
-
 
        gridPane.getChildren().addAll(message, instructions,airport, flight, ticket, flightCrew,
                airportStuff, gate, store, vistStore);

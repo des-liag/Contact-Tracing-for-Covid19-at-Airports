@@ -91,8 +91,12 @@ public class AddTicket {
             CheckAddingInput.checkPersonData(textAreaName,textAreaLastName,textAreaAddress,textAreaPhone,stage);
             CheckAddingInput.checkID(textAreaFlightID,stage);
             CheckAddingInput.checkLuggage(textArealuggage,stage);
-            CheckAddingInput.checkGate(textAreaDepGate,stage);
-            CheckAddingInput.checkGate(textAreaDestGate,stage);
+           try {
+               CheckAddingInput.checkGate(textAreaDepGate,stage);
+               CheckAddingInput.checkGate(textAreaDestGate,stage);
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
             CheckAddingInput.checkICAO(depICAO,stage);
             CheckAddingInput.checkICAO(destICAO,stage);
             CheckAddingInput.checkDate(checkinTime, stage);

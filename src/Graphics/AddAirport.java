@@ -7,6 +7,9 @@ import  javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.control.TextField;
 import  javafx.scene.control.Button;
+/**
+ * @class AddAirport adding a new airport
+ */
 
 public class AddAirport {
     protected static TextField textAreaName = new TextField();
@@ -20,7 +23,7 @@ public class AddAirport {
         Label airportName = SetStyles.createLabels("Please enter the name of the airport:", 1,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
         SetStyles.setPosition(textAreaName,2,0);
-        Label airportICAO = SetStyles.createLabels("Please enter the ICAO code of the aiport:",3,0,
+        Label airportICAO = SetStyles.createLabels("Please enter the ICAO code of the airport:",3,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
         SetStyles.setPosition(icao,4,0);
         Button okButton = new Button("OK");
