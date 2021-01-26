@@ -43,7 +43,7 @@ public class ProgramData implements Serializable {
     // The date of results of the positive test
     private static LocalDate positiveDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
     // The date of today in order to compare the dates
-    private static LocalDate nowDate = LocalDate.parse("2021-02-30"); //LocalDate.now()
+    private static LocalDate nowDate = LocalDate.parse("2021-01-27"); //LocalDate.now()
     // The last day that we have to search for tracers
     private static LocalDate lastSearchDate;
     
