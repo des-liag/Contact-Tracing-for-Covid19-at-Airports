@@ -8,6 +8,8 @@ import  javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.CheckBox;
+import java.util.ArrayList;
 
 /**
  * @class AddAirportStuff adding a new employee
@@ -23,6 +25,7 @@ public class AddAirportStuff {
     protected static TextField textAreaStore = new TextField();
     protected static ComboBox<String> combo3 = new ComboBox<>();
     protected static ComboBox<String> icao = new ComboBox<>();
+    protected static  ArrayList <String> workingSchedule = new ArrayList<>();
 
     public static void newAirportStuff() {
         GridPane gridPane = new GridPane();
@@ -66,6 +69,45 @@ public class AddAirportStuff {
         GridPane.setColumnIndex(icao, 0);
         javafx.collections.ObservableList<String> list = icao.getItems();
 
+        Label schedule = SetStyles.createLabels("Please pick days and enter time for working schedule: ",0,
+                3, Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
+        Label warning = SetStyles.createLabels("please type time in this form: HH:MM",1,3,
+                Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 14));
+        CheckBox monday = SetStyles.createCheckBox("Monday",2, 3);
+        CheckBox tuesday = SetStyles.createCheckBox("Tuesday",3,3);
+        CheckBox wednesday = SetStyles.createCheckBox("Wednesday",4,3);
+        CheckBox thursday = SetStyles.createCheckBox("Thursday",5,3);
+        CheckBox friday = SetStyles.createCheckBox("Friday",6,3);
+        CheckBox saturday = SetStyles.createCheckBox("Saturday",7,3);
+        CheckBox sunday = SetStyles.createCheckBox("Sunday",8,3);
+        TextField m = new TextField();
+        SetStyles.setPosition(m,2,4);
+        TextField tu = new TextField();
+        SetStyles.setPosition(tu,3,4);
+        TextField w = new TextField();
+        SetStyles.setPosition(w,4,4);
+        TextField th = new TextField();
+        SetStyles.setPosition(th,5,4);
+        TextField f = new TextField();
+        SetStyles.setPosition(f,6,4);
+        TextField st = new TextField();
+        SetStyles.setPosition(st,7,4);
+        TextField sn = new TextField();
+        SetStyles.setPosition(sn,8,4);
+
+        workingSchedule.add(monday.getText());
+        workingSchedule.add(m.getText());
+        workingSchedule.add(tuesday.getText());
+        workingSchedule.add(tu.getText());
+        workingSchedule.add(wednesday.getText());
+        workingSchedule.add(w.getText());
+        workingSchedule.add(thursday.getText());
+        workingSchedule.add(th.getText());
+        workingSchedule.add(friday.getText());
+        workingSchedule.add(f.getText());
+        workingSchedule.add(saturday.getText());
+        workingSchedule.add(sunday.getText());
+        workingSchedule.add(sn.getText());
 
         combo3.setOnAction(event -> {
             switch (combo3.getValue()) {
@@ -95,6 +137,8 @@ public class AddAirportStuff {
             CheckAddingInput.checkSSN(textAreaSSN,stage);
             CheckAddingInput.checkPersonData(textAreaName,textAreaLastName,textAreaAddress,textAreaPhone,stage);
             CheckAddingInput.checkICAO(icao,stage);
+            CheckAddingInput.checkScheduleDate(stage,monday,tuesday,wednesday,thursday,friday,saturday,sunday);
+            CheckAddingInput.checkScheduleTime(stage,m,tu,w,th,f,st,sn);
             if (combo3.getValue().equals("Store Stuff")) {
                 CheckAddingInput.checkStore(textAreaStore,stage);
             } else if (combo3.getValue().equals("Gate Stuff")) {
@@ -117,4 +161,5 @@ public class AddAirportStuff {
     public static String getAddress() {return textAreaAddress.getText();}
     public  static String getPhone() {return textAreaPhone.getText();}
     public static String getICAO() { return icao.getValue(); }
+    public static ArrayList getSchedule () { return workingSchedule;}
 }

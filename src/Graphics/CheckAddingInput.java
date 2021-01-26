@@ -16,6 +16,7 @@ import  javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.CheckBox;
 
 /**
  * @class CheckAddingInput check if the input from the administrator
@@ -232,6 +233,36 @@ public class CheckAddingInput {
         if (stuff.getValue() == null) {
             alert.setContentText("You forgot to pick employee type ");
             java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && (result.get() == ButtonType.OK)) {
+                alert.close();
+                stage.show();
+            }
+        }
+    }
+
+    public static void checkScheduleDate(Stage stage, CheckBox cb1,CheckBox cb2, CheckBox cb3, CheckBox cb4, CheckBox cb5,
+                                         CheckBox cb6, CheckBox cb7 ) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Null Data");
+        if (!cb1.isSelected() && !cb2.isSelected() && !cb3.isSelected() && !cb4.isSelected() && !cb5.isSelected() &&
+                !cb6.isSelected() && !cb7.isSelected()) {
+            alert.setContentText("You forgot to pick date");
+            java.util.Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && (result.get() == ButtonType.OK)) {
+                alert.close();
+                stage.show();
+            }
+        }
+    }
+
+    public static void checkScheduleTime(Stage stage, TextField t1, TextField t2, TextField t3, TextField t4, TextField t5,
+                                         TextField t6,TextField t7 ) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Null Data");
+        if (t1.getText().equals("") && t2.getText().equals("") && t3.getText().equals("") && t4.getText().equals("") &&
+                t5.getText().equals("") && t6.getText().equals("") && t7.getText().equals("")) {
+            alert.setContentText("You forgot to enter time");
+            java.util.Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && (result.get() == ButtonType.OK)) {
                 alert.close();
                 stage.show();

@@ -113,6 +113,13 @@ public class SetStyles {
         stage.setScene(new Scene(gridPane, width, height));
         stage.show();
     }
+
+    public static CheckBox createCheckBox(String text, int row, int column) {
+        CheckBox checkBox = new CheckBox(text);
+        GridPane.setRowIndex(checkBox,row);
+        GridPane.setColumnIndex(checkBox, column);
+        return checkBox;
+    }
 }
 
 
