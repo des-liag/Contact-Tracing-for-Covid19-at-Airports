@@ -27,7 +27,7 @@ public class FileManager {
             System.out.println("\nLoad failed.\n");
             System.exit(1);
         }
-
+        System.out.println("AIRPORT");
         Mymap<String[], AirportSection> gatesMap = new  Mymap<String[], AirportSection>();
         Mymap<String[], AirportSection> storesMap = new  Mymap<String[], AirportSection>();
         Mymap<String[], AirportSection> checkInPlacesMap = new  Mymap<String[], AirportSection>();
@@ -168,7 +168,7 @@ public class FileManager {
             System.out.println("\nLoad failed.\n");
             System.exit(1);
         }
-
+System.out.println("FLIGHT");
         ArrayList<String[]> flightsDataFile = loadStringsFile("CSVFiles//flightsData.csv//");
 
         for(int i = 0; i < flightsDataFile.size(); i++) {
@@ -222,6 +222,7 @@ public class FileManager {
                 } 
             }  
         }
+        System.out.println("FLIGHTDATA");
         return flights;
     }
 

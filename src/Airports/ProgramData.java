@@ -43,7 +43,7 @@ public class ProgramData implements Serializable {
     // The date of results of the positive test
     private static LocalDate positiveDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
     // The date of today in order to compare the dates
-    private static LocalDate nowDate = LocalDate.parse("2021-01-27"); //LocalDate.now()
+    private static LocalDate nowDate = LocalDate.parse("2020-02-27"); //LocalDate.now()
     // The last day that we have to search for tracers
     private static LocalDate lastSearchDate;
     
@@ -188,7 +188,7 @@ public class ProgramData implements Serializable {
      * @param object An Object we want to save to a file
      * @param fileName The name of the file we want to save the object
      */
-    private void saveObject(Object object, String fileName) {
+    private static void saveObject(Object object, String fileName) {
        ObjectOutputStream oos = null;
        FileOutputStream fout = null;
        try {
@@ -334,13 +334,11 @@ public class ProgramData implements Serializable {
                 if (checkInEmployee != null) {
                     int sumFlights = getFlights().size() - 1;
                     LocalDate flightDate;
-                    LocalDateTime flightDateTime;
                     for (int id = sumFlights; id >= 0; id--) {
                         flightDate = getFlights().get(id).getDepartureDateTime().toLocalDate();
-                        flightDateTime = getFlights().get(id).getDepartureDateTime();
                         if (flightDate.isAfter(lastSearchDate) && flightDate.isBefore(positiveDate)) {
-                            if (checkInEmployee.isWorking(flightDateTime)) {
-                                contacts = getFlights().get(id).findCloseContactsOfCheckInStuff(checkInEmployee);
+                            if (workingAirport.getAirportICAO().equals(getFlights().get(id).getDepartureAirport().getAirportICAO())) {
+                                contacts = getFlights().get(id).findCloseContactsOfCheckInStuff(checkInEmployee, workingAirport);
                                 for (int i = 0; i < contacts.size(); i++ ) {
                                     if (!closeContacts.contains(contacts.get(i))) {
                                         closeContacts.add(contacts.get(i));
@@ -348,11 +346,6 @@ public class ProgramData implements Serializable {
                                 }
                             }
                         }
-                    }
-                    if (closeContacts.size() == 0) {
-                        System.out.println("There are no tracers");
-                    } else {
-                        System.out.println(closeContacts);
                     }
                     try {
                         Output.contacts(closeContacts, casualContacts);
@@ -374,21 +367,18 @@ public class ProgramData implements Serializable {
             calculateDays();
             Airport workingAirport = getWorkingAirport();
             if (workingAirport != null) {
-                AirportSection store;
-                store = workingAirport.getWorkingStore(ssn);
-                if (store != null) {
+                AirportSection workingStore;
+                workingStore = workingAirport.getWorkingStore(ssn);
+                if (workingStore != null) {
                     AirportStuff storeEmployee;
-                    storeEmployee = store.getAirportStuffBySSN(ssn);
+                    storeEmployee = workingStore.getAirportStuffBySSN(ssn);
                     int sumFlights = getFlights().size() - 1;
                     LocalDate flightDate;
-                    LocalDateTime flightDateTime;
                     for (int id = sumFlights; id >= 0; id--) {
                         flightDate = getFlights().get(id).getDepartureDateTime().toLocalDate();
-                        flightDateTime = getFlights().get(id).getDepartureDateTime();
                         if (flightDate.isAfter(lastSearchDate) && flightDate.isBefore(positiveDate)) {
-                            if (storeEmployee.isWorking(flightDateTime)) {
-                                contacts = getFlights().get(id).findCasualContactsOfStoreStuff(storeEmployee, store);
-                                System.out.println(contacts.size());
+                            if (workingAirport.getAirportICAO().equals(getFlights().get(id).getDepartureAirport().getAirportICAO())) {
+                                contacts = getFlights().get(id).findCasualContactsOfStoreStuff(storeEmployee, workingStore);
                                 for (int i = 0; i < contacts.size(); i++ ) {
                                     if (!casualContacts.contains(contacts.get(i))) {
                                         casualContacts.add(contacts.get(i));
@@ -396,11 +386,6 @@ public class ProgramData implements Serializable {
                                 }
                             }
                         }
-                    }
-                    if (casualContacts.size() == 0) {
-                        System.out.println("There are no tracers");
-                    } else {
-                        System.out.println(casualContacts);
                     }
                     try {
                         Output.contacts(closeContacts, casualContacts);
@@ -434,11 +419,13 @@ public class ProgramData implements Serializable {
                         flightDate = getFlights().get(id).getDepartureDateTime().toLocalDate();
                         flightDateTime = getFlights().get(id).getDepartureDateTime();
                         if (flightDate.isAfter(lastSearchDate) && flightDate.isBefore(positiveDate)) {
-                            if (gateEmployee.isWorking(flightDateTime)) {
-                                contacts = getFlights().get(id).findCasualContactsOfGateStuff(gate);
-                                for (int i = 0; i < contacts.size(); i++ ) {
-                                    if (!casualContacts.contains(contacts.get(i))) {
-                                        casualContacts.add(contacts.get(i));
+                            if (workingAirport.getAirportICAO().equals(getFlights().get(id).getDepartureAirport().getAirportICAO())) {
+                                if (gateEmployee.isWorking(flightDateTime)) {
+                                    contacts = getFlights().get(id).findCasualContactsOfGateStuff(gate,gateEmployee,flightDateTime);
+                                    for (int i = 0; i < contacts.size(); i++ ) {
+                                        if (!casualContacts.contains(contacts.get(i))) {
+                                            casualContacts.add(contacts.get(i));
+                                        }
                                     }
                                 }
                             }
@@ -571,6 +558,7 @@ public class ProgramData implements Serializable {
 
         if(departureAirport != null && destinationAirport != null) {
             Flight flight = new Flight(departureAirport, destinationAirport, departureDateTime, destinationDateTime);
+            
             return true;
         }
         return false;

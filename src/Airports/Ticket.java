@@ -2,6 +2,7 @@ package Airports;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Ticket implements Serializable  {
@@ -140,20 +141,33 @@ public class Ticket implements Serializable  {
 
     /**
      * Gets passenger that has been in a store
-     * @param AirportStuff employee that works in a store
-     * @param AirportSection a store an employee works
-     * @return Person Passenger that has been in this store the time this employee works
+     * @param employee containing the emplooyee that works in a store
+     * @param store  containing a store where an employee works
+     * @return ArrayList<Person> representing the passenges that has been in this store the time this employee works
+     * and the employee in the shift change if passenger visited that time the store
      */
-    public Person getContactFromVisitedStores(AirportStuff employee, AirportSection store) {
+    public ArrayList<Person> getContactFromVisitedStores(AirportStuff employee, AirportSection store) {
+        ArrayList<Person> contacts = new ArrayList<Person>();
         for (VisitedStore visitedStore : this.getDepartureVisitedStores()) {
-            if (visitedStore.getStore().equals(store)) {
+            if (visitedStore.getStore().getSectionName().equals(store.getSectionName())) {
                 LocalDateTime dateTime = visitedStore.getEntranceDateTime();
                 if(employee.isWorking(dateTime)) {
-                    return this.getPassenger();
+                    contacts.add(this.getPassenger());
+                    //in order to find the employee in the shift change
+                    LocalTime entranceTime = dateTime.toLocalTime();
+                    if(entranceTime.equals(LocalTime.parse("16:00"))) {
+                        for (AirportStuff stuff : store.getSectionStuff()) {
+                            if (!stuff.getSSN().equals(employee.getSSN())) {
+                                if(stuff.isWorking(dateTime)) {
+                                    contacts.add(stuff);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-        return null;
+        return contacts;
     }
 
 }
