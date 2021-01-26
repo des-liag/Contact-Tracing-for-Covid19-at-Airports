@@ -36,7 +36,11 @@ public class AddAirport {
 
     }
 
-    public static String getName() {return textAreaName.getText();}
-    public static String getICAO() {return icao.getText();}
+    public static String getName() {
+        return textAreaName.getText();
+    }
+    public static String getICAO() {
+        return icao.getText();
+    }
 
 }

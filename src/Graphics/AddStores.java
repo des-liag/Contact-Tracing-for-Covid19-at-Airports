@@ -45,8 +45,12 @@ public class AddStores {
 
     }
 
-    public static String getStore() { return textAreaStore.getText(); }
-    public static String getICAO() { return icao.getValue(); }
+    public static String getStore() {
+        return textAreaStore.getText();
+    }
+    public static String getICAO() {
+        return icao.getValue();
+    }
 
 }
 

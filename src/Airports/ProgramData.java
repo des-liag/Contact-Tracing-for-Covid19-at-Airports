@@ -1,5 +1,6 @@
 package Airports;
 
+import Graphics.AddAirportStuff;
 import Graphics.AddVisitedStores;
 import Graphics.AddTicket;
 import Graphics.AddStores;
@@ -176,11 +177,11 @@ public class ProgramData implements Serializable {
     /**
      * When initilization is completed save the data to binary files
      */
-    public void saveData() {
-        this.saveObject(airports, "airports");
-        this.saveObject(flightCrew, "flightCrew");
-        this.saveObject(pasengers, "passengers");
-        this.saveObject(flights, "flights");
+    public static void saveData() {
+        saveObject(airports, "airports");
+        saveObject(flightCrew, "flightCrew");
+        saveObject(pasengers, "passengers");
+        saveObject(flights, "flights");
     }
 
     /**
@@ -536,7 +537,7 @@ public class ProgramData implements Serializable {
 
 
     /**
-     * Adds new flight to binary file flights
+     * Adds new flight to binary file flights only if the airports of departure and destination of flight exist
      * @return true or false depending on successful or failed addition
      */
     public static boolean addFlight() {
@@ -558,7 +559,7 @@ public class ProgramData implements Serializable {
 
         if(departureAirport != null && destinationAirport != null) {
             Flight flight = new Flight(departureAirport, destinationAirport, departureDateTime, destinationDateTime);
-            
+            saveData();
             return true;
         }
         return false;
@@ -595,8 +596,9 @@ public class ProgramData implements Serializable {
                     break;
                 }
             }
-            if(flightCrew == null) {
+            if(flightCrew != null) {
                 flightCrew = new Person(ssn, name, lastName, address, phone);
+                saveData();
             }
             getFlights().get(id).addFlightCrew(flightCrew);
             return true;
@@ -664,6 +666,7 @@ public class ProgramData implements Serializable {
                 }
                 if(pass == null) {
                     pass = new Person(pasSSN, pasName, pasLastName, pasAddress, pasPhone);
+                    saveData();
                 }
                 for (Ticket ticket : getFlights().get(flightIdInt).getTickets()) {
                     if (ticket.getPassenger().getSSN().equals(pass.getSSN())) {
@@ -673,6 +676,7 @@ public class ProgramData implements Serializable {
                 if(!existsT) {
                     getFlights().get(flightIdInt).addTicket(
                         new Ticket(pass, checkInDateTime, ifLuggage, departureGate, destinationGate));
+                        saveData();
                     return true;
                 }
             
@@ -682,14 +686,15 @@ public class ProgramData implements Serializable {
     }
 
     /**
-     * Adds a visited store to the arrayList of a specific ticket
+     * Adds a visited store to the arrayList of a specific ticket, only if exists in file sections
+     * It is also added to the binary file visitedStores
      * @return true or false depending on successful or failed addition
      */
     public static boolean addVisitedStore() {
-        String idString = null;
-        String passengerSSN = null;
-        String entranceDateTime = null;
-        String storeName = null;
+        String idString = AddVisitedStores.getID();
+        String passengerSSN = AddVisitedStores.getSSN();
+        String entranceDateTime = AddVisitedStores.getEntrance();
+        String storeName = AddVisitedStores.getStore();
                 
         boolean exists = false;
         boolean existsStore = false;
@@ -716,6 +721,7 @@ public class ProgramData implements Serializable {
                             }
                             if(!exists) {
                                 ticket.addDepartureVisitedStore(new VisitedStore(entranceDateTime, airportStore));
+                                saveData();
                                 return true;
                             }
                         }
@@ -725,11 +731,137 @@ public class ProgramData implements Serializable {
         }
         return false;
     }
-       
 
-}
+    /**
+     * Adds new airport to binary files airports
+     * @return true or false depending on successful or failed addition
+     */
+    public static boolean addAirport() {
+        String icao = AddAirport.getICAO();
+        String name = AddAirport.getName();
+        
+        boolean exists = false;
+        
+        for (Airport airport : getAirports()) {
+            if(airport.getAirportICAO().equals(icao)) {
+                exists = true;
+            }
+        }
+        if(!exists) {
+            Airport airport = new Airport(icao, name);
+            saveData();
+            return true;
+        }
+        return false;
+    }
 
+    /**
+     * Adds a store to the arrayList of a specific airport only if not already exist to file sections
+     * It is also added to binary file sections
+     * @return true or false depending on successful or failed addition
+     */
+    public static boolean addStore() {
+        String icao = AddStores.getICAO();
+        String name = AddStores.getStore();
+        
+        boolean exists = false;
+        
+        for (Airport airport : getAirports()) {
+            if(airport.getAirportICAO().equals(icao)) {
+                for (AirportSection store : airport.getStores()) {
+                    if(store.getSectionName().equals(name)) {
+                        exists = true;
+                    }
+                }
+                if(!exists) {
+                    airport.addStore(new AirportSection(name));
+                    saveData();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
+    /**
+     * Adds a gate to the arrayList of a specific airport only if not already exist to file sections
+     * It is also added to binary file sections
+     * @return true or false depending on successful or failed addition
+     */
+    public static boolean addGate() {
+        String icao = AddGate.getICAO();
+        String name = AddGate.getGate();
+        
+        boolean exists = false;
+        
+        for (Airport airport : getAirports()) {
+            if(airport.getAirportICAO().equals(icao)) {
+                for (AirportSection gate : airport.getGates()) {
+                    if(gate.getSectionName().equals(name)) {
+                        exists = true;
+                    }
+                }
+                if(!exists) {
+                    airport.addGate(new AirportSection(name));
+                    saveData();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+  
+    public static boolean addCheckInStuff() {
+        String icao = AddAirportStuff.getICAO();
+        String ssn = AddAirportStuff.getSSN();
+        String name = AddAirportStuff.getName();
+        String lastName = AddAirportStuff.getLastName();
+        String address = AddAirportStuff.getAddress();
+        String phone = AddAirportStuff.getPhone();
+        ArrayList<String> workHours = new  ArrayList<String>();
+        
+        boolean exists = false;
+        
+        if(!ifExistsStuff(ssn)) {
+            for(Airport airport : getAirports()) {
+                if(airport.getAirportICAO().equals(icao)) {
+                    for()
+                    for(AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
+                        
+                    }
+                }
+            }
+        }
+ 
+        }
+
+        
+    public static boolean ifExistsStuff(String ssn) {
+        for (Airport airport : getAirports()) {
+            for(AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
+                if(stuff.getSSN().equals(ssn)) {
+                    return true;
+                }
+            }
+            for (AirportSection store : airport.getStores()) {
+                for(AirportStuff stuff : store.getSectionStuff()) {
+                    if(stuff.getSSN().equals(ssn)) {
+                        return true;
+                    }
+                }
+            }
+            for (AirportSection gate : airport.getGates()) {
+                for(AirportStuff stuff : gate.getSectionStuff()) {
+                    if(stuff.getSSN().equals(ssn)) {
+                        return true;
+                    }
+                }
+            }           
+        }
+        return false;
+    }
+
+    }
 
 
     

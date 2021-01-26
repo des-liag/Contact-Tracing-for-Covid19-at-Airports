@@ -111,10 +111,22 @@ public class AddAirportStuff {
                 store , textAreaStore,icao,airportcode,okButton );
     }
 
-    public static String getSSN() { return textAreaSSN.getText(); }
-    public static String getName() {return textAreaName.getText();}
-    public static String getLastName() {return textAreaLastName.getText();}
-    public static String getAddress() {return textAreaAddress.getText();}
-    public  static String getPhone() {return textAreaPhone.getText();}
-    public static String getICAO() { return icao.getValue(); }
+    public static String getSSN() {
+        return textAreaSSN.getText(); 
+    }
+    public static String getName() {
+        return textAreaName.getText();
+    }
+    public static String getLastName() {
+        return textAreaLastName.getText();
+    }
+    public static String getAddress() {
+        return textAreaAddress.getText();
+    }
+    public  static String getPhone() {
+        return textAreaPhone.getText();
+    }
+    public static String getICAO() {
+        return icao.getValue();
+    }
 }

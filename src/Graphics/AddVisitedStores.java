@@ -53,8 +53,16 @@ public class AddVisitedStores {
                 warning,storeName,store, okButton);
     }
 
-    public static String getEntrance() {return entranceTime.getValue().toString();}
-    public static String getID() {return textAreaFlightID.getText();}
-    public static String getSSN() { return textAreaSSN.getText(); }
-    public static String getStore() {return storeName.getText();}
+    public static String getEntrance() {
+        return entranceTime.getValue().toString();
+    }
+    public static String getID() {
+        return textAreaFlightID.getText();
+    }
+    public static String getSSN() { 
+        return textAreaSSN.getText(); 
+    }
+    public static String getStore() {
+        return storeName.getText();
+    }
 }

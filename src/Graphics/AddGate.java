@@ -46,6 +46,10 @@ public class AddGate {
 
     }
 
-    public static String getGate() { return textAreaGate.getText(); }
-    public static String getICAO() { return icao.getValue(); }
+    public static String getGate() { 
+        return textAreaGate.getText(); 
+    }
+    public static String getICAO() { 
+        return icao.getValue(); 
+    }
 }
