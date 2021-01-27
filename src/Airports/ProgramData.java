@@ -20,6 +20,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ProgramData implements Serializable {
     
@@ -726,10 +727,10 @@ public class ProgramData implements Serializable {
      * flag: true or false depending on successful or failed addition
      */
     public static void addAirport() {
-//        String icao = AddAirport.getICAO();
-//        String name = AddAirport.getName();
-        String icao = "LALA";
-        String name = "AKALA";
+        String icao = AddAirport.getICAO();
+        String name = AddAirport.getName();
+//        String icao = "LALA";
+//        String name = "AKALA";
         
 
         boolean exists = false;
@@ -745,7 +746,7 @@ public class ProgramData implements Serializable {
             airports.add(airport);
             flag = true;
         }
-//        CheckAddingInput.message(flag);
+        CheckAddingInput.message(flag);
     }
 
     /**
@@ -801,7 +802,7 @@ public class ProgramData implements Serializable {
                 }
             }
         }
-         CheckAddingInput.message(flag);
+        CheckAddingInput.message(flag);
     }
   
     public static void addCheckInStuff() {
@@ -813,24 +814,24 @@ public class ProgramData implements Serializable {
         String phone = AddAirportStuff.getPhone();
         ArrayList<String> workHours = new  ArrayList<String>();
         
-        boolean exists = false;
         boolean flag = false;
         
         if(!ifExistsStuff(ssn)) {
             for(Airport airport : getAirports()) {
                 if(airport.getAirportICAO().equals(icao)) {
+                    AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
+                    airport.getCheckInPlace().addSectionStuff(stuff);
+                    flag = true;
                     for(int i = 1; i <= 7; i++) {
                         DayOfWeek day = DayOfWeek.of(i);
                         LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
                         LocalTime endTime = startTime.plusHours(8);
                         airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
-                    }
-                }
-                for(AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
-                    
+                    }  
                 }
             }
         }
+        CheckAddingInput.message(flag);
     }
 
 
