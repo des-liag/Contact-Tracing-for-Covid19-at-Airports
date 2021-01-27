@@ -685,8 +685,6 @@ public class ProgramData implements Serializable {
                         }
                     }
                 }
-
-            
             }
         }
          CheckAddingInput.message(flag);
@@ -765,8 +763,7 @@ public class ProgramData implements Serializable {
     }
 
     /**
-     * Adds a store to the arrayList of a specific airport only if not already exist to file sections
-     * It is also added to binary file sections
+     * Adds a store to the arrayList of a specific airport only if not already exists
      * flag: true or false depending on successful or failed addition
      */
     public static void addStore() {
@@ -793,8 +790,7 @@ public class ProgramData implements Serializable {
     }
 
     /**
-     * Adds a gate to the arrayList of a specific airport only if not already exist to file sections
-     * It is also added to binary file sections
+     * Adds a gate to the arrayList of a specific airport only if not already exists
      * flag: true or false depending on successful or failed addition
      */
     public static void addGate() {

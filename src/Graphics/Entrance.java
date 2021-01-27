@@ -83,7 +83,7 @@ public class Entrance extends Application {
     public static void main(String[] args) {
         ProgramData.loadData();
         launch(args);
-        ProgramData.saveData(); 
+        ProgramData.saveData();
     }
 
 

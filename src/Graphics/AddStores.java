@@ -67,6 +67,7 @@ public class AddStores {
     public static void correctData() {
         if (flag[0] && flag[1]) {
             stage.close();
+            ProgramData.addStore();
         }
     }
 
