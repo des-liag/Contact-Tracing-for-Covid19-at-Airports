@@ -585,11 +585,13 @@ public class ProgramData implements Serializable {
                     break;
                 }
             }
-            if(crew != null) {
+            if(crew == null) {
                 crew = new Person(ssn, name, lastName, address, phone);
                 flightCrew.add(crew);
+                System.out.println("INNNNNNN");
             }
             getFlights().get(id).addFlightCrew(crew);
+            System.out.println("MESAAAAAA");
             flag = true;
         }
          CheckAddingInput.message(flag);
