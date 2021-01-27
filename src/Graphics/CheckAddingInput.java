@@ -27,7 +27,7 @@ public class CheckAddingInput {
     static boolean checkSSN = false;
     static boolean checkICAO = false;
 
-    public static void checkSSN(TextField textField, Stage stage) {
+    public static int checkSSN(TextField textField, Stage stage) {
         if (textField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Null Data");
@@ -49,8 +49,10 @@ public class CheckAddingInput {
                 stage.show();
             }
         } else {
-            checkSSN = false;
+//            checkSSN = false;
+            return 1;
         }
+        return 0;
     }
 
     public static void checkAirport(TextField name, TextField icao,  Stage stage) {
@@ -98,7 +100,7 @@ public class CheckAddingInput {
         }
     }
 
-    public static void checkPersonData(TextField name, TextField lastname, TextField address, TextField phone, Stage stage) {
+    public static void  checkPersonData(TextField name, TextField lastname, TextField address, TextField phone, Stage stage) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Null Data");
         if (name.getText().equals("")) {
@@ -133,7 +135,6 @@ public class CheckAddingInput {
                 stage.show();
             }
         }
-
     }
 
     public static void checkID(TextField id, Stage stage) {

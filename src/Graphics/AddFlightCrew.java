@@ -50,6 +50,7 @@ public class AddFlightCrew {
             CheckAddingInput.checkPersonData(textAreaName,textAreaLastName,textAreaAddress,textAreaPhone,stage);
             CheckAddingInput.checkID(textAreaFlightID,stage);
         });
+
         gridPane.getChildren().addAll(ssn,textAreaSSN, name, textAreaName, lastName, textAreaLastName, address,
               textAreaAddress, phone, textAreaPhone, id, textAreaFlightID, okButton)  ;
     }
