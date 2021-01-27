@@ -1,6 +1,7 @@
 package Graphics;
 
 
+import Airports.ProgramData;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -66,7 +67,7 @@ public class AddFlight {
         GridPane.setColumnIndex(depDate, 0);
         Label departureTime = SetStyles.createLabels("Please enter departure time: ", 7,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
-        Label warning = SetStyles.createLabels("please type next to date the time in this form: HH:MM:SS",8,0,
+        Label warning = SetStyles.createLabels("please type the time in this form: HH:MM:SS",8,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 14));
         SetStyles.setPosition(depTime,9,0);
         Label destinationDate = SetStyles.createLabels("Please enter destination date: ", 10,0,
@@ -75,7 +76,7 @@ public class AddFlight {
         GridPane.setColumnIndex(destDate, 0);
         Label destinationTime = SetStyles.createLabels("Please enter destination time: ", 12,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
-        Label warning2 = SetStyles.createLabels("please type next to date the time in this form: HH:MM:SS",13,0,
+        Label warning2 = SetStyles.createLabels("please type the time in this form: HH:MM:SS",13,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 14));
         SetStyles.setPosition(destTime,14,0);
 
@@ -127,6 +128,7 @@ public class AddFlight {
     public static void correctData() {
         if (flag[0] && flag[1] && flag[2] && flag[3]) {
             stage.close();
+            ProgramData.addFlight();
         }
     }
 }

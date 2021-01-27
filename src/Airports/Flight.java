@@ -1,6 +1,5 @@
 package Airports;
 
-import static Airports.ProgramData.getFlights;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -43,8 +42,8 @@ public class Flight implements Serializable {
      * @return int representing the flight id
      */
     public int getFlightId() {
-		return flightId;
-	}
+        return flightId;
+    }
 
     /**
      * Sets the aiport where flight departs
@@ -85,7 +84,7 @@ public class Flight implements Serializable {
      * @param departureDateTime String containing the date and time of this flight's departure
      */
     public void setDepartureDateTime(String departureDateTime) {
-		// Convert String departureDateTime to LocalDateTime
+        // Convert String departureDateTime to LocalDateTime
         this.departureDateTime = LocalDateTime.parse(departureDateTime);
     }
 
@@ -118,13 +117,16 @@ public class Flight implements Serializable {
      * Check if this object already exists into the ArrayList flightCrew
      * @param employee Object Person containing an employee of this flight
      * @see Person
+     * @return boolean according to succesfully or failed addition
      */
-    public void addFlightCrew(Person employee) {
-        if (!this.flightCrew.contains(employee)) {
-            this.flightCrew.add(employee);
-        } else {
-            System.out.println("This employee already exists in this flight");
+    public boolean addFlightCrew(Person employee) {
+        for(Person crew : this.getFlightCrew()) {
+            if(crew.getSSN().equals(employee.getSSN())) {
+                return false;
+            }
         }
+        this.flightCrew.add(employee);
+        return true;
     }
 
     /**
@@ -141,13 +143,16 @@ public class Flight implements Serializable {
      * Check if this object already exists into the ArrayList tickets
      * @param ticket Object Ticket containing a ticket of this flight
      * @see Ticket
+     * @return boolean according to succesfully or failed addition
      */
-    public void addTicket(Ticket ticket) {
-        if(!this.tickets.contains(ticket)) {
-            this.tickets.add(ticket);
-        } else {
-            System.out.println("This ticket is already exists");
+    public boolean addTicket(Ticket ticket) {
+        for(Ticket tick : this.getTickets()) {
+            if(tick.getPassenger().getSSN().equals(ticket.getPassenger().getSSN())) {
+                return false;
+            }
         }
+        this.tickets.add(ticket);
+        return true;
     }
 
     /**
