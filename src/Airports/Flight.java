@@ -1,7 +1,9 @@
 package Airports;
 
+import static Airports.ProgramData.getFlights;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Flight implements Serializable {
@@ -298,14 +300,30 @@ public class Flight implements Serializable {
      * @param employee AirportStuff containing the employee we search for his close contacts
      * @return ArrayList<Person> containing objects Person representing the passengers that are close contacts of this check in employee
      */
-    public ArrayList<Person> findCloseContactsOfCheckInStuff(AirportStuff employee) {
+    public ArrayList<Person> findCloseContactsOfCheckInStuff(AirportStuff employee, Airport airport) {
         ArrayList<Person> closeContacts = new ArrayList<Person>();
+        LocalTime time1 = LocalTime.parse("00:00");
+        LocalTime time2 = LocalTime.parse("08:00");
+        LocalTime time3 = LocalTime.parse("16:00");
         for (Ticket ticket : this.getTickets()) {
             LocalDateTime dateTime = ticket.getCheckInDateTime();
             if (employee.isWorking(dateTime)) {
                 closeContacts.add(ticket.getPassenger());
+                
+                //in order to find the employee in the shift change
+                LocalTime checkInTime = dateTime.toLocalTime();
+                if(checkInTime.equals(time1) || checkInTime.equals(time2) || checkInTime.equals(time3)) {
+                    for (AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
+                        if (!stuff.getSSN().equals(employee.getSSN())) {
+                            if(stuff.isWorking(dateTime)) {
+                                closeContacts.add(stuff);
+                            }
+                        }
+                    }
+                }
             }
         }
+
         return closeContacts;
     }
 
@@ -330,12 +348,13 @@ public class Flight implements Serializable {
      */
     public ArrayList<Person> findCasualContactsOfStoreStuff(AirportStuff employee, AirportSection store) {
         ArrayList<Person> casualContacts = new ArrayList<Person>();
-        Person contact;
+        ArrayList<Person> contact;
         for (Ticket ticket : this.getTickets()) {
             contact = ticket.getContactFromVisitedStores(employee, store);
-            if (contact != null) {
-                casualContacts.add(contact);
+            for (Person person : contact) {
+                casualContacts.add(person);
             }
+
         }
         return casualContacts;
     }
@@ -345,11 +364,26 @@ public class Flight implements Serializable {
      * @param gate AirportSection containing the gate this employee works
      * @return ArrayList<Person> containing objects Person representing the passengers that passed through this gate
      */
-    public ArrayList<Person> findCasualContactsOfGateStuff(AirportSection gate) {
+    public ArrayList<Person> findCasualContactsOfGateStuff(AirportSection gate, AirportStuff employee, LocalDateTime dateTime) {
         ArrayList<Person> casualContacts = new ArrayList<Person>();
-        if (this.getTickets().get(0).getDepartureGate().equals(gate)) {
+        if (this.getTickets().get(0).getDepartureGate().getSectionName().equals(gate.getSectionName())) {
             for (Ticket ticket : this.getTickets()) {
                 casualContacts.add(ticket.getPassenger());
+                System.out.println("INNN");
+            }
+        }
+        LocalTime time = dateTime.toLocalTime();
+        LocalTime time1 = LocalTime.parse("00:00");
+        LocalTime time2 = LocalTime.parse("08:00");
+        LocalTime time3 = LocalTime.parse("16:00");
+        //in order to find the employee in the shift change
+        if(time.equals(time1) || time.equals(time2) || time.equals(time3)) {
+            for (AirportStuff stuff : gate.getSectionStuff()) {
+                if (!stuff.getSSN().equals(employee.getSSN())) {
+                    if(stuff.isWorking(dateTime)) {
+                        casualContacts.add(stuff);
+                    }
+                }
             }
         }
         return casualContacts;

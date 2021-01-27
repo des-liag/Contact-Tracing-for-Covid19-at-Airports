@@ -1,5 +1,6 @@
 package Graphics;
 
+import Airports.ProgramData;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
@@ -54,6 +55,7 @@ public class CheckAddingInput {
     }
 
     public static void checkAirport(TextField name, TextField icao,  Stage stage) {
+        int k = 0;
         if (name.getText().equals("") || icao.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Null Data");
@@ -63,6 +65,8 @@ public class CheckAddingInput {
                 alert.close();
                 stage.show();
             }
+        } else{
+            ++k;
         }
         int count = 0;
         char ch;
@@ -85,6 +89,13 @@ public class CheckAddingInput {
                 alert.close();
                 stage.show();
             }
+        }
+        if(checkICAO) {
+            ++k;
+        }
+        if(k == 2) {
+            stage.close();
+            ProgramData.addAirport();
         }
     }
 

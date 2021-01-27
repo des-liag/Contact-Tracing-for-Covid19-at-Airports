@@ -1,5 +1,8 @@
 package Graphics;
 
+import Airports.Airport;
+import Airports.ProgramData;
+import javafx.collections.ObservableList;
 import  javafx.scene.control.Label;
 import  javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -29,7 +32,11 @@ public class AddGate {
         icao.setPromptText("Airport ICAO");
         GridPane.setRowIndex(icao, 4);
         GridPane.setColumnIndex(icao, 0);
-        javafx.collections.ObservableList<String> list = icao.getItems();
+        ObservableList<String> list = icao.getItems();
+        for (Airport airport : ProgramData.getAirports()) {
+            list.add(airport.getAirportICAO());
+        } 
+        
 
         Button okButton = new Button("OK");
         SetStyles.setStyleForButtons(okButton, 26, 30);
@@ -46,6 +53,10 @@ public class AddGate {
 
     }
 
-    public static String getGate() { return textAreaGate.getText(); }
-    public static String getICAO() { return icao.getValue(); }
+    public static String getGate() { 
+        return textAreaGate.getText(); 
+    }
+    public static String getICAO() { 
+        return icao.getValue(); 
+    }
 }

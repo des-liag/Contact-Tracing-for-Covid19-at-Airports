@@ -1,10 +1,12 @@
 package Airports;
 
+import Graphics.CheckAddingInput;
 import Graphics.AddVisitedStores;
 import Graphics.AddTicket;
 import Graphics.AddStores;
-import  Graphics.AddGate;
+import Graphics.AddGate;
 import Graphics.AddAirport;
+import Graphics.AddAirportStuff;
 import Graphics.AddFlightCrew;
 import Graphics.AddFlight;
 import Graphics.MainWindowForUser;
@@ -18,6 +20,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ProgramData implements Serializable {
     
@@ -26,33 +29,23 @@ public class ProgramData implements Serializable {
     // An arrayList with the data of Person flightCrew Objects
     private static ArrayList<Person> flightCrew = new ArrayList<Person>();
     // An arrayList with the data of Person passengers Objects
-    private static ArrayList<Person> pasengers = new ArrayList<Person>();
+    private static ArrayList<Person> passengers = new ArrayList<Person>();
     // An arrayList with the data of Flight Objects
     private static ArrayList<Flight> flights = new ArrayList<Flight>();
-    
-    // An arrayList that will be filled when we are searching for close contacts
-    private static ArrayList<Person> closeContacts =  new ArrayList<Person>();
-    // An arrayList that will be filled when we are searching for casual contacts
-    private static ArrayList<Person> casualContacts =  new ArrayList<Person>();
-    // A temp arrayList with Person Objects
-    private static ArrayList<Person> contacts =  new ArrayList<Person>();
-
-    
-    //The ssn that user has typed
-    private static String ssn = MainWindowForUser.getPs().getText();
-    // The date of results of the positive test
-    private static LocalDate positiveDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
-    // The date of today in order to compare the dates
-    private static LocalDate nowDate = LocalDate.parse("2021-02-30"); //LocalDate.now()
-    // The last day that we have to search for tracers
-    private static LocalDate lastSearchDate;
     
     /**
      * Constructor of the class
      * If there aren't data to binary files, calls the methods initializeFromFile and saveData
      */
-    public ProgramData() {
-        if (!this.load()) {
+//    public ProgramData() {
+//        if (!this.load()) {
+//            initializeFromFile();
+//            saveData();
+//        }
+//    }
+    
+    public static void loadData(){
+         if (!load()) {
             initializeFromFile();
             saveData();
         }
@@ -62,17 +55,17 @@ public class ProgramData implements Serializable {
      * Constructor of the class
      * @param initializeFromFiles
      */
-    public ProgramData(boolean initializeFromFiles) {
-        if (initializeFromFiles) {
-            initializeFromFile();
-            saveData();
-        } else {
-            if (!this.load()) {
-                initializeFromFile();
-                saveData();
-            }
-        }
-    }
+//    public ProgramData(boolean initializeFromFiles) {
+//        if (initializeFromFiles) {
+//            initializeFromFile();
+//            saveData();
+//        } else {
+//            if (!this.load()) {
+//                initializeFromFile();
+//                saveData();
+//            }
+//        }
+//    }
 
     /**
      * Gets the ArrayList airports with all airports' data
@@ -95,7 +88,7 @@ public class ProgramData implements Serializable {
      * @return ArrayList<Person> containing Person objects representing the pasengers' data 
      */
     public static ArrayList<Person> getPasengers() {
-        return pasengers;
+        return passengers;
     }
 
     /**
@@ -106,81 +99,25 @@ public class ProgramData implements Serializable {
         return flights;
     }
 
-    /**
-     * Gets the ssn that user has typed
-     * @return String ssn
-     */
-    public static String getSsn() {
-        return ssn;
-    }
-
-
-    /**
-     * Gets the positiveDate 
-     * @return LocalDate representing the date of the covid-19 test
-     */
-    public static LocalDate getPositiveDate() {
-        return positiveDate;
-    }
-
-    /**
-     * Sets the positiveDate
-     * @param positiveDate LocalDate containing the date of the covid-19 test
-     */
-    public static void setPositiveDate(LocalDate positiveDate) {
-        ProgramData.positiveDate = positiveDate;
-    }
-
-    /**
-     * Gets the nowDate
-     * @return LocalDate representing the date of today
-     */
-    public static LocalDate getNowDate() {
-        return nowDate;
-    }
-
-    /**
-     * Sets the nowDate
-     * @param nowDate LocalDate containing the date of today
-     */
-    public static void setNowDate(LocalDate nowDate) {
-        ProgramData.nowDate = nowDate;
-    }
-
-    /**
-     * Gets the lastSearchDate
-     * @return LocalDate representing the last Date that we have to search for tracers
-     */
-    public static LocalDate getLastSearchDate() {
-        return lastSearchDate;
-    }
-
-    /**
-     * Sets the lastSearchDate
-     * @param lastSearchDate LocalDate containing the last Date that we have to search for tracers
-     */
-    public static void setLastSearchDate(LocalDate lastSearchDate) {
-        ProgramData.lastSearchDate = lastSearchDate;
-    }
 
     /**
      * Initialize the ArrayLists with data from CSV files
      */
-    public void initializeFromFile() {
+    public static void initializeFromFile() {
         airports = FileManager.loadAirports("CSVFiles//airports.csv//");
         flightCrew = FileManager.getFlightCrew("CSVFiles//people.csv//");
-        pasengers = FileManager.getPassengers("CSVFiles//people.csv//");
-        flights = FileManager.loadFlights("CSVFiles//flights.csv//", airports, flightCrew, pasengers);
+        passengers = FileManager.getPassengers("CSVFiles//people.csv//");
+        flights = FileManager.loadFlights("CSVFiles//flights.csv//", airports, flightCrew, passengers);
     }
 
     /**
      * When initilization is completed save the data to binary files
      */
-    public void saveData() {
-        this.saveObject(airports, "airports");
-        this.saveObject(flightCrew, "flightCrew");
-        this.saveObject(pasengers, "passengers");
-        this.saveObject(flights, "flights");
+    public static void saveData() {
+        saveObject(airports, "airports");
+        saveObject(flightCrew, "flightCrew");
+        saveObject(passengers, "passengers");
+        saveObject(flights, "flights");
     }
 
     /**
@@ -188,13 +125,16 @@ public class ProgramData implements Serializable {
      * @param object An Object we want to save to a file
      * @param fileName The name of the file we want to save the object
      */
-    private void saveObject(Object object, String fileName) {
+    private static void saveObject(Object object, String fileName) {
        ObjectOutputStream oos = null;
        FileOutputStream fout = null;
        try {
             fout = new FileOutputStream(fileName + ".ser", false);
             oos = new ObjectOutputStream(fout);
             oos.writeObject(object);
+//            if(object.equals("airports")) {
+//                airports.add((Airport)object);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -215,12 +155,12 @@ public class ProgramData implements Serializable {
      * @return
      */
     @SuppressWarnings ("unchecked")
-    public boolean load(){
+    public static boolean load(){
         airports = (ArrayList<Airport>) loadObject("airports");
         flightCrew = (ArrayList<Person>) loadObject("flightCrew");
-        pasengers = (ArrayList<Person>) loadObject("passengers");
+        passengers = (ArrayList<Person>) loadObject("passengers");
         flights = (ArrayList<Flight>) loadObject("flights");
-        if(airports == null | flightCrew == null | pasengers == null | flights == null){
+        if(airports == null | flightCrew == null | passengers == null | flights == null){
             return false;
         }
         return true;
@@ -231,7 +171,7 @@ public class ProgramData implements Serializable {
      * @param fileName the name of the file
      * @return Object containing the file's data
      */
-    private Object loadObject(String fileName){
+    private static Object loadObject(String fileName){
         ObjectInputStream objectinputstream = null;
         Object tempList = null;
         try {
@@ -257,15 +197,25 @@ public class ProgramData implements Serializable {
      * Search for close and casual contacts when the positive case is passenger
      */
     public static void searchForPassenger() {
-        if (checkDate()) {
-            calculateDays();
+        ArrayList<Person> closeContacts =  new ArrayList<Person>();
+        ArrayList<Person> casualContacts =  new ArrayList<Person>();
+        ArrayList<Person> contacts =  new ArrayList<Person>();
+        //The ssn that user has typed
+        String ssn = MainWindowForUser.getPs().getText();
+        // The date of results of the positive test
+        LocalDate posDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
+        
+        if (checkDate(posDate)) {
+            LocalDate[] dates =  calculateDays(posDate);
+            LocalDate positiveDate = dates[0];
+            LocalDate lastSearchDate = dates[1];
             int sumFlights = getFlights().size() - 1;
             LocalDate flightDate;
             for (int id = sumFlights; id >= 0; id--) {
                 flightDate = getFlights().get(id).getDepartureDateTime().toLocalDate();
                 if (flightDate.isAfter(lastSearchDate) && flightDate.isBefore(positiveDate)) {
                     contacts = getFlights().get(id).findCloseContactsOfPassenger(ssn);
-                    if (contacts.size() != 0) {
+                    if (!contacts.isEmpty()) {
                         for (int i = 0; i < contacts.size(); i++ ) {
                             if (!closeContacts.contains(contacts.get(i))) {
                                 closeContacts.add(contacts.get(i));
@@ -273,7 +223,7 @@ public class ProgramData implements Serializable {
                         }
                     } 
                     contacts = getFlights().get(id).findCasualContactsOfPassenger(ssn);
-                    if (contacts.size() != 0) {
+                    if (!contacts.isEmpty()) {
                         for (int i = 0; i < contacts.size(); i++ ) {
                             if (!casualContacts.contains(contacts.get(i))) {
                                 casualContacts.add(contacts.get(i));
@@ -295,8 +245,18 @@ public class ProgramData implements Serializable {
      * Search for close contacts when the positive case is working as flight crew
      */
     public static void searchForFlightCrew() {
-        if (checkDate()) {
-            calculateDays();
+        ArrayList<Person> closeContacts =  new ArrayList<Person>();
+        ArrayList<Person> casualContacts =  new ArrayList<Person>();
+        ArrayList<Person> contacts =  new ArrayList<Person>();
+        //The ssn that user has typed
+        String ssn = MainWindowForUser.getPs().getText();
+        // The date of results of the positive test
+        LocalDate posDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
+        
+        if (checkDate(posDate)) {
+            LocalDate[] dates =  calculateDays(posDate);
+            LocalDate positiveDate = dates[0];
+            LocalDate lastSearchDate = dates[1];
             int sumFlights = getFlights().size() - 1;
             LocalDate flightDate;
             for (int id = sumFlights; id >= 0; id--) {
@@ -325,8 +285,18 @@ public class ProgramData implements Serializable {
      * Search for close contacts when the positive case is working as checkIn stuff
      */
     public static void searchForCheckInStuff() {
-        if (checkDate()) {
-            calculateDays();
+        ArrayList<Person> closeContacts =  new ArrayList<Person>();
+        ArrayList<Person> casualContacts =  new ArrayList<Person>();
+        ArrayList<Person> contacts =  new ArrayList<Person>();
+        //The ssn that user has typed
+        String ssn = MainWindowForUser.getPs().getText();
+        // The date of results of the positive test
+        LocalDate posDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
+        
+        if (checkDate(posDate)) {
+            LocalDate[] dates =  calculateDays(posDate);
+            LocalDate positiveDate = dates[0];
+            LocalDate lastSearchDate = dates[1];
             Airport workingAirport = getWorkingAirport();
             if (workingAirport != null) {
                 AirportStuff checkInEmployee;
@@ -334,13 +304,11 @@ public class ProgramData implements Serializable {
                 if (checkInEmployee != null) {
                     int sumFlights = getFlights().size() - 1;
                     LocalDate flightDate;
-                    LocalDateTime flightDateTime;
                     for (int id = sumFlights; id >= 0; id--) {
                         flightDate = getFlights().get(id).getDepartureDateTime().toLocalDate();
-                        flightDateTime = getFlights().get(id).getDepartureDateTime();
                         if (flightDate.isAfter(lastSearchDate) && flightDate.isBefore(positiveDate)) {
-                            if (checkInEmployee.isWorking(flightDateTime)) {
-                                contacts = getFlights().get(id).findCloseContactsOfCheckInStuff(checkInEmployee);
+                            if (workingAirport.getAirportICAO().equals(getFlights().get(id).getDepartureAirport().getAirportICAO())) {
+                                contacts = getFlights().get(id).findCloseContactsOfCheckInStuff(checkInEmployee, workingAirport);
                                 for (int i = 0; i < contacts.size(); i++ ) {
                                     if (!closeContacts.contains(contacts.get(i))) {
                                         closeContacts.add(contacts.get(i));
@@ -348,11 +316,6 @@ public class ProgramData implements Serializable {
                                 }
                             }
                         }
-                    }
-                    if (closeContacts.size() == 0) {
-                        System.out.println("There are no tracers");
-                    } else {
-                        System.out.println(closeContacts);
                     }
                     try {
                         Output.contacts(closeContacts, casualContacts);
@@ -370,25 +333,31 @@ public class ProgramData implements Serializable {
      * Search for casual contacts when the positive case is working as store stuff
      */
     public static void searchForStroreStuff() {
-        if (checkDate()) {
-            calculateDays();
+        ArrayList<Person> closeContacts =  new ArrayList<Person>();
+        ArrayList<Person> casualContacts =  new ArrayList<Person>();
+        ArrayList<Person> contacts =  new ArrayList<Person>();
+        //The ssn that user has typed
+        String ssn = MainWindowForUser.getPs().getText();
+        // The date of results of the positive test
+        LocalDate posDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
+        if (checkDate(posDate)) {
+            LocalDate[] dates =  calculateDays(posDate);
+            LocalDate positiveDate = dates[0];
+            LocalDate lastSearchDate = dates[1];
             Airport workingAirport = getWorkingAirport();
             if (workingAirport != null) {
-                AirportSection store;
-                store = workingAirport.getWorkingStore(ssn);
-                if (store != null) {
+                AirportSection workingStore;
+                workingStore = workingAirport.getWorkingStore(ssn);
+                if (workingStore != null) {
                     AirportStuff storeEmployee;
-                    storeEmployee = store.getAirportStuffBySSN(ssn);
+                    storeEmployee = workingStore.getAirportStuffBySSN(ssn);
                     int sumFlights = getFlights().size() - 1;
                     LocalDate flightDate;
-                    LocalDateTime flightDateTime;
                     for (int id = sumFlights; id >= 0; id--) {
                         flightDate = getFlights().get(id).getDepartureDateTime().toLocalDate();
-                        flightDateTime = getFlights().get(id).getDepartureDateTime();
                         if (flightDate.isAfter(lastSearchDate) && flightDate.isBefore(positiveDate)) {
-                            if (storeEmployee.isWorking(flightDateTime)) {
-                                contacts = getFlights().get(id).findCasualContactsOfStoreStuff(storeEmployee, store);
-                                System.out.println(contacts.size());
+                            if (workingAirport.getAirportICAO().equals(getFlights().get(id).getDepartureAirport().getAirportICAO())) {
+                                contacts = getFlights().get(id).findCasualContactsOfStoreStuff(storeEmployee, workingStore);
                                 for (int i = 0; i < contacts.size(); i++ ) {
                                     if (!casualContacts.contains(contacts.get(i))) {
                                         casualContacts.add(contacts.get(i));
@@ -396,11 +365,6 @@ public class ProgramData implements Serializable {
                                 }
                             }
                         }
-                    }
-                    if (casualContacts.size() == 0) {
-                        System.out.println("There are no tracers");
-                    } else {
-                        System.out.println(casualContacts);
                     }
                     try {
                         Output.contacts(closeContacts, casualContacts);
@@ -418,8 +382,17 @@ public class ProgramData implements Serializable {
      * Search for casual contacts when the positive case is working as gate stuff
      */
     public static void searchForGateStuff() {
-        if (checkDate()) {
-            calculateDays();
+        ArrayList<Person> closeContacts =  new ArrayList<Person>();
+        ArrayList<Person> casualContacts =  new ArrayList<Person>();
+        ArrayList<Person> contacts =  new ArrayList<Person>();
+        //The ssn that user has typed
+        String ssn = MainWindowForUser.getPs().getText();
+        // The date of results of the positive test
+        LocalDate posDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
+        if (checkDate(posDate)) {
+            LocalDate[] dates =  calculateDays(posDate);
+            LocalDate positiveDate = dates[0];
+            LocalDate lastSearchDate = dates[1];
             Airport workingAirport = getWorkingAirport();
             if (workingAirport != null) {
                 AirportSection gate;
@@ -434,11 +407,13 @@ public class ProgramData implements Serializable {
                         flightDate = getFlights().get(id).getDepartureDateTime().toLocalDate();
                         flightDateTime = getFlights().get(id).getDepartureDateTime();
                         if (flightDate.isAfter(lastSearchDate) && flightDate.isBefore(positiveDate)) {
-                            if (gateEmployee.isWorking(flightDateTime)) {
-                                contacts = getFlights().get(id).findCasualContactsOfGateStuff(gate);
-                                for (int i = 0; i < contacts.size(); i++ ) {
-                                    if (!casualContacts.contains(contacts.get(i))) {
-                                        casualContacts.add(contacts.get(i));
+                            if (workingAirport.getAirportICAO().equals(getFlights().get(id).getDepartureAirport().getAirportICAO())) {
+                                if (gateEmployee.isWorking(flightDateTime)) {
+                                    contacts = getFlights().get(id).findCasualContactsOfGateStuff(gate,gateEmployee,flightDateTime);
+                                    for (int i = 0; i < contacts.size(); i++ ) {
+                                        if (!casualContacts.contains(contacts.get(i))) {
+                                            casualContacts.add(contacts.get(i));
+                                        }
                                     }
                                 }
                             }
@@ -480,7 +455,9 @@ public class ProgramData implements Serializable {
      * Check if have passed more than 30 days since the covid-19 test
      * @return boolean true if haven't passed more that 30 days
      */
-    private static boolean checkDate() {
+    private static boolean checkDate(LocalDate positiveDate) {
+        // The date of today in order to compare the dates
+        LocalDate nowDate = LocalDate.parse("2020-02-27"); //LocalDate.now()
         if (positiveDate.plusDays(30).compareTo(nowDate) > 0) {
             return true;
         } else {
@@ -491,8 +468,11 @@ public class ProgramData implements Serializable {
     
     /**
      * Calsulate how many days we have to search for tracers depending on covid-19 type of test
+     * @return LocaDate[] representing the prositive date and the last searching date
      */
-    private static void calculateDays() {
+    private static LocalDate[] calculateDays(LocalDate positiveDate) {
+        LocalDate[] dates = new LocalDate[2];
+        dates[0] = positiveDate;
         // Type of covid-19 test
         String testType;
         if (MainWindowForUser.getTest1().isSelected()) {
@@ -505,9 +485,12 @@ public class ProgramData implements Serializable {
         if (testType.equals("rapid")) {
             // If test is rapid, we search for flight up to 6 days before, plus the day of the test
             daysBack = 7;
-            setPositiveDate(ProgramData.positiveDate.plusDays(1));
+            //positiveDate
+            dates[0] = positiveDate.plusDays(1);
         }
-        setLastSearchDate(ProgramData.positiveDate.minusDays(daysBack));
+        //lastSearchDate: the last day that we have to search for tracers
+        dates[1] = positiveDate.minusDays(daysBack);
+        return dates;
     }
     
     /**
@@ -540,24 +523,18 @@ public class ProgramData implements Serializable {
         return passengers;
     }
 
-    /**
-     * Initializes or just loads the files
-     */
-    public static void data() {
-        ProgramData programData = new ProgramData();
-    }
-
 
     /**
-     * Adds new flight to binary file flights
-     * @return true or false depending on successful or failed addition
+     * Adds new flight to binary file flights only if the airports of departure and destination of flight exist
+     * flag: true or false depending on successful or failed addition
      */
-    public static boolean addFlight() {
+    public static void addFlight() {
         String depICAO = AddFlight.getDpICAO();
         String destICAO = AddFlight.getDsICAO();
         String departureDateTime = AddFlight.getDepTime();
         String destinationDateTime = AddFlight.getDestTime();
-              
+        
+        boolean flag = false;      
         Airport departureAirport = null;
         Airport destinationAirport = null;
 
@@ -571,27 +548,29 @@ public class ProgramData implements Serializable {
 
         if(departureAirport != null && destinationAirport != null) {
             Flight flight = new Flight(departureAirport, destinationAirport, departureDateTime, destinationDateTime);
-            return true;
+            flights.add(flight);
+            flag = true;
         }
-        return false;
+        CheckAddingInput.message(flag);
     }
     
     /**
      * Adds flightCrew to the arrayList of a specific flight 
      * If this Person doesn't already exist, he is also added to binary file people
-     * @return true or false depending on successful or failed addition
+     * flag: true or false depending on successful or failed addition
      */
-    public static boolean addFlightCrew() {
+    public static void addFlightCrew() {
         String ssn = AddFlightCrew.getSSN();
         String name = AddFlightCrew.getName();
         String lastName = AddFlightCrew.getLastName();
         String address = AddFlightCrew.getAddress();
         String phone = AddFlightCrew.getPhone();
         String flightId = AddFlightCrew.getID();
-                
+        
+        boolean flag = false;
         int id = Integer.parseInt(flightId);
         boolean exists = false;
-        Person flightCrew = null;
+        Person crew = null;
                 
         for(Flight flight: getFlights()) {
             if(flight.getFlightId() == id) {
@@ -601,27 +580,28 @@ public class ProgramData implements Serializable {
         }
                 
         if (exists) {
-            for(Person crew: getFlightCrew()) {
+            for(Person fCrew: getFlightCrew()) {
                 if(crew.getSSN().equals(ssn)) {
-                    flightCrew = crew;
+                    crew = fCrew;
                     break;
                 }
             }
-            if(flightCrew == null) {
-                flightCrew = new Person(ssn, name, lastName, address, phone);
+            if(crew != null) {
+                crew = new Person(ssn, name, lastName, address, phone);
+                flightCrew.add(crew);
             }
-            getFlights().get(id).addFlightCrew(flightCrew);
-            return true;
+            getFlights().get(id).addFlightCrew(crew);
+            flag = true;
         }
-        return false;
+         CheckAddingInput.message(flag);
     }
     
     /**
      * Adds new ticket to a the arrayList of a specific flight and save it to binary file flightsData
      * If passenger of the ticket doesn't already exist, he is also added to binary file people
-     * @return true or false depending on successful or failed addition
+     * flag: true or false depending on successful or failed addition
      */
-    public static boolean addTicket(){
+    public static void addTicket(){
         String pasSSN = AddTicket.getSSN();
         String pasName = AddTicket.getName();
         String pasLastName = AddTicket.getLastName();
@@ -642,6 +622,7 @@ public class ProgramData implements Serializable {
         AirportSection destinationGate = null;
         Person pass = null;
         boolean existsT = false;
+        boolean flag = false;
                 
                 
         for(Flight flight: getFlights()) {
@@ -676,6 +657,7 @@ public class ProgramData implements Serializable {
                 }
                 if(pass == null) {
                     pass = new Person(pasSSN, pasName, pasLastName, pasAddress, pasPhone);
+                    passengers.add(pass);
                 }
                 for (Ticket ticket : getFlights().get(flightIdInt).getTickets()) {
                     if (ticket.getPassenger().getSSN().equals(pass.getSSN())) {
@@ -685,26 +667,28 @@ public class ProgramData implements Serializable {
                 if(!existsT) {
                     getFlights().get(flightIdInt).addTicket(
                         new Ticket(pass, checkInDateTime, ifLuggage, departureGate, destinationGate));
-                    return true;
+                    flag = true;
                 }
             
             }
         }
-        return false;
+         CheckAddingInput.message(flag);
     }
 
     /**
-     * Adds a visited store to the arrayList of a specific ticket
-     * @return true or false depending on successful or failed addition
+     * Adds a visited store to the arrayList of a specific ticket, only if exists in file sections
+     * It is also added to the binary file visitedStores
+     * flag: true or false depending on successful or failed addition
      */
-    public static boolean addVisitedStore() {
-        String idString = null;
-        String passengerSSN = null;
-        String entranceDateTime = null;
-        String storeName = null;
+    public static void addVisitedStore() {
+        String idString = AddVisitedStores.getID();
+        String passengerSSN = AddVisitedStores.getSSN();
+        String entranceDateTime = AddVisitedStores.getEntrance();
+        String storeName = AddVisitedStores.getStore();
                 
         boolean exists = false;
         boolean existsStore = false;
+        boolean flag = false;
         int idInt = Integer.parseInt(idString);
         AirportSection airportStore = null;
                 
@@ -728,20 +712,156 @@ public class ProgramData implements Serializable {
                             }
                             if(!exists) {
                                 ticket.addDepartureVisitedStore(new VisitedStore(entranceDateTime, airportStore));
-                                return true;
+                                flag = true;
                             }
                         }
                     }   
                 }
             }
         }
+         CheckAddingInput.message(flag);
+    }
+
+    /**
+     * Adds new airport to binary files airports
+     * flag: true or false depending on successful or failed addition
+     */
+    public static void addAirport() {
+        String icao = AddAirport.getICAO();
+        String name = AddAirport.getName();
+//        String icao = "LALA";
+//        String name = "AKALA";
+        
+
+        boolean exists = false;
+        boolean flag = false;
+        
+        for (Airport airport : getAirports()) {
+            if(airport.getAirportICAO().equals(icao)) {
+                exists = true;
+            }
+        }
+        if(!exists) {
+            Airport airport = new Airport(icao, name);
+            airports.add(airport);
+            System.out.println("INNN");
+            flag = true;
+        }
+        CheckAddingInput.message(flag);
+    }
+
+    /**
+     * Adds a store to the arrayList of a specific airport only if not already exist to file sections
+     * It is also added to binary file sections
+     * flag: true or false depending on successful or failed addition
+     */
+    public static void addStore() {
+        String icao = AddStores.getICAO();
+        String name = AddStores.getStore();
+        
+        boolean exists = false;
+        boolean flag = false;
+        
+        for (Airport airport : getAirports()) {
+            if(airport.getAirportICAO().equals(icao)) {
+                for (AirportSection store : airport.getStores()) {
+                    if(store.getSectionName().equals(name)) {
+                        exists = true;
+                    }
+                }
+                if(!exists) {
+                    airport.addStore(new AirportSection(name));
+                    flag = true;
+                }
+            }
+        }
+         CheckAddingInput.message(flag);
+    }
+
+    /**
+     * Adds a gate to the arrayList of a specific airport only if not already exist to file sections
+     * It is also added to binary file sections
+     * flag: true or false depending on successful or failed addition
+     */
+    public static void addGate() {
+        String icao = AddGate.getICAO();
+        String name = AddGate.getGate();
+        
+        boolean exists = false;
+        boolean flag = false;
+        
+        for (Airport airport : getAirports()) {
+            if(airport.getAirportICAO().equals(icao)) {
+                for (AirportSection gate : airport.getGates()) {
+                    if(gate.getSectionName().equals(name)) {
+                        exists = true;
+                    }
+                }
+                if(!exists) {
+                    airport.addGate(new AirportSection(name));
+                    flag = true;
+                }
+            }
+        }
+        CheckAddingInput.message(flag);
+    }
+  
+    public static void addCheckInStuff() {
+        String icao = AddAirportStuff.getICAO();
+        String ssn = AddAirportStuff.getSSN();
+        String name = AddAirportStuff.getName();
+        String lastName = AddAirportStuff.getLastName();
+        String address = AddAirportStuff.getAddress();
+        String phone = AddAirportStuff.getPhone();
+        ArrayList<String> workHours = new  ArrayList<String>();
+        
+        boolean flag = false;
+        
+        if(!ifExistsStuff(ssn)) {
+            for(Airport airport : getAirports()) {
+                if(airport.getAirportICAO().equals(icao)) {
+                    AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
+                    airport.getCheckInPlace().addSectionStuff(stuff);
+                    flag = true;
+                    for(int i = 1; i <= 7; i++) {
+                        DayOfWeek day = DayOfWeek.of(i);
+                        LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                        LocalTime endTime = startTime.plusHours(8);
+                        airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                    }  
+                }
+            }
+        }
+        CheckAddingInput.message(flag);
+    }
+
+
+    public static boolean ifExistsStuff(String ssn) {
+        for (Airport airport : getAirports()) {
+            for(AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
+                if(stuff.getSSN().equals(ssn)) {
+                    return true;
+                }
+            }
+            for (AirportSection store : airport.getStores()) {
+                for(AirportStuff stuff : store.getSectionStuff()) {
+                    if(stuff.getSSN().equals(ssn)) {
+                        return true;
+                    }
+                }
+            }
+            for (AirportSection gate : airport.getGates()) {
+                for(AirportStuff stuff : gate.getSectionStuff()) {
+                    if(stuff.getSSN().equals(ssn)) {
+                        return true;
+                    }
+                }
+            }           
+        }
         return false;
     }
-       
 
-}
-
-
+    }
 
 
     

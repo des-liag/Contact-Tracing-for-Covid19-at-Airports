@@ -1,12 +1,13 @@
 package Graphics;
 
-import  javafx.scene.layout.GridPane;
-import  javafx.stage.Stage;
-import  javafx.scene.control.Label;
-import  javafx.scene.paint.Paint;
+import Airports.ProgramData;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.control.TextField;
-import  javafx.scene.control.Button;
+import javafx.scene.control.Button;
 /**
  * @class AddAirport adding a new airport
  */
@@ -32,11 +33,16 @@ public class AddAirport {
             CheckAddingInput.checkAirport(textAreaName,icao,stage);
         });
 
+//        ProgramData.addAirport();
         gridPane.getChildren().addAll(textAreaName,airportName,icao,airportICAO,okButton);
 
     }
 
-    public static String getName() {return textAreaName.getText();}
-    public static String getICAO() {return icao.getText();}
+    public static String getName() {
+        return textAreaName.getText();
+    }
+    public static String getICAO() {
+        return icao.getText();
+    }
 
 }
