@@ -440,7 +440,7 @@ public class ProgramData implements Serializable {
      * @return Airport representing the airport where employee is working
      */
     private static Airport getWorkingAirport() {
-        String icao = MainWindowForUser.getTextArea3().getText();
+        String icao = MainWindowForUser.getICAO().getValue().toString();
         for (Airport airport : getAirports()) {
             if (airport.getAirportICAO().equals(icao)) {
                 return airport;

@@ -31,8 +31,7 @@ public class AddAirportStuff {
     protected static  ArrayList <String> workingSchedule = new ArrayList<>();
     // array flag saves false or true if the check method / methods from class CheckAddingInput
     // had been done
-
-    static final boolean[] flag = {false, false,false,false,false,false};
+    static final boolean[] flag = {false,false,false,false,false,false,false,false};
     static Stage stage = new Stage();
 
     public static void newAirportStuff() {
@@ -161,15 +160,19 @@ public class AddAirportStuff {
                 flag[4] = false;
             } else flag[4] = true;
 
+            if(CheckAddingInput.checkStuff(combo3,stage)) {
+                flag[5] = false;
+            } else flag[5] = true;
+
             if (combo3.getValue().equals("Store Stuff")) {
                 if (CheckAddingInput.checkStore(textAreaStore,stage)) {
-                    flag[5] = false;
-                } else flag[5] = true;
+                    flag[6] = false;
+                } else flag[6] = true;
             } else if (combo3.getValue().equals("Gate Stuff")) {
                 try {
                     if (CheckAddingInput.checkGate(textAreaGate, stage)) {
-                        flag[6] = false;
-                    } else flag[6] = true;
+                        flag[7] = false;
+                    } else flag[7] = true;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -214,7 +217,7 @@ public class AddAirportStuff {
     // if all flags are true means all data are correct
     // and close stage
     public static void correctData() {
-        if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[6]) {
+        if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[6] && flag[7]) {
             stage.close();
         }
     }
