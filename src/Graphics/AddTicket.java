@@ -29,7 +29,8 @@ public class AddTicket {
     protected static TextField textAreaAddress = new TextField();
     protected static TextField textAreaPhone = new TextField();
     protected static TextField textAreaFlightID = new TextField();
-    protected static DatePicker checkinTime = new DatePicker();
+    protected static DatePicker checkinDate = new DatePicker();
+    protected static TextField textAreaTime = new TextField();
     protected static TextField textArealuggage = new TextField();
     protected static TextField textAreaDepGate = new TextField();
     protected static TextField textAreaDestGate = new TextField();
@@ -39,7 +40,7 @@ public class AddTicket {
     public static void newTicket() {
       Stage stage = new Stage();
       GridPane gridPane = new GridPane();
-      SetStyles.creatWindow("ADDING A NEW TICKET", 1200,1200, stage, gridPane);
+      SetStyles.creatWindow("ADDING A NEW TICKET", 1700,1000, stage, gridPane);
 
       Label ssn = SetStyles.createLabels("Please enter passenger's SSN number:", 0,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
@@ -59,37 +60,40 @@ public class AddTicket {
       Label id = SetStyles.createLabels("Please enter passenger's Flight ID :", 10,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
       SetStyles.setPosition(textAreaFlightID,11,0);
-      Label checkInTime = SetStyles.createLabels("Please enter passenger's check-In time: ", 12,0,
+      Label checkInDate = SetStyles.createLabels("Please enter passenger's check-In date: ", 12,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
-      Label warning = SetStyles.createLabels("please type next to date the time in this form: THH:MM:SS",13,0,
-                Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 14));
-      GridPane.setRowIndex(checkinTime,14 );
-      GridPane.setColumnIndex(checkinTime, 0);
-      checkinTime.setEditable(true);
+      GridPane.setRowIndex(checkinDate,13 );
+      GridPane.setColumnIndex(checkinDate, 0);
+      Label time = SetStyles.createLabels("Please enter passenger's check-In time: ", 14,0,
+                Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
+      Label warning = SetStyles.createLabels("please type next to date the time in this form: THH:MM:SS",15,
+                0, Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 14));
+      SetStyles.setPosition(textAreaTime,16,0);
+
       Label luggage = SetStyles.createLabels("Please enter if passenger has luggage or not (type TRUE or FALSE): ",
-                15,0, Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
-      SetStyles.setPosition(textArealuggage,16,0);
-      Label dpgate = SetStyles.createLabels("Please enter passenger's departure gate:", 17,0,
+                17,0, Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
+      SetStyles.setPosition(textArealuggage,18,0);
+      Label dpgate = SetStyles.createLabels("Please enter passenger's departure gate:", 19,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
-      SetStyles.setPosition(textAreaDepGate,18,0);
-      Label dsgate = SetStyles.createLabels("Please enter passenger's destination gate:", 19,0,
+      SetStyles.setPosition(textAreaDepGate,20,0);
+      Label dsgate = SetStyles.createLabels("Please enter passenger's destination gate:", 21,0,
                Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
-      SetStyles.setPosition(textAreaDestGate,20,0);
-      Label dpICAO = SetStyles.createLabels("Please pick passenger's departure airport ICAO:", 21,0,
+      SetStyles.setPosition(textAreaDestGate,22,0);
+      Label dpICAO = SetStyles.createLabels("Please pick passenger's departure airport ICAO:", 0,2,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
       depICAO.setPromptText("Departure airport");
-      GridPane.setRowIndex(depICAO, 22);
-      GridPane.setColumnIndex(depICAO, 0);
+      GridPane.setRowIndex(depICAO, 1);
+      GridPane.setColumnIndex(depICAO, 2);
       
         ObservableList<String> list1 = depICAO.getItems();
         for (Airport airport : ProgramData.getAirports()) {
             list1.add(airport.getAirportICAO());
         }
-      Label dsICAO = SetStyles.createLabels("Please pick passenger's destination airport ICAO:", 23,0,
+      Label dsICAO = SetStyles.createLabels("Please pick passenger's destination airport ICAO:", 2,2,
                Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
       destICAO.setPromptText("Departure airport");
-      GridPane.setRowIndex(destICAO, 24);
-      GridPane.setColumnIndex(destICAO, 0);
+      GridPane.setRowIndex(destICAO, 3);
+      GridPane.setColumnIndex(destICAO, 2);
       
         ObservableList<String> list2 = destICAO.getItems();
         for (Airport airport : ProgramData.getAirports()) {
@@ -97,7 +101,7 @@ public class AddTicket {
         }
 
       Button okButton = new Button("OK");
-      SetStyles.setStyleForButtons(okButton, 26, 30);
+      SetStyles.setStyleForButtons(okButton, 28,3 );
       okButton.setOnMouseClicked(event -> {
             CheckAddingInput.checkSSN(textAreaSSN,stage);
             CheckAddingInput.checkPersonData(textAreaName,textAreaLastName,textAreaAddress,textAreaPhone,stage);
@@ -111,13 +115,14 @@ public class AddTicket {
            }
             CheckAddingInput.checkICAO(depICAO,stage);
             CheckAddingInput.checkICAO(destICAO,stage);
-            CheckAddingInput.checkDate(checkinTime, stage);
+            CheckAddingInput.checkEntrance(checkinDate,textAreaTime,stage);
+
         });
 
       gridPane.getChildren().addAll(ssn,textAreaSSN, name, textAreaName, lastName, textAreaLastName, address,
-                textAreaAddress, phone, textAreaPhone, id, textAreaFlightID, checkInTime, checkinTime, luggage,
-                textArealuggage, dpgate, textAreaDepGate, dsgate, textAreaDestGate, dpICAO, depICAO,
-                dsICAO, destICAO,okButton, warning)  ;
+                textAreaAddress, phone, textAreaPhone, id, textAreaFlightID,time,checkInDate, checkinDate,
+              textAreaTime, luggage, textArealuggage, dpgate, textAreaDepGate, dsgate, textAreaDestGate,
+              dpICAO, depICAO, dsICAO, destICAO,okButton, warning) ;
     }
 
     public static String getSSN() { 
@@ -139,7 +144,7 @@ public class AddTicket {
         return textAreaFlightID.getText();
     }
     public static String getCheckIn() {
-        return checkinTime.getValue().toString();
+        return checkinDate.getValue().toString();
     }
     public static String getLuggage() {
         return textArealuggage.getText();
@@ -156,5 +161,9 @@ public class AddTicket {
     public static String getDsICAO() {
         return  destICAO.getValue();
     }
+    public static String getTime() {
+        return textAreaTime.getText();
+    }
+
 
 }

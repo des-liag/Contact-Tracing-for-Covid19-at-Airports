@@ -15,10 +15,11 @@ import javafx.scene.control.Button;
 public class AddAirport {
     protected static TextField textAreaName = new TextField();
     protected static TextField icao = new TextField();
+    static final boolean[] flag = {false};
+    static Stage stage = new Stage();
 
     public static void newAirport() {
         GridPane gridPane = new GridPane();
-        Stage stage = new Stage();
         SetStyles.creatWindow("ADDING A NEW AIRPORT", 700,300, stage, gridPane);
 
         Label airportName = SetStyles.createLabels("Please enter the name of the airport:", 1,0,
@@ -30,7 +31,10 @@ public class AddAirport {
         Button okButton = new Button("OK");
         SetStyles.setStyleForButtons(okButton, 12,20 );
         okButton.setOnMouseClicked(event -> {
-            CheckAddingInput.checkAirport(textAreaName,icao,stage);
+           if (CheckAddingInput.checkAirport(textAreaName,icao,stage)) {
+               flag[0] = true;
+           } else flag[0] =false;
+           correctData();
         });
 
 //        ProgramData.addAirport();
@@ -45,4 +49,9 @@ public class AddAirport {
         return icao.getText();
     }
 
+    public static void correctData() {
+        if (flag[0] && !textAreaName.getText().equals("") && !icao.getText().equals("")) {
+            stage.close();
+        }
+    }
 }

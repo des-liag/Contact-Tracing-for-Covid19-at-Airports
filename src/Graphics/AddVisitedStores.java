@@ -17,6 +17,7 @@ public class AddVisitedStores {
     protected static DatePicker entranceDate = new DatePicker();
     protected static TextField textAreaFlightID = new TextField();
     protected static TextField storeName = new TextField();
+    protected static TextField  entranceTime = new TextField();
 
     public static void newVisitedStores () {
         Stage stage = new Stage();
@@ -30,15 +31,15 @@ public class AddVisitedStores {
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
         SetStyles.setPosition(textAreaFlightID,4,0);
         Label entrance = SetStyles.createLabels("Please enter passenger's entrance date in the store: ", 5,0,
-                Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
+               Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
         GridPane.setRowIndex(entranceDate,6 );
         GridPane.setColumnIndex(entranceDate, 0);
         Label time = SetStyles.createLabels("Please enter passenger's entrance time in the store: ", 7,0,
-                Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
+                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
         Label warning = SetStyles.createLabels("please type next to date the time in this form: THH:MM:SS",8,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 14));
-
-        Label store = SetStyles.createLabels("Please enter the store which the passenger visited:", 8,0,
+        SetStyles.setPosition(entranceTime,9,0);
+        Label store = SetStyles.createLabels("Please enter the store which the passenger visited:", 10,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
         SetStyles.setPosition(storeName,9,0);
 
@@ -47,12 +48,12 @@ public class AddVisitedStores {
         okButton.setOnMouseClicked(event -> {
             CheckAddingInput.checkSSN(textAreaSSN,stage);
             CheckAddingInput.checkID(textAreaFlightID,stage);
-            CheckAddingInput.checkDate(entranceDate,stage);
+            CheckAddingInput.checkEntrance(entranceDate, entranceTime,stage);
             CheckAddingInput.checkStore(storeName,stage);
         });
 
         gridPane.getChildren().addAll(ssn,textAreaSSN,id,textAreaFlightID,entrance, entranceDate,
-                warning,storeName,store, okButton);
+                warning,storeName,store, time, entranceTime, okButton);
     }
 
     public static String getEntrance() {
@@ -67,4 +68,8 @@ public class AddVisitedStores {
     public static String getStore() {
         return storeName.getText();
     }
+    public static String getTime() {
+        return entranceTime.getText();
+    }
+
 }

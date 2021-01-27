@@ -29,10 +29,11 @@ public class AddAirportStuff {
     protected static ComboBox<String> combo3 = new ComboBox<>();
     protected static ComboBox<String> icao = new ComboBox<>();
     protected static  ArrayList <String> workingSchedule = new ArrayList<>();
+    static final boolean[] flag = {false, false,false,false,false,false};
+    static Stage stage = new Stage();
 
     public static void newAirportStuff() {
         GridPane gridPane = new GridPane();
-        Stage stage = new Stage();
         SetStyles.creatWindow("ADDING A NEW AIRPORT STUFF", 1700,1000, stage, gridPane);
 
         Label ssn = SetStyles.createLabels("Please enter the SSN number of the airport stuff member:", 0,0,
@@ -137,20 +138,40 @@ public class AddAirportStuff {
         Button okButton = new Button("OK");
         SetStyles.setStyleForButtons(okButton, 30, 4);
         okButton.setOnMouseClicked(event -> {
-            CheckAddingInput.checkSSN(textAreaSSN,stage);
-            CheckAddingInput.checkPersonData(textAreaName,textAreaLastName,textAreaAddress,textAreaPhone,stage);
-            CheckAddingInput.checkICAO(icao,stage);
-            CheckAddingInput.checkScheduleDate(stage,monday,tuesday,wednesday,thursday,friday,saturday,sunday);
-            CheckAddingInput.checkScheduleTime(stage,m,tu,w,th,f,st,sn);
+            if (CheckAddingInput.checkSSN(textAreaSSN, stage)) {
+                flag[0] = false;
+            } else flag[0] = true;
+
+            if (CheckAddingInput.checkPersonData(textAreaName,textAreaLastName,textAreaAddress,textAreaPhone,stage)) {
+               flag[1] = false;
+            } else flag[1] = true;
+
+            if (CheckAddingInput.checkICAO(icao,stage)) {
+                flag[2] = false;
+            } else flag[2] = true;
+
+            if (CheckAddingInput.checkScheduleDate(stage,monday,tuesday,wednesday,thursday,friday,saturday,sunday)) {
+                flag[3] = false;
+            } else flag[3] = true;
+
+            if (CheckAddingInput.checkScheduleTime(stage,m,tu,w,th,f,st,sn)) {
+                flag[4] = false;
+            } else flag[4] = true;
+
             if (combo3.getValue().equals("Store Stuff")) {
-                CheckAddingInput.checkStore(textAreaStore,stage);
+                if (CheckAddingInput.checkStore(textAreaStore,stage)) {
+                    flag[5] = false;
+                } else flag[5] = true;
             } else if (combo3.getValue().equals("Gate Stuff")) {
                 try {
-                    CheckAddingInput.checkGate(textAreaGate, stage);
+                    if (CheckAddingInput.checkGate(textAreaGate, stage)) {
+                        flag[6] = false;
+                    } else flag[6] = true;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+            correctData();
         });
 
         gridPane.getChildren().addAll(ssn, textAreaSSN, name, textAreaName, lastName, textAreaLastName, address,
@@ -178,5 +199,11 @@ public class AddAirportStuff {
         return icao.getValue();
     }
     public static ArrayList getSchedule () {
-        return workingSchedule;}
+        return workingSchedule;
+    }
+    public static void correctData() {
+        if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[26]) {
+            stage.close();
+        }
+    }
 }
