@@ -1,10 +1,11 @@
 package Graphics;
 
-import  javafx.scene.control.Label;
-import  javafx.scene.paint.Paint;
+import Airports.ProgramData;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.control.TextField;
-import  javafx.scene.control.Button;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 /**
@@ -88,6 +89,7 @@ public class AddFlightCrew {
     public static void correctData() {
         if (flag[0] && flag[1] && flag[2]) {
             stage.close();
+            ProgramData.addFlightCrew();
         }
     }
 

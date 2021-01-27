@@ -530,8 +530,13 @@ public class ProgramData implements Serializable {
     public static void addFlight() {
         String depICAO = AddFlight.getDpICAO();
         String destICAO = AddFlight.getDsICAO();
-        String departureDateTime = AddFlight.getDepTime();
-        String destinationDateTime = AddFlight.getDestTime();
+        String departureDate = AddFlight.getDpDate();
+        String destinationDate = AddFlight.getDsDate();
+        String departureTime = AddFlight.getDpTime();
+        String destinationTime = AddFlight.getDsTime();
+        
+        String departureDateTime = departureDate + "T" + departureTime;
+        String destinationDateTime = destinationDate + "T" + destinationTime;
         
         boolean flag = false;      
         Airport departureAirport = null;
@@ -573,14 +578,14 @@ public class ProgramData implements Serializable {
                 
         for(Flight flight: getFlights()) {
             if(flight.getFlightId() == id) {
-                exists =  true;
-            break;
+                exists = true;
+                break;
             }
         }
-                
+
         if (exists) {
             for(Person fCrew: getFlightCrew()) {
-                if(crew.getSSN().equals(ssn)) {
+                if(fCrew.getSSN().equals(ssn)) {
                     crew = fCrew;
                     break;
                 }
@@ -730,9 +735,6 @@ public class ProgramData implements Serializable {
     public static void addAirport() {
         String icao = AddAirport.getICAO();
         String name = AddAirport.getName();
-//        String icao = "LALA";
-//        String name = "AKALA";
-        
 
         boolean exists = false;
         boolean flag = false;
@@ -815,6 +817,7 @@ public class ProgramData implements Serializable {
         String address = AddAirportStuff.getAddress();
         String phone = AddAirportStuff.getPhone();
         ArrayList<String> workHours = new  ArrayList<String>();
+        workHours = AddAirportStuff.getSchedule();
         
         boolean flag = false;
         
@@ -835,6 +838,37 @@ public class ProgramData implements Serializable {
         }
         CheckAddingInput.message(flag);
     }
+    
+    public static void addStoreStuff() {
+        String icao = AddAirportStuff.getICAO();
+        String ssn = AddAirportStuff.getSSN();
+        String name = AddAirportStuff.getName();
+        String lastName = AddAirportStuff.getLastName();
+        String address = AddAirportStuff.getAddress();
+        String phone = AddAirportStuff.getPhone();
+        ArrayList<String> workHours = new  ArrayList<String>();
+        workHours = AddAirportStuff.getSchedule();
+        
+        boolean flag = false;
+        
+        if(!ifExistsStuff(ssn)) {
+            for(Airport airport : getAirports()) {
+                if(airport.getAirportICAO().equals(icao)) {
+                    AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
+                    airport.getCheckInPlace().addSectionStuff(stuff);
+                    flag = true;
+                    for(int i = 1; i <= 7; i++) {
+                        DayOfWeek day = DayOfWeek.of(i);
+                        LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                        LocalTime endTime = startTime.plusHours(8);
+                        airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                    }  
+                }
+            }
+        }
+        CheckAddingInput.message(flag);
+    }
+    
 
 
     public static boolean ifExistsStuff(String ssn) {
