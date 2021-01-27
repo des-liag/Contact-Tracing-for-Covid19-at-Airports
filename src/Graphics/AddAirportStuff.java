@@ -201,10 +201,14 @@ public class AddAirportStuff {
         return workingSchedule;
     }
     public static void correctData() {
-        if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[26]) {
+        if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[6]) {
             stage.close();
             if (combo3.getValue().equals("CheckIn Stuff")) {
                 ProgramData.addCheckInStuff();
+            } else if(combo3.getValue().equals("Store Stuff")) {
+                //ProgramData.addStoreStuff();
+            } else {
+                //ProgramData.addGateStuff();
             }
         }
     }

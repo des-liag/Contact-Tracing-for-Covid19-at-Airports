@@ -578,14 +578,14 @@ public class ProgramData implements Serializable {
                 
         for(Flight flight: getFlights()) {
             if(flight.getFlightId() == id) {
-                exists =  true;
-            break;
+                exists = true;
+                break;
             }
         }
-                
+
         if (exists) {
             for(Person fCrew: getFlightCrew()) {
-                if(crew.getSSN().equals(ssn)) {
+                if(fCrew.getSSN().equals(ssn)) {
                     crew = fCrew;
                     break;
                 }
@@ -735,9 +735,6 @@ public class ProgramData implements Serializable {
     public static void addAirport() {
         String icao = AddAirport.getICAO();
         String name = AddAirport.getName();
-//        String icao = "LALA";
-//        String name = "AKALA";
-        
 
         boolean exists = false;
         boolean flag = false;
