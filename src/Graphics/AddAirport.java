@@ -52,6 +52,7 @@ public class AddAirport {
     public static void correctData() {
         if (flag[0] && !textAreaName.getText().equals("") && !icao.getText().equals("")) {
             stage.close();
+            ProgramData.addAirport();
         }
     }
 }

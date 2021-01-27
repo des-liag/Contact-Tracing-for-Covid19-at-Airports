@@ -2,7 +2,6 @@ package Graphics;
 
 import Airports.Airport;
 import Airports.ProgramData;
-import static Graphics.AddFlight.destICAO;
 import javafx.collections.ObservableList;
 import  javafx.scene.control.Label;
 import  javafx.scene.paint.Paint;
@@ -204,6 +203,9 @@ public class AddAirportStuff {
     public static void correctData() {
         if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[26]) {
             stage.close();
+            if (combo3.getValue().equals("CheckIn Stuff")) {
+                ProgramData.addCheckInStuff();
+            }
         }
     }
 }

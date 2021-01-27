@@ -530,8 +530,13 @@ public class ProgramData implements Serializable {
     public static void addFlight() {
         String depICAO = AddFlight.getDpICAO();
         String destICAO = AddFlight.getDsICAO();
-        String departureDateTime = AddFlight.getDepTime();
-        String destinationDateTime = AddFlight.getDestTime();
+        String departureDate = AddFlight.getDpDate();
+        String destinationDate = AddFlight.getDsDate();
+        String departureTime = AddFlight.getDpTime();
+        String destinationTime = AddFlight.getDsTime();
+        
+        String departureDateTime = departureDate + "T" + departureTime;
+        String destinationDateTime = destinationDate + "T" + destinationTime;
         
         boolean flag = false;      
         Airport departureAirport = null;
