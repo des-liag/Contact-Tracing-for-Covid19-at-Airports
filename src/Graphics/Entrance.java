@@ -84,9 +84,7 @@ public class Entrance extends Application {
         ProgramData.loadData();
         launch(args);
         ProgramData.saveData();
-
-        System.out.println(ProgramData.getAirports().get(15).getAirportICAO());
-
+        
     }
 
 

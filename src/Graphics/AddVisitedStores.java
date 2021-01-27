@@ -1,5 +1,6 @@
 package Graphics;
 
+import Airports.ProgramData;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
 import  javafx.scene.layout.GridPane;
@@ -31,7 +32,7 @@ public class AddVisitedStores {
         Label ssn = SetStyles.createLabels("Please enter passenger's SSN number:", 1,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
         SetStyles.setPosition(textAreaSSN,2,0);
-        Label id = SetStyles.createLabels("Please enter passenger's Flight ID :", 3,0,
+        Label id = SetStyles.createLabels("Please enter ticket's Flight ID :", 3,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
         SetStyles.setPosition(textAreaFlightID,4,0);
         Label entrance = SetStyles.createLabels("Please enter passenger's entrance date in the store: ", 5,0,
@@ -40,7 +41,7 @@ public class AddVisitedStores {
         GridPane.setColumnIndex(entranceDate, 0);
         Label time = SetStyles.createLabels("Please enter passenger's entrance time in the store: ", 7,0,
                  Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
-        Label warning = SetStyles.createLabels("please type next to date the time in this form: HH:MM:SS",8,0,
+        Label warning = SetStyles.createLabels("please type the time in this form: HH:MM:SS",8,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 14));
         SetStyles.setPosition(entranceTime,9,0);
         Label store = SetStyles.createLabels("Please enter the store which the passenger visited:", 10,0,
@@ -91,6 +92,7 @@ public class AddVisitedStores {
     public static void correctData() {
         if (flag[0] && flag[1] && flag[2] && flag[3]) {
             stage.close();
+            ProgramData.addVisitedStore();
         }
     }
 

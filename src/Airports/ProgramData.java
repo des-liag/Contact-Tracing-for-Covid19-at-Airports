@@ -524,7 +524,7 @@ public class ProgramData implements Serializable {
 
 
     /**
-     * Adds new flight to binary file flights only if the airports of departure and destination of flight exist
+     * Adds new flight to binary file flights
      * flag: true or false depending on successful or failed addition
      */
     public static void addFlight() {
@@ -550,7 +550,7 @@ public class ProgramData implements Serializable {
             }
         }
 
-        if(departureAirport != null && destinationAirport != null) {
+        if(departureAirport != null && destinationAirport != null && departureAirport != destinationAirport) {
             Flight flight = new Flight(departureAirport, destinationAirport, departureDateTime, destinationDateTime);
             flights.add(flight);
             flag = true;
@@ -682,48 +682,49 @@ public class ProgramData implements Serializable {
     }
 
     /**
-     * Adds a visited store to the arrayList of a specific ticket, only if exists in file sections
-     * It is also added to the binary file visitedStores
+     * Adds a visited store to the arrayList of a specific ticket, only if this store exists
      * flag: true or false depending on successful or failed addition
      */
     public static void addVisitedStore() {
         String idString = AddVisitedStores.getID();
         String passengerSSN = AddVisitedStores.getSSN();
-        String entranceDateTime = AddVisitedStores.getEntrance();
+        String entranceDate = AddVisitedStores.getEntrance();
+        String entranceTime = AddVisitedStores.getTime();
         String storeName = AddVisitedStores.getStore();
+        
+        String entranceDateTime = entranceDate + "T" +entranceTime; 
                 
         boolean exists = false;
         boolean existsStore = false;
         boolean flag = false;
         int idInt = Integer.parseInt(idString);
         AirportSection airportStore = null;
-                
-        for (Airport airport : getAirports()) {
-            for(AirportSection section : airport.getStores()) {
-                if(section.getSectionName().equals(storeName)) {
-                    airportStore = section;
-                    existsStore = true;
-                }
+
+        for(Flight flight: getFlights()) {
+            if(flight.getFlightId() == idInt) {
+                exists =  true;
+                break;
             }
         }
-        if(existsStore) {
-            for(Flight flight: getFlights()) {
-                if(flight.getFlightId() == idInt) {
-                    for (Ticket ticket : flight.getTickets()) {
+        if(exists) {
+            for (AirportSection section : getFlights().get(idInt - 1).getDepartureAirport().getStores()) {
+                if(section.getSectionName().equals(storeName)) {
+                    airportStore = section;
+                    for (Ticket ticket : getFlights().get(idInt - 1).getTickets()) {
                         if(ticket.getPassenger().getSSN().equals(passengerSSN)) {
                             for (VisitedStore store : ticket.getDepartureVisitedStores()) {
                                 if (store.getStore().getSectionName().equals(storeName)) {
-                                    exists = true;
+                                    existsStore = true;
                                 }
                             }
-                            if(!exists) {
+                            if(!existsStore) {
                                 ticket.addDepartureVisitedStore(new VisitedStore(entranceDateTime, airportStore));
                                 flag = true;
                             }
                         }
-                    }   
+                    }  
                 }
-            }
+            }  
         }
          CheckAddingInput.message(flag);
     }
@@ -747,7 +748,6 @@ public class ProgramData implements Serializable {
         if(!exists) {
             Airport airport = new Airport(icao, name);
             airports.add(airport);
-            System.out.println("INNN");
             flag = true;
         }
         CheckAddingInput.message(flag);
@@ -846,6 +846,7 @@ public class ProgramData implements Serializable {
         String lastName = AddAirportStuff.getLastName();
         String address = AddAirportStuff.getAddress();
         String phone = AddAirportStuff.getPhone();
+        String storeName = AddAirportStuff.getStore();
         ArrayList<String> workHours = new  ArrayList<String>();
         workHours = AddAirportStuff.getSchedule();
         
@@ -854,15 +855,56 @@ public class ProgramData implements Serializable {
         if(!ifExistsStuff(ssn)) {
             for(Airport airport : getAirports()) {
                 if(airport.getAirportICAO().equals(icao)) {
-                    AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
-                    airport.getCheckInPlace().addSectionStuff(stuff);
-                    flag = true;
-                    for(int i = 1; i <= 7; i++) {
-                        DayOfWeek day = DayOfWeek.of(i);
-                        LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
-                        LocalTime endTime = startTime.plusHours(8);
-                        airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
-                    }  
+                    for(AirportSection store : airport.getStores()) {
+                        if(store.getSectionName().equals(storeName)) {
+                            AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
+                            store.addSectionStuff(stuff);
+                            flag = true;
+                            for(int i = 1; i <= 7; i++) {
+                                DayOfWeek day = DayOfWeek.of(i);
+                                LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                                LocalTime endTime = startTime.plusHours(8);
+                                store.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                            }
+                        }
+                    }
+  
+                }
+            }
+        }
+        CheckAddingInput.message(flag);
+    }
+    
+    public static void addGateStuff() {
+        String icao = AddAirportStuff.getICAO();
+        String ssn = AddAirportStuff.getSSN();
+        String name = AddAirportStuff.getName();
+        String lastName = AddAirportStuff.getLastName();
+        String address = AddAirportStuff.getAddress();
+        String phone = AddAirportStuff.getPhone();
+        String gateName = AddAirportStuff.getGate();
+        ArrayList<String> workHours = new  ArrayList<String>();
+        workHours = AddAirportStuff.getSchedule();
+        
+        boolean flag = false;
+        
+        if(!ifExistsStuff(ssn)) {
+            for(Airport airport : getAirports()) {
+                if(airport.getAirportICAO().equals(icao)) {
+                    for(AirportSection gate : airport.getGates()) {
+                        if(gate.getSectionName().equals(gateName)) {
+                            AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
+                            gate.addSectionStuff(stuff);
+                            flag = true;
+                            for(int i = 1; i <= 7; i++) {
+                                DayOfWeek day = DayOfWeek.of(i);
+                                LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                                LocalTime endTime = startTime.plusHours(8);
+                                gate.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                            }
+                        }
+                    }
+  
                 }
             }
         }
