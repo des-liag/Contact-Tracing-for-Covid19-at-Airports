@@ -36,14 +36,14 @@ public class Entrance extends Application {
         welcome.setTextFill(Paint.valueOf("black"));
 
         Label message = new Label("This application tries to look for suspected cases of the virus in the airports around Europe. ");
-        Label user = new Label("Select the button USER in order to submit user's data");
+        Label user = new Label("Select the button POSITIVE CASE COVID-19 in order to submit positive case's data");
         Label admin = new Label("Select the button ADD AIRPORT DATA in order to add data for airports. ");
 
         setLabel(message, 5, 0, Paint.valueOf("black"), Font.font("Times New Roman", 22));
         setLabel(user, 15, 0, Paint.valueOf("black"), Font.font("Times New Roman", 20));
         setLabel(admin, 16, 0, Paint.valueOf("black"), Font.font("Times New Roman", 20));
 
-        Button userButton = new Button("USER");
+        Button userButton = new Button("POSITIVE CASE COVID-19");
         SetStyles.setStyleForButtons(userButton, 70, 200);
         Button addButton = new Button("ADD AIRPORT DATA");
         SetStyles.setStyleForButtons(addButton, 70, 230);

@@ -2,7 +2,6 @@ package Graphics;
 
 import Airports.Airport;
 import Airports.ProgramData;
-import static Graphics.AddFlight.destICAO;
 import javafx.collections.ObservableList;
 import  javafx.scene.control.Label;
 import  javafx.scene.paint.Paint;
@@ -28,7 +27,7 @@ public class AddAirportStuff {
     protected static TextField textAreaStore = new TextField();
     protected static ComboBox<String> combo3 = new ComboBox<>();
     protected static ComboBox<String> icao = new ComboBox<>();
-    protected static  ArrayList <String> workingSchedule = new ArrayList<>();
+    protected static  ArrayList <String> workingSchedule = new ArrayList<String>();
     // array flag saves false or true if the check method / methods from class CheckAddingInput
     // had been done
 
@@ -80,7 +79,7 @@ public class AddAirportStuff {
             list.add(airport.getAirportICAO());
         }
 
-        Label schedule = SetStyles.createLabels("Please pick days and enter time for working schedule: ",0,
+        Label schedule = SetStyles.createLabels("Please pick days and start time for working schedule: ",0,
                 3, Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
         Label warning = SetStyles.createLabels("please type time in this form: HH:MM",1,3,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 14));
@@ -114,7 +113,7 @@ public class AddAirportStuff {
         workingSchedule.add(st.getText());
         workingSchedule.add(sn.getText());
 
-        System.out.println(workingSchedule);
+//        System.out.println(workingSchedule);
 
         combo3.setOnAction(event -> {
             switch (combo3.getValue()) {
@@ -216,6 +215,13 @@ public class AddAirportStuff {
     public static void correctData() {
         if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[6]) {
             stage.close();
+            if(combo3.getValue().equals("CheckIn Stuff")) {
+                ProgramData.addCheckInStuff();
+            } else if(combo3.getValue().equals("Store Stuff")) {
+                ProgramData.addStoreStuff();
+            } else {
+                ProgramData.addGateStuff();
+            }
         }
     }
 }
