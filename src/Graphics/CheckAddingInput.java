@@ -27,7 +27,7 @@ public class CheckAddingInput {
     static boolean checkSSN = false;
     static boolean checkICAO = false;
 
-    public static void checkSSN(TextField textField, Stage stage) {
+    public static boolean checkSSN(TextField textField, Stage stage) {
         if (textField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Null Data");
@@ -39,7 +39,6 @@ public class CheckAddingInput {
             }
         }
         if (textField.getText().length() != 9) {
-            checkSSN = true;
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Invalid Data");
             alert.setContentText("SSN number should have ONLY 9 digits");
@@ -48,8 +47,9 @@ public class CheckAddingInput {
                 alert.close();
                 stage.show();
             }
+            return checkSSN = true;
         } else {
-            checkSSN = false;
+           return checkSSN = false;
         }
     }
 
@@ -269,6 +269,8 @@ public class CheckAddingInput {
             }
         }
     }
+
+
     /**
      * @param situation defines if the addition have been completed
      * show up suitable message for the administrator
