@@ -6,9 +6,9 @@ import Graphics.AddTicket;
 import Graphics.AddStores;
 import Graphics.AddGate;
 import Graphics.AddAirport;
-import Graphics.AddAirportStuff;
 import Graphics.AddFlightCrew;
 import Graphics.AddFlight;
+import Graphics.AddAirportStuff;
 import Graphics.MainWindowForUser;
 import Graphics.Output;
 import java.time.*;
@@ -20,7 +20,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ProgramData implements Serializable {
     
