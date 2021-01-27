@@ -65,8 +65,6 @@ public class CheckAddingInput {
                 alert.close();
                 stage.show();
             }
-        } else{
-            ++k;
         }
         int count = 0;
         char ch;
@@ -90,13 +88,7 @@ public class CheckAddingInput {
                 stage.show();
             }
         }
-        if(checkICAO) {
-            ++k;
-        }
-        if(k == 2) {
-            stage.close();
-            ProgramData.addAirport();
-        }
+
     }
 
     public static void checkPersonData(TextField name, TextField lastname, TextField address, TextField phone, Stage stage) {
