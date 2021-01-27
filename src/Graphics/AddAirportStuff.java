@@ -2,8 +2,7 @@ package Graphics;
 
 import Airports.Airport;
 import Airports.ProgramData;
-import java.util.ArrayList;
-import javafx.collections.FXCollections;
+import static Graphics.AddFlight.destICAO;
 import javafx.collections.ObservableList;
 import  javafx.scene.control.Label;
 import  javafx.scene.paint.Paint;
@@ -70,14 +69,10 @@ public class AddAirportStuff {
         GridPane.setRowIndex(icao, 20);
         GridPane.setColumnIndex(icao, 0);
         
-//        try {
-//        ArrayList<String> airportIcao = new ArrayList<String>();
-//        for (Airport airport : ProgramData.getAirports()) {
-//            list.add(airport.getAirportICAO());
-//        }
-//        ObservableList<String> list = FXCollections.observableArrayList(airportIcao);
-//        list = icao.getItems();
-//        }
+        ObservableList<String> list = icao.getItems();
+        for (Airport airport : ProgramData.getAirports()) {
+            list.add(airport.getAirportICAO());
+        }
 
 
         combo3.setOnAction(event -> {

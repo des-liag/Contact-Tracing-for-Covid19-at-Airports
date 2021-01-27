@@ -1,10 +1,10 @@
 package Graphics;
 
+import Airports.Airport;
 import Airports.ProgramData;
-import static javafx.collections.FXCollections.observableArrayList;
 import javafx.collections.ObservableList;
-import  javafx.scene.layout.GridPane;
-import  javafx.stage.Stage;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -35,15 +35,11 @@ public class AddFlight {
         depICAO.setPromptText("Departure airport");
         GridPane.setRowIndex(depICAO, 2);
         GridPane.setColumnIndex(depICAO, 0);
+        
         ObservableList<String> list1 = depICAO.getItems();
-
-//        ProgramData data = new ProgramData();
-//        for (String string : data.getlistICAO()) {
-//            list1.add(string);
-//        }
-////        list1.add("1");
-//        ObservableList<String> list = depICAO.getItems();
-//        getList();
+        for (Airport airport : ProgramData.getAirports()) {
+            list1.add(airport.getAirportICAO());
+        }
         
 
 
@@ -53,14 +49,11 @@ public class AddFlight {
         GridPane.setRowIndex(destICAO, 4);
         GridPane.setColumnIndex(destICAO, 0);
         
-        
-//        try {
-//            for (String icao : ProgramData.getlistICAO()){
-//                list2.add(icao);
-//            }
-//        } catch(ExceptionInInitializerError e) {
-//            System.out.println("Something went wrong");
-//        }
+        ObservableList<String> list2 = destICAO.getItems();
+        for (Airport airport : ProgramData.getAirports()) {
+            list2.add(airport.getAirportICAO());
+        }
+
 
         
         Label departure = SetStyles.createLabels("Please enter departure date and time: ", 5,0,
@@ -107,14 +100,4 @@ public class AddFlight {
         return depTime.getValue().toString();
     }
     
-//    public static void getList() {
-//        ObservableList<String> list = depICAO.getItems();
-//        try {
-//        for (String icao : ProgramData.getlistICAO()){
-//                list.add(icao);
-//            }
-//        } catch(ExceptionInInitializerError e) {
-//            System.out.println("Something went wrong");
-//        }
-//    }
 }

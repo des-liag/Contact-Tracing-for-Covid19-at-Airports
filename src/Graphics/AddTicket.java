@@ -1,5 +1,9 @@
 package Graphics;
 
+import Airports.Airport;
+import Airports.ProgramData;
+import static Graphics.AddFlight.destICAO;
+import javafx.collections.ObservableList;
 import  javafx.scene.layout.GridPane;
 import  javafx.stage.Stage;
 import  javafx.scene.control.Label;
@@ -76,13 +80,21 @@ public class AddTicket {
       depICAO.setPromptText("Departure airport");
       GridPane.setRowIndex(depICAO, 22);
       GridPane.setColumnIndex(depICAO, 0);
-      javafx.collections.ObservableList<String> list = depICAO.getItems();
+      
+        ObservableList<String> list1 = depICAO.getItems();
+        for (Airport airport : ProgramData.getAirports()) {
+            list1.add(airport.getAirportICAO());
+        }
       Label dsICAO = SetStyles.createLabels("Please pick passenger's destination airport ICAO:", 23,0,
                Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
       destICAO.setPromptText("Departure airport");
       GridPane.setRowIndex(destICAO, 24);
       GridPane.setColumnIndex(destICAO, 0);
-      list = destICAO.getItems();
+      
+        ObservableList<String> list2 = destICAO.getItems();
+        for (Airport airport : ProgramData.getAirports()) {
+            list2.add(airport.getAirportICAO());
+        }
 
       Button okButton = new Button("OK");
       SetStyles.setStyleForButtons(okButton, 26, 30);
