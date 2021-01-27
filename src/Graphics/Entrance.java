@@ -83,7 +83,11 @@ public class Entrance extends Application {
     public static void main(String[] args) {
         ProgramData.loadData();
         launch(args);
+//        ProgramData.addAirport();
         ProgramData.saveData();
+
+//        System.out.println(ProgramData.getAirports().size());
+
     }
 
 

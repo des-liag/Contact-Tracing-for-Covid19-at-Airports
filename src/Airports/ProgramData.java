@@ -744,6 +744,7 @@ public class ProgramData implements Serializable {
         if(!exists) {
             Airport airport = new Airport(icao, name);
             airports.add(airport);
+            System.out.println("INNN");
             flag = true;
         }
         CheckAddingInput.message(flag);
