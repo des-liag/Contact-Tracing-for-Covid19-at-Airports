@@ -134,7 +134,7 @@ public class CheckAddingInput {
                 stage.show();
             }
         }
-        if (!luggage.getText().equals("TRUE") || luggage.getText().equals("FALSE")) {
+        if (!luggage.getText().equals("TRUE") || !luggage.getText().equals("FALSE")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Invalid Data");
             alert.setContentText("Please enter TRUE OR FALSE for luggage ");

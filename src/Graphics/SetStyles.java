@@ -31,7 +31,7 @@ public class SetStyles {
      */
     public static void setStyleForLabel(Label name, int value, Pos position, Paint color, Font font) {
         GridPane.setRowIndex(name,value);
-        GridPane.setColumnIndex(name, 2);
+        GridPane.setColumnIndex(name, 0);
         name.setAlignment(position);
         name.wrapTextProperty();
         name.setTextFill(color);
@@ -40,13 +40,13 @@ public class SetStyles {
 
     public static void setStyleForRadButtons(ToggleGroup gr, int value, RadioButton rb) {
        GridPane.setRowIndex(rb,value);
-       GridPane.setColumnIndex(rb,2);
+       GridPane.setColumnIndex(rb,0);
        rb.setToggleGroup(gr);
     }
 
     public static void setStyleForText (TextField text, int value)  {
        GridPane.setRowIndex(text,value);
-       GridPane.setColumnIndex(text,2);
+       GridPane.setColumnIndex(text,0);
     }
 
     public static void setStyleForButtons(Button button, int row, int column) {

@@ -76,38 +76,15 @@ public class OkButtonHandle  {
             }
         }
         if (MainWindowForUser.emp.isSelected()) {
-            if (MainWindowForUser.textArea3.getText().equals("")) {
-                alert.setContentText("You forgot to enter ICAO for airport");
+            if (Graphics.MainWindowForUser.icao.getValue().equals("")) {
+                checkICAO = true;
+                alert.setContentText("You forgot to pick ICAO for airport");
                 java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && (result.get() == ButtonType.OK)) {
                     alert.close();
                     primaryStage.show();
                 }
-            }
-            //check if the ICAO have 4 capital letters and
-            // if not, create a warning window to inform the user
-            int count = 0;
-            char ch;
-            if (MainWindowForUser.textArea3.getText().length() == 4 ) {
-                for (int i = 0; i < MainWindowForUser.textArea3.getText().length(); i++) {
-                    ch = MainWindowForUser.textArea3.getText().charAt(i);
-                    if (Character.isUpperCase(ch)) {
-                        count++;
-                    }
-                }
-                if (count == 4) {
-                    checkICAO = true;
-                }
-            } else  {
-                Alert alert3 = new Alert(Alert.AlertType.WARNING);
-                alert3.setTitle("Invalid Data");
-                alert3.setContentText("The ICAO of the airport should have ONLY 4 CAPITAL LETTERS");
-                java.util.Optional<javafx.scene.control.ButtonType> result3 = alert3.showAndWait();
-                if (result3.isPresent() && (result3.get() == ButtonType.OK)) {
-                    alert3.close();
-                    primaryStage.show();
-                }
-            }
+            } else checkICAO = false;
             if (MainWindowForUser.combo2.getValue() == null) {
                 alert.setContentText("You forgot to pick employee type ");
                 java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
@@ -129,7 +106,7 @@ public class OkButtonHandle  {
                 && MainWindowForUser.grp.getSelectedToggle() != null && !checkSSN ) {
             if (MainWindowForUser.pas.isSelected()) {
                 start(primaryStage);
-            } else if (checkICAO && MainWindowForUser.combo2.getValue() != null) {
+            } else if (!checkICAO && MainWindowForUser.combo2.getValue() != null) {
                    start(primaryStage);
             }
         }

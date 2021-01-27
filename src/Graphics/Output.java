@@ -17,7 +17,7 @@ public class Output {
      */
     public static void employeeNotFound()  {
         createAlert("We can not found employee with SSN " + MainWindowForUser.ps.getText() +
-                " working on airport with " + MainWindowForUser.textArea3.getText() + " ICAO " +
+                " working on airport with " + MainWindowForUser.getICAO().getValue().toString() + " ICAO " +
                 "               Please press OK to exit the application");
     }
     /**
@@ -25,7 +25,7 @@ public class Output {
      * to inform the user that this ICAO does not exist
      */
     public static void icaoNotFound() {
-      createAlert("We can not found airport with " + MainWindowForUser.textArea3.getText() + " ICAO " +
+      createAlert("We can not found airport with " + MainWindowForUser.getICAO().getValue().toString() + " ICAO " +
               "     Please press OK to exit the application");
     }
     /**

@@ -5,12 +5,14 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import  javafx.scene.layout.Background;
+import javafx.scene.layout.Background;
+import Airports.Airport;
+import Airports.ProgramData;
+import javafx.collections.ObservableList;
 
  public class MainWindowForUser {
     protected static TextField textArea1 = new TextField();
     protected static TextField textArea2 = new TextField();
-    protected static TextField textArea3 = new TextField();
     protected static PasswordField ps = new PasswordField();
     protected static ToggleGroup grp = new ToggleGroup();
     protected static ToggleGroup group = new ToggleGroup();
@@ -20,6 +22,7 @@ import  javafx.scene.layout.Background;
     protected static RadioButton pas = new RadioButton("Passenger");
     protected static RadioButton emp = new RadioButton("Employee");
     protected static ComboBox<String> combo2 = new ComboBox<>();
+    protected static ComboBox<String> icao = new ComboBox<>();
 
     public static TextField getTextArea1() {
         return textArea1;
@@ -29,9 +32,7 @@ import  javafx.scene.layout.Background;
         return textArea2;
     }
 
-    public static TextField getTextArea3() {
-        return textArea3;
-    }
+    public static ComboBox getICAO() { return icao;}
 
     public static PasswordField getPs() {
         return ps;
@@ -101,7 +102,7 @@ import  javafx.scene.layout.Background;
         Label labelSSNNumber = new Label("Please enter SSN Number");
         SetStyles.setStyleForLabel(labelSSNNumber, 5, Pos.TOP_LEFT, Paint.valueOf("white"), Font.font("Arial Rounded MT Bold", 22));
         GridPane.setRowIndex(ps, 6);
-        GridPane.setColumnIndex(ps, 2);
+        GridPane.setColumnIndex(ps, 0);
 
 
         Label labelTest = new Label("Please select the type of the COVID-19 test from the following choices");
@@ -113,7 +114,7 @@ import  javafx.scene.layout.Background;
         Label labelDay = new Label("Please select the date of the results of the test");
         SetStyles.setStyleForLabel(labelDay, 10, Pos.TOP_LEFT,Paint.valueOf("white"), Font.font("Arial Rounded MT Bold", 22));
         GridPane.setRowIndex(date, 11);
-        GridPane.setColumnIndex(date, 2);
+        GridPane.setColumnIndex(date, 0);
         date.setEditable(false);
 
         Label labelTypeOfUser = new Label("Please select Passenger or Employee");
@@ -125,7 +126,7 @@ import  javafx.scene.layout.Background;
         SetStyles.setStyleForLabel(labelTypeOfEmployee, 15, Pos.TOP_LEFT, Paint.valueOf("white"), Font.font("Arial Rounded MT Bold", 22));
         combo2.setPromptText("Employee Type");
         GridPane.setRowIndex(combo2, 16);
-        GridPane.setColumnIndex(combo2, 2);
+        GridPane.setColumnIndex(combo2, 0);
         javafx.collections.ObservableList<String> list2 = combo2.getItems();
         list2.add("Flight Crew");
         list2.add("Store Stuff");
@@ -134,7 +135,14 @@ import  javafx.scene.layout.Background;
 
         Label labelWorkAirport = new Label("Please enter the ICAO of the working airport ");
         SetStyles.setStyleForLabel(labelWorkAirport, 17, Pos.TOP_LEFT, Paint.valueOf("white"), Font.font("Arial Rounded MT Bold", 22));
-        SetStyles.setStyleForText(textArea3, 18);
+        icao.setPromptText("Airport ICAO");
+        GridPane.setRowIndex(icao, 18);
+        GridPane.setColumnIndex(icao, 0);
+
+        ObservableList<String> list = icao.getItems();
+        for (Airport airport : ProgramData.getAirports()) {
+            list.add(airport.getAirportICAO());
+        }
 
         // END OF CREATION OF THE MAIN WINDOW
 
@@ -144,7 +152,8 @@ import  javafx.scene.layout.Background;
          */
         pas.setOnAction(event -> {
             combo2.setDisable(true);
-            textArea3.setDisable(true);
+            icao.setDisable(true);
+
         });
 
         /**
@@ -153,7 +162,8 @@ import  javafx.scene.layout.Background;
          */
         emp.setOnAction(event -> {
             combo2.setDisable(false);
-            textArea3.setDisable(false);
+            icao.setDisable(false);
+
         });
 
         /**
@@ -178,7 +188,7 @@ import  javafx.scene.layout.Background;
 
         gridPane.getChildren().addAll(labelFName, labelLName, textArea1, textArea2, labelSSNNumber, ps, labelTest, test1, test2,
                 labelDay, date, labelTypeOfUser, pas, emp, labelTypeOfEmployee, combo2, okButton,
-                helpButton, labelWorkAirport, textArea3);
+                helpButton, labelWorkAirport, icao);
         gridPane.setBackground(background);
         primaryStage.setTitle("Airport application for COVID-19");
         primaryStage.setScene(new javafx.scene.Scene(gridPane, 1950, 1000));
