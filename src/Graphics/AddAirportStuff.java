@@ -206,7 +206,7 @@ public class AddAirportStuff {
             if (combo3.getValue().equals("CheckIn Stuff")) {
                 ProgramData.addCheckInStuff();
             } else if(combo3.getValue().equals("Store Stuff")) {
-                //ProgramData.addStoreStuff();
+                ProgramData.addStoreStuff();
             } else {
                 //ProgramData.addGateStuff();
             }
