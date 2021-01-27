@@ -1,10 +1,11 @@
 package Airports;
 
+import Graphics.CheckAddingInput;
 import Graphics.AddAirportStuff;
 import Graphics.AddVisitedStores;
 import Graphics.AddTicket;
 import Graphics.AddStores;
-import  Graphics.AddGate;
+import Graphics.AddGate;
 import Graphics.AddAirport;
 import Graphics.AddFlightCrew;
 import Graphics.AddFlight;
@@ -31,29 +32,19 @@ public class ProgramData implements Serializable {
     // An arrayList with the data of Flight Objects
     private static ArrayList<Flight> flights = new ArrayList<Flight>();
     
-    // An arrayList that will be filled when we are searching for close contacts
-    private static ArrayList<Person> closeContacts =  new ArrayList<Person>();
-    // An arrayList that will be filled when we are searching for casual contacts
-    private static ArrayList<Person> casualContacts =  new ArrayList<Person>();
-    // A temp arrayList with Person Objects
-    private static ArrayList<Person> contacts =  new ArrayList<Person>();
-
-    
-    //The ssn that user has typed
-    private static String ssn = MainWindowForUser.getPs().getText();
-    // The date of results of the positive test
-    private static LocalDate positiveDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
-    // The date of today in order to compare the dates
-    private static LocalDate nowDate = LocalDate.parse("2020-02-27"); //LocalDate.now()
-    // The last day that we have to search for tracers
-    private static LocalDate lastSearchDate;
-    
     /**
      * Constructor of the class
      * If there aren't data to binary files, calls the methods initializeFromFile and saveData
      */
-    public ProgramData() {
-        if (!this.load()) {
+//    public ProgramData() {
+//        if (!this.load()) {
+//            initializeFromFile();
+//            saveData();
+//        }
+//    }
+    
+    public static void loadData(){
+         if (!load()) {
             initializeFromFile();
             saveData();
         }
@@ -63,17 +54,17 @@ public class ProgramData implements Serializable {
      * Constructor of the class
      * @param initializeFromFiles
      */
-    public ProgramData(boolean initializeFromFiles) {
-        if (initializeFromFiles) {
-            initializeFromFile();
-            saveData();
-        } else {
-            if (!this.load()) {
-                initializeFromFile();
-                saveData();
-            }
-        }
-    }
+//    public ProgramData(boolean initializeFromFiles) {
+//        if (initializeFromFiles) {
+//            initializeFromFile();
+//            saveData();
+//        } else {
+//            if (!this.load()) {
+//                initializeFromFile();
+//                saveData();
+//            }
+//        }
+//    }
 
     /**
      * Gets the ArrayList airports with all airports' data
@@ -107,67 +98,19 @@ public class ProgramData implements Serializable {
         return flights;
     }
 
-    /**
-     * Gets the ssn that user has typed
-     * @return String ssn
-     */
-    public static String getSsn() {
-        return ssn;
-    }
+//    public ArrayList<String> getlistICAO() {
+//        ArrayList<String> list = new  ArrayList<String>();
+//        for (Airport airport : getAirports()) {
+//            list.add(airport.getAirportICAO());
+//        }
+//        return list;
+//    }
 
-
-    /**
-     * Gets the positiveDate 
-     * @return LocalDate representing the date of the covid-19 test
-     */
-    public static LocalDate getPositiveDate() {
-        return positiveDate;
-    }
-
-    /**
-     * Sets the positiveDate
-     * @param positiveDate LocalDate containing the date of the covid-19 test
-     */
-    public static void setPositiveDate(LocalDate positiveDate) {
-        ProgramData.positiveDate = positiveDate;
-    }
-
-    /**
-     * Gets the nowDate
-     * @return LocalDate representing the date of today
-     */
-    public static LocalDate getNowDate() {
-        return nowDate;
-    }
-
-    /**
-     * Sets the nowDate
-     * @param nowDate LocalDate containing the date of today
-     */
-    public static void setNowDate(LocalDate nowDate) {
-        ProgramData.nowDate = nowDate;
-    }
-
-    /**
-     * Gets the lastSearchDate
-     * @return LocalDate representing the last Date that we have to search for tracers
-     */
-    public static LocalDate getLastSearchDate() {
-        return lastSearchDate;
-    }
-
-    /**
-     * Sets the lastSearchDate
-     * @param lastSearchDate LocalDate containing the last Date that we have to search for tracers
-     */
-    public static void setLastSearchDate(LocalDate lastSearchDate) {
-        ProgramData.lastSearchDate = lastSearchDate;
-    }
 
     /**
      * Initialize the ArrayLists with data from CSV files
      */
-    public void initializeFromFile() {
+    public static void initializeFromFile() {
         airports = FileManager.loadAirports("CSVFiles//airports.csv//");
         flightCrew = FileManager.getFlightCrew("CSVFiles//people.csv//");
         pasengers = FileManager.getPassengers("CSVFiles//people.csv//");
@@ -216,7 +159,7 @@ public class ProgramData implements Serializable {
      * @return
      */
     @SuppressWarnings ("unchecked")
-    public boolean load(){
+    public static boolean load(){
         airports = (ArrayList<Airport>) loadObject("airports");
         flightCrew = (ArrayList<Person>) loadObject("flightCrew");
         pasengers = (ArrayList<Person>) loadObject("passengers");
@@ -232,7 +175,7 @@ public class ProgramData implements Serializable {
      * @param fileName the name of the file
      * @return Object containing the file's data
      */
-    private Object loadObject(String fileName){
+    private static Object loadObject(String fileName){
         ObjectInputStream objectinputstream = null;
         Object tempList = null;
         try {
@@ -258,15 +201,25 @@ public class ProgramData implements Serializable {
      * Search for close and casual contacts when the positive case is passenger
      */
     public static void searchForPassenger() {
-        if (checkDate()) {
-            calculateDays();
+        ArrayList<Person> closeContacts =  new ArrayList<Person>();
+        ArrayList<Person> casualContacts =  new ArrayList<Person>();
+        ArrayList<Person> contacts =  new ArrayList<Person>();
+        //The ssn that user has typed
+        String ssn = MainWindowForUser.getPs().getText();
+        // The date of results of the positive test
+        LocalDate posDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
+        
+        if (checkDate(posDate)) {
+            LocalDate[] dates =  calculateDays(posDate);
+            LocalDate positiveDate = dates[0];
+            LocalDate lastSearchDate = dates[1];
             int sumFlights = getFlights().size() - 1;
             LocalDate flightDate;
             for (int id = sumFlights; id >= 0; id--) {
                 flightDate = getFlights().get(id).getDepartureDateTime().toLocalDate();
                 if (flightDate.isAfter(lastSearchDate) && flightDate.isBefore(positiveDate)) {
                     contacts = getFlights().get(id).findCloseContactsOfPassenger(ssn);
-                    if (contacts.size() != 0) {
+                    if (!contacts.isEmpty()) {
                         for (int i = 0; i < contacts.size(); i++ ) {
                             if (!closeContacts.contains(contacts.get(i))) {
                                 closeContacts.add(contacts.get(i));
@@ -274,7 +227,7 @@ public class ProgramData implements Serializable {
                         }
                     } 
                     contacts = getFlights().get(id).findCasualContactsOfPassenger(ssn);
-                    if (contacts.size() != 0) {
+                    if (!contacts.isEmpty()) {
                         for (int i = 0; i < contacts.size(); i++ ) {
                             if (!casualContacts.contains(contacts.get(i))) {
                                 casualContacts.add(contacts.get(i));
@@ -296,8 +249,18 @@ public class ProgramData implements Serializable {
      * Search for close contacts when the positive case is working as flight crew
      */
     public static void searchForFlightCrew() {
-        if (checkDate()) {
-            calculateDays();
+        ArrayList<Person> closeContacts =  new ArrayList<Person>();
+        ArrayList<Person> casualContacts =  new ArrayList<Person>();
+        ArrayList<Person> contacts =  new ArrayList<Person>();
+        //The ssn that user has typed
+        String ssn = MainWindowForUser.getPs().getText();
+        // The date of results of the positive test
+        LocalDate posDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
+        
+        if (checkDate(posDate)) {
+            LocalDate[] dates =  calculateDays(posDate);
+            LocalDate positiveDate = dates[0];
+            LocalDate lastSearchDate = dates[1];
             int sumFlights = getFlights().size() - 1;
             LocalDate flightDate;
             for (int id = sumFlights; id >= 0; id--) {
@@ -326,8 +289,18 @@ public class ProgramData implements Serializable {
      * Search for close contacts when the positive case is working as checkIn stuff
      */
     public static void searchForCheckInStuff() {
-        if (checkDate()) {
-            calculateDays();
+        ArrayList<Person> closeContacts =  new ArrayList<Person>();
+        ArrayList<Person> casualContacts =  new ArrayList<Person>();
+        ArrayList<Person> contacts =  new ArrayList<Person>();
+        //The ssn that user has typed
+        String ssn = MainWindowForUser.getPs().getText();
+        // The date of results of the positive test
+        LocalDate posDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
+        
+        if (checkDate(posDate)) {
+            LocalDate[] dates =  calculateDays(posDate);
+            LocalDate positiveDate = dates[0];
+            LocalDate lastSearchDate = dates[1];
             Airport workingAirport = getWorkingAirport();
             if (workingAirport != null) {
                 AirportStuff checkInEmployee;
@@ -364,8 +337,17 @@ public class ProgramData implements Serializable {
      * Search for casual contacts when the positive case is working as store stuff
      */
     public static void searchForStroreStuff() {
-        if (checkDate()) {
-            calculateDays();
+        ArrayList<Person> closeContacts =  new ArrayList<Person>();
+        ArrayList<Person> casualContacts =  new ArrayList<Person>();
+        ArrayList<Person> contacts =  new ArrayList<Person>();
+        //The ssn that user has typed
+        String ssn = MainWindowForUser.getPs().getText();
+        // The date of results of the positive test
+        LocalDate posDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
+        if (checkDate(posDate)) {
+            LocalDate[] dates =  calculateDays(posDate);
+            LocalDate positiveDate = dates[0];
+            LocalDate lastSearchDate = dates[1];
             Airport workingAirport = getWorkingAirport();
             if (workingAirport != null) {
                 AirportSection workingStore;
@@ -404,8 +386,17 @@ public class ProgramData implements Serializable {
      * Search for casual contacts when the positive case is working as gate stuff
      */
     public static void searchForGateStuff() {
-        if (checkDate()) {
-            calculateDays();
+        ArrayList<Person> closeContacts =  new ArrayList<Person>();
+        ArrayList<Person> casualContacts =  new ArrayList<Person>();
+        ArrayList<Person> contacts =  new ArrayList<Person>();
+        //The ssn that user has typed
+        String ssn = MainWindowForUser.getPs().getText();
+        // The date of results of the positive test
+        LocalDate posDate = LocalDate.parse(MainWindowForUser.getDate().getValue().toString());
+        if (checkDate(posDate)) {
+            LocalDate[] dates =  calculateDays(posDate);
+            LocalDate positiveDate = dates[0];
+            LocalDate lastSearchDate = dates[1];
             Airport workingAirport = getWorkingAirport();
             if (workingAirport != null) {
                 AirportSection gate;
@@ -468,7 +459,9 @@ public class ProgramData implements Serializable {
      * Check if have passed more than 30 days since the covid-19 test
      * @return boolean true if haven't passed more that 30 days
      */
-    private static boolean checkDate() {
+    private static boolean checkDate(LocalDate positiveDate) {
+        // The date of today in order to compare the dates
+        LocalDate nowDate = LocalDate.parse("2020-02-27"); //LocalDate.now()
         if (positiveDate.plusDays(30).compareTo(nowDate) > 0) {
             return true;
         } else {
@@ -479,8 +472,11 @@ public class ProgramData implements Serializable {
     
     /**
      * Calsulate how many days we have to search for tracers depending on covid-19 type of test
+     * @return LocaDate[] representing the prositive date and the last searching date
      */
-    private static void calculateDays() {
+    private static LocalDate[] calculateDays(LocalDate positiveDate) {
+        LocalDate[] dates = new LocalDate[2];
+        dates[0] = positiveDate;
         // Type of covid-19 test
         String testType;
         if (MainWindowForUser.getTest1().isSelected()) {
@@ -493,9 +489,12 @@ public class ProgramData implements Serializable {
         if (testType.equals("rapid")) {
             // If test is rapid, we search for flight up to 6 days before, plus the day of the test
             daysBack = 7;
-            setPositiveDate(ProgramData.positiveDate.plusDays(1));
+            //positiveDate
+            dates[0] = positiveDate.plusDays(1);
         }
-        setLastSearchDate(ProgramData.positiveDate.minusDays(daysBack));
+        //lastSearchDate: the last day that we have to search for tracers
+        dates[1] = positiveDate.minusDays(daysBack);
+        return dates;
     }
     
     /**
@@ -540,11 +539,14 @@ public class ProgramData implements Serializable {
      * Adds new flight to binary file flights only if the airports of departure and destination of flight exist
      * @return true or false depending on successful or failed addition
      */
-    public static boolean addFlight() {
+    public static void addFlight() {
+        System.out.println("INNNN");
         String depICAO = AddFlight.getDpICAO();
         String destICAO = AddFlight.getDsICAO();
         String departureDateTime = AddFlight.getDepTime();
         String destinationDateTime = AddFlight.getDestTime();
+        
+        boolean flag = false;
               
         Airport departureAirport = null;
         Airport destinationAirport = null;
@@ -560,9 +562,9 @@ public class ProgramData implements Serializable {
         if(departureAirport != null && destinationAirport != null) {
             Flight flight = new Flight(departureAirport, destinationAirport, departureDateTime, destinationDateTime);
             saveData();
-            return true;
+            flag = true;
         }
-        return false;
+        CheckAddingInput.message(flag);
     }
     
     /**
@@ -570,14 +572,16 @@ public class ProgramData implements Serializable {
      * If this Person doesn't already exist, he is also added to binary file people
      * @return true or false depending on successful or failed addition
      */
-    public static boolean addFlightCrew() {
+    public static void addFlightCrew() {
         String ssn = AddFlightCrew.getSSN();
         String name = AddFlightCrew.getName();
         String lastName = AddFlightCrew.getLastName();
         String address = AddFlightCrew.getAddress();
         String phone = AddFlightCrew.getPhone();
         String flightId = AddFlightCrew.getID();
-                
+        
+        boolean flag = false;
+        
         int id = Integer.parseInt(flightId);
         boolean exists = false;
         Person flightCrew = null;
@@ -601,9 +605,9 @@ public class ProgramData implements Serializable {
                 saveData();
             }
             getFlights().get(id).addFlightCrew(flightCrew);
-            return true;
+            flag = true;
         }
-        return false;
+         CheckAddingInput.message(flag);
     }
     
     /**
@@ -825,14 +829,14 @@ public class ProgramData implements Serializable {
         if(!ifExistsStuff(ssn)) {
             for(Airport airport : getAirports()) {
                 if(airport.getAirportICAO().equals(icao)) {
-                    for()
+//                    for()
                     for(AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
                         
                     }
                 }
             }
         }
- 
+        return true;
         }
 
         

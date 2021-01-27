@@ -153,7 +153,6 @@ public class OkButtonHandle  {
     
 
     public static void searchForTracers() {
-        ProgramData.data();
         if(MainWindowForUser.getPas().isSelected()) {
             ProgramData.searchForPassenger();
         } else if(MainWindowForUser.getCombo2().getValue().equals("Flight Crew")) {

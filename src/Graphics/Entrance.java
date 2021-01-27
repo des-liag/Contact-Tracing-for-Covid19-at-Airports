@@ -1,5 +1,6 @@
 package Graphics;
 
+import Airports.ProgramData;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
@@ -18,7 +19,7 @@ public class Entrance extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+//        ProgramData.loadData();
         GridPane gridPane = new GridPane();
         gridPane.setHgap(1);
         gridPane.setVgap(10);
@@ -61,6 +62,7 @@ public class Entrance extends Application {
 
         addButton.setOnMouseClicked(event -> {
             primaryStage.close();
+//            ProgramData data = new ProgramData();
             AddingData.start();
         });
 
@@ -79,7 +81,9 @@ public class Entrance extends Application {
     }
 
     public static void main(String[] args) {
+        ProgramData.loadData();
         launch(args);
+        ProgramData.saveData();
     }
 
 
