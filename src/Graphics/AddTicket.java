@@ -2,7 +2,6 @@ package Graphics;
 
 import Airports.Airport;
 import Airports.ProgramData;
-import static Graphics.AddFlight.destICAO;
 import javafx.collections.ObservableList;
 import  javafx.scene.layout.GridPane;
 import  javafx.stage.Stage;
@@ -36,9 +35,13 @@ public class AddTicket {
     protected static TextField textAreaDestGate = new TextField();
     protected static ComboBox<String> depICAO = new ComboBox<>();
     protected static ComboBox<String> destICAO = new ComboBox<>();
+    // array flag saves false or true if the check method / methods from class CheckAddingInput
+    // had been done
+    static final boolean[] flag = {false,false,false,false,false,false,false,false,false};
+    static Stage stage = new Stage();
 
     public static void newTicket() {
-      Stage stage = new Stage();
+
       GridPane gridPane = new GridPane();
       SetStyles.creatWindow("ADDING A NEW TICKET", 1700,1000, stage, gridPane);
 
@@ -66,7 +69,7 @@ public class AddTicket {
       GridPane.setColumnIndex(checkinDate, 0);
       Label time = SetStyles.createLabels("Please enter passenger's check-In time: ", 14,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
-      Label warning = SetStyles.createLabels("please type next to date the time in this form: THH:MM:SS",15,
+      Label warning = SetStyles.createLabels("please type next to date the time in this form: HH:MM:SS",15,
                 0, Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 14));
       SetStyles.setPosition(textAreaTime,16,0);
 
@@ -103,21 +106,44 @@ public class AddTicket {
       Button okButton = new Button("OK");
       SetStyles.setStyleForButtons(okButton, 28,3 );
       okButton.setOnMouseClicked(event -> {
-            CheckAddingInput.checkSSN(textAreaSSN,stage);
-            CheckAddingInput.checkPersonData(textAreaName,textAreaLastName,textAreaAddress,textAreaPhone,stage);
-            CheckAddingInput.checkID(textAreaFlightID,stage);
-            CheckAddingInput.checkLuggage(textArealuggage,stage);
+          if (CheckAddingInput.checkSSN(textAreaSSN, stage)) {
+              flag[0] = false;
+          } else flag[0] = true;
+
+          if (CheckAddingInput.checkPersonData(textAreaName,textAreaLastName,textAreaAddress,textAreaPhone,stage)) {
+              flag[1] = false;
+          } else flag[1] = true;
+
+          if (CheckAddingInput.checkID(textAreaFlightID,stage)) {
+              flag[2] = false;
+          } else flag[2] = true;
+
+          if (CheckAddingInput.checkLuggage(textArealuggage,stage)) {
+              flag[3] = false;
+          } else  flag[3] = true;
            try {
-               CheckAddingInput.checkGate(textAreaDepGate,stage);
-               CheckAddingInput.checkGate(textAreaDestGate,stage);
+               if (CheckAddingInput.checkGate(textAreaDepGate, stage)) {
+                   flag[4] = false;
+               } else flag[4] = true;
+               if (CheckAddingInput.checkGate(textAreaDestGate, stage)) {
+                   flag[5] = false;
+               } else flag[5] = true;
            } catch (Exception e) {
                e.printStackTrace();
            }
-            CheckAddingInput.checkICAO(depICAO,stage);
-            CheckAddingInput.checkICAO(destICAO,stage);
-            CheckAddingInput.checkEntrance(checkinDate,textAreaTime,stage);
+          if (CheckAddingInput.checkICAO(depICAO,stage)) {
+              flag[6] = false;
+          } else flag[6] = true;
 
-        });
+          if (CheckAddingInput.checkICAO(destICAO,stage)) {
+              flag[7] = false;
+          } else flag[7] = true;
+
+          if (CheckAddingInput.checkEntrance(checkinDate,textAreaTime,stage)) {
+              flag[8] = false;
+          } else flag[8] = true;
+          correctData();
+      });
 
       gridPane.getChildren().addAll(ssn,textAreaSSN, name, textAreaName, lastName, textAreaLastName, address,
                 textAreaAddress, phone, textAreaPhone, id, textAreaFlightID,time,checkInDate, checkinDate,
@@ -163,6 +189,14 @@ public class AddTicket {
     }
     public static String getTime() {
         return textAreaTime.getText();
+    }
+
+    // if all flags are true means all data are correct
+    // and close stage
+    public static void correctData() {
+        if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[6] && flag[7] && flag[8]) {
+            stage.close();
+        }
     }
 
 

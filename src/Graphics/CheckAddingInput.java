@@ -25,10 +25,8 @@ import javafx.scene.control.CheckBox;
  */
 public class CheckAddingInput {
 
-    static boolean checkSSN = false;
-    static boolean checkICAO = false;
-
     public static boolean checkSSN(TextField textField, Stage stage) {
+        boolean checkSSN = false;
         if (textField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Null Data");
@@ -55,7 +53,7 @@ public class CheckAddingInput {
     }
 
     public static boolean checkAirport(TextField name, TextField icao,  Stage stage) {
-
+        boolean checkICAO = false;
         if (name.getText().equals("") || icao.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Null Data");
@@ -199,8 +197,8 @@ public class CheckAddingInput {
         boolean checkEntrance = false;
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Null Data");
-        if (date.getValue() == null) {
-            alert.setContentText("You forgot to enter date");
+        if (date.getValue() == null || time.getText().equals("")) {
+            alert.setContentText("You forgot to enter date or time");
             java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
             if (result.isPresent() && (result.get() == ButtonType.OK)) {
                 alert.close();

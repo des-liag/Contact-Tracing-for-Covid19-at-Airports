@@ -7,6 +7,8 @@
       <change beforePath="$PROJECT_DIR$/src/Graphics/AddAirportStuff.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Graphics/AddAirportStuff.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Graphics/AddFlight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Graphics/AddFlight.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Graphics/AddFlightCrew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Graphics/AddFlightCrew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Graphics/AddGate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Graphics/AddGate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Graphics/AddStores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Graphics/AddStores.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Graphics/AddTicket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Graphics/AddTicket.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Graphics/AddVisitedStores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Graphics/AddVisitedStores.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Graphics/CheckAddingInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Graphics/CheckAddingInput.java" afterDir="false" />
@@ -323,7 +325,7 @@
       <workItem from="1611654518961" duration="4935000" />
       <workItem from="1611702370666" duration="1353000" />
       <workItem from="1611745142540" duration="2577000" />
-      <workItem from="1611747775199" duration="7865000" />
+      <workItem from="1611747775199" duration="12450000" />
     </task>
     <task id="LOCAL-00001" summary="Changes and adding a new class&#10;AddAirportStuff">
       <created>1611667559557</created>
@@ -360,7 +362,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611748473356</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Changes">
+      <created>1611755739093</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1611755739093</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">

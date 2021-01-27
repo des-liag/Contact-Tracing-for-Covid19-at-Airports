@@ -18,6 +18,8 @@ public class AddFlightCrew {
     protected static TextField textAreaAddress = new TextField();
     protected static TextField textAreaPhone = new TextField();
     protected static TextField textAreaFlightID = new TextField();
+    // array flag saves false or true if the check method / methods from class CheckAddingInput
+    // had been done
     static final boolean[] flag = {false,false,false};
     static Stage stage = new Stage();
 
@@ -56,7 +58,7 @@ public class AddFlightCrew {
             } else flag[1] = true;
            if (CheckAddingInput.checkID(textAreaFlightID,stage)) {
                flag[2] = false;
-           } else flag[0] = true;
+           } else flag[2] = true;
             correctData();
         });
         gridPane.getChildren().addAll(ssn,textAreaSSN, name, textAreaName, lastName, textAreaLastName, address,
@@ -81,7 +83,8 @@ public class AddFlightCrew {
     public static String getID() {
         return textAreaFlightID.getText();
     }
-
+    // if all flags are true means all data are correct
+    // and close stage
     public static void correctData() {
         if (flag[0] && flag[1] && flag[2]) {
             stage.close();

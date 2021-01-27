@@ -15,6 +15,8 @@ import javafx.scene.control.Button;
 public class AddAirport {
     protected static TextField textAreaName = new TextField();
     protected static TextField icao = new TextField();
+    // array flag saves false or true if the check method / methods from class CheckAddingInput
+    // had been done
     static final boolean[] flag = {false};
     static Stage stage = new Stage();
 
@@ -41,14 +43,14 @@ public class AddAirport {
         gridPane.getChildren().addAll(textAreaName,airportName,icao,airportICAO,okButton);
 
     }
-
     public static String getName() {
         return textAreaName.getText();
     }
     public static String getICAO() {
         return icao.getText();
     }
-
+    // if all flags are true means all data are correct
+    // and close stage
     public static void correctData() {
         if (flag[0] && !textAreaName.getText().equals("") && !icao.getText().equals("")) {
             stage.close();

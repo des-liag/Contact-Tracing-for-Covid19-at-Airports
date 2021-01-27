@@ -28,12 +28,15 @@ public class AddFlight {
     protected static DatePicker destDate = new DatePicker();
     // destination time
     protected static TextField destTime = new TextField();
-
+    // array flag saves false or true if the check method / methods from class CheckAddingInput
+    // had been done
+    static final boolean[] flag = {false,false,false,false};
+    static Stage stage = new Stage();
 
     public static void addNewFlight() {
-        Stage stage = new Stage();
+
         GridPane gridPane = new GridPane();
-        SetStyles.creatWindow("ADDING A NEW FLIGHT", 700,600, stage, gridPane);
+        SetStyles.creatWindow("ADDING A NEW FLIGHT", 700,700, stage, gridPane);
 
         Label dpICAO = SetStyles.createLabels("Please enter departure airport ICAO:", 1,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
@@ -79,10 +82,21 @@ public class AddFlight {
         Button okButton = new Button("OK");
         SetStyles.setStyleForButtons(okButton, 26, 18);
         okButton.setOnMouseClicked(event -> {
-            CheckAddingInput.checkICAO(depICAO,stage);
-            CheckAddingInput.checkICAO(destICAO,stage);
-            CheckAddingInput.checkEntrance(destDate,destTime,stage);
-            CheckAddingInput.checkEntrance(depDate,depTime,stage);
+            if (CheckAddingInput.checkICAO(depICAO,stage)) {
+                flag[0] = false;
+            } else flag[0] = true;
+            if (CheckAddingInput.checkICAO(destICAO,stage)) {
+                flag[1] = false;
+            } else flag[1] = true;
+
+            if (CheckAddingInput.checkEntrance(destDate,destTime,stage)) {
+                flag[2] = false;
+            } else flag[2] = true;
+
+            if (CheckAddingInput.checkEntrance(depDate,depTime,stage)) {
+                flag[3] = false;
+            } else flag[3] = true;
+            correctData();
         });
 
         gridPane.getChildren().addAll(depICAO, destICAO, destinationDate, depTime, destTime, warning, warning2,
@@ -106,5 +120,13 @@ public class AddFlight {
     }
     public static String getDsTime() {
         return destTime.getText();
+    }
+
+    // if all flags are true means all data are correct
+    // and close stage
+    public static void correctData() {
+        if (flag[0] && flag[1] && flag[2] && flag[3]) {
+            stage.close();
+        }
     }
 }

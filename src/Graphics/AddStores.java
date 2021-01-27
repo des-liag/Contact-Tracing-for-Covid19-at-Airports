@@ -17,10 +17,13 @@ import javafx.scene.control.ComboBox;
 public class AddStores {
     protected static TextField textAreaStore = new TextField();
     protected static ComboBox<String> icao = new ComboBox<>();
+    // array flag saves false or true if the check method / methods from class CheckAddingInput
+    // had been done
+    static final boolean[] flag = {false, false};
+    static Stage stage = new Stage();
 
     public static void newStore() {
         GridPane gridPane = new GridPane();
-        Stage stage = new Stage();
         SetStyles.creatWindow("ADDING A NEW STORE IN AN AIRPORT", 700,450, stage, gridPane);
 
         Label gateName = SetStyles.createLabels("Please enter store name:", 1, 0,
@@ -39,12 +42,14 @@ public class AddStores {
         Button okButton = new Button("OK");
         SetStyles.setStyleForButtons(okButton, 26, 30);
         okButton.setOnMouseClicked(event -> {
-            try {
-                Graphics.CheckAddingInput.checkGate(textAreaStore,stage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            CheckAddingInput.checkICAO(icao,stage);
+            if (Graphics.CheckAddingInput.checkStore(textAreaStore,stage)) {
+                flag[0] = false;
+            } else flag[0] = true;
+
+            if (CheckAddingInput.checkICAO(icao,stage)) {
+                flag[1] = false;
+            } else flag[1] = true;
+            correctData();
         });
 
         gridPane.getChildren().addAll(textAreaStore,icao,gateName,airportcode,okButton);
@@ -56,6 +61,13 @@ public class AddStores {
     }
     public static String getICAO() {
         return icao.getValue();
+    }
+    // if all flags are true means all data are correct
+    // and close stage
+    public static void correctData() {
+        if (flag[0] && flag[1]) {
+            stage.close();
+        }
     }
 
 }

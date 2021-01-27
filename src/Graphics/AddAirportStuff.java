@@ -29,6 +29,9 @@ public class AddAirportStuff {
     protected static ComboBox<String> combo3 = new ComboBox<>();
     protected static ComboBox<String> icao = new ComboBox<>();
     protected static  ArrayList <String> workingSchedule = new ArrayList<>();
+    // array flag saves false or true if the check method / methods from class CheckAddingInput
+    // had been done
+
     static final boolean[] flag = {false, false,false,false,false,false};
     static Stage stage = new Stage();
 
@@ -192,17 +195,26 @@ public class AddAirportStuff {
     public static String getAddress() {
         return textAreaAddress.getText();
     }
-    public  static String getPhone() {
+    public static String getPhone() {
         return textAreaPhone.getText();
     }
     public static String getICAO() {
         return icao.getValue();
     }
+    public static String getStore() {
+        return textAreaStore.getText();
+    }
+    public static String getGate() {
+        return textAreaGate.getText();
+    }
     public static ArrayList getSchedule () {
         return workingSchedule;
     }
+
+    // if all flags are true means all data are correct
+    // and close stage
     public static void correctData() {
-        if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[26]) {
+        if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[6]) {
             stage.close();
         }
     }
