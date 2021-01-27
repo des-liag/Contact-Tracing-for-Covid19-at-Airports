@@ -6,6 +6,7 @@ import Graphics.AddTicket;
 import Graphics.AddStores;
 import Graphics.AddGate;
 import Graphics.AddAirport;
+import Graphics.AddAirportStuff;
 import Graphics.AddFlightCrew;
 import Graphics.AddFlight;
 import Graphics.MainWindowForUser;
@@ -27,7 +28,7 @@ public class ProgramData implements Serializable {
     // An arrayList with the data of Person flightCrew Objects
     private static ArrayList<Person> flightCrew = new ArrayList<Person>();
     // An arrayList with the data of Person passengers Objects
-    private static ArrayList<Person> pasengers = new ArrayList<Person>();
+    private static ArrayList<Person> passengers = new ArrayList<Person>();
     // An arrayList with the data of Flight Objects
     private static ArrayList<Flight> flights = new ArrayList<Flight>();
     
@@ -86,7 +87,7 @@ public class ProgramData implements Serializable {
      * @return ArrayList<Person> containing Person objects representing the pasengers' data 
      */
     public static ArrayList<Person> getPasengers() {
-        return pasengers;
+        return passengers;
     }
 
     /**
@@ -97,14 +98,6 @@ public class ProgramData implements Serializable {
         return flights;
     }
 
-//    public ArrayList<String> getlistICAO() {
-//        ArrayList<String> list = new  ArrayList<String>();
-//        for (Airport airport : getAirports()) {
-//            list.add(airport.getAirportICAO());
-//        }
-//        return list;
-//    }
-
 
     /**
      * Initialize the ArrayLists with data from CSV files
@@ -112,8 +105,8 @@ public class ProgramData implements Serializable {
     public static void initializeFromFile() {
         airports = FileManager.loadAirports("CSVFiles//airports.csv//");
         flightCrew = FileManager.getFlightCrew("CSVFiles//people.csv//");
-        pasengers = FileManager.getPassengers("CSVFiles//people.csv//");
-        flights = FileManager.loadFlights("CSVFiles//flights.csv//", airports, flightCrew, pasengers);
+        passengers = FileManager.getPassengers("CSVFiles//people.csv//");
+        flights = FileManager.loadFlights("CSVFiles//flights.csv//", airports, flightCrew, passengers);
     }
 
     /**
@@ -122,7 +115,7 @@ public class ProgramData implements Serializable {
     public static void saveData() {
         saveObject(airports, "airports");
         saveObject(flightCrew, "flightCrew");
-        saveObject(pasengers, "passengers");
+        saveObject(passengers, "passengers");
         saveObject(flights, "flights");
     }
 
@@ -138,6 +131,9 @@ public class ProgramData implements Serializable {
             fout = new FileOutputStream(fileName + ".ser", false);
             oos = new ObjectOutputStream(fout);
             oos.writeObject(object);
+//            if(object.equals("airports")) {
+//                airports.add((Airport)object);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -161,9 +157,9 @@ public class ProgramData implements Serializable {
     public static boolean load(){
         airports = (ArrayList<Airport>) loadObject("airports");
         flightCrew = (ArrayList<Person>) loadObject("flightCrew");
-        pasengers = (ArrayList<Person>) loadObject("passengers");
+        passengers = (ArrayList<Person>) loadObject("passengers");
         flights = (ArrayList<Flight>) loadObject("flights");
-        if(airports == null | flightCrew == null | pasengers == null | flights == null){
+        if(airports == null | flightCrew == null | passengers == null | flights == null){
             return false;
         }
         return true;
@@ -532,7 +528,6 @@ public class ProgramData implements Serializable {
      * flag: true or false depending on successful or failed addition
      */
     public static void addFlight() {
-        System.out.println("INNNN");
         String depICAO = AddFlight.getDpICAO();
         String destICAO = AddFlight.getDsICAO();
         String departureDateTime = AddFlight.getDepTime();
@@ -552,7 +547,7 @@ public class ProgramData implements Serializable {
 
         if(departureAirport != null && destinationAirport != null) {
             Flight flight = new Flight(departureAirport, destinationAirport, departureDateTime, destinationDateTime);
-            saveData();
+            flights.add(flight);
             flag = true;
         }
         CheckAddingInput.message(flag);
@@ -574,7 +569,7 @@ public class ProgramData implements Serializable {
         boolean flag = false;
         int id = Integer.parseInt(flightId);
         boolean exists = false;
-        Person flightCrew = null;
+        Person crew = null;
                 
         for(Flight flight: getFlights()) {
             if(flight.getFlightId() == id) {
@@ -584,17 +579,17 @@ public class ProgramData implements Serializable {
         }
                 
         if (exists) {
-            for(Person crew: getFlightCrew()) {
+            for(Person fCrew: getFlightCrew()) {
                 if(crew.getSSN().equals(ssn)) {
-                    flightCrew = crew;
+                    crew = fCrew;
                     break;
                 }
             }
-            if(flightCrew != null) {
-                flightCrew = new Person(ssn, name, lastName, address, phone);
-                saveData();
+            if(crew != null) {
+                crew = new Person(ssn, name, lastName, address, phone);
+                flightCrew.add(crew);
             }
-            getFlights().get(id).addFlightCrew(flightCrew);
+            getFlights().get(id).addFlightCrew(crew);
             flag = true;
         }
          CheckAddingInput.message(flag);
@@ -661,7 +656,7 @@ public class ProgramData implements Serializable {
                 }
                 if(pass == null) {
                     pass = new Person(pasSSN, pasName, pasLastName, pasAddress, pasPhone);
-                    saveData();
+                    passengers.add(pass);
                 }
                 for (Ticket ticket : getFlights().get(flightIdInt).getTickets()) {
                     if (ticket.getPassenger().getSSN().equals(pass.getSSN())) {
@@ -671,7 +666,6 @@ public class ProgramData implements Serializable {
                 if(!existsT) {
                     getFlights().get(flightIdInt).addTicket(
                         new Ticket(pass, checkInDateTime, ifLuggage, departureGate, destinationGate));
-                        saveData();
                     flag = true;
                 }
             
@@ -717,7 +711,6 @@ public class ProgramData implements Serializable {
                             }
                             if(!exists) {
                                 ticket.addDepartureVisitedStore(new VisitedStore(entranceDateTime, airportStore));
-                                saveData();
                                 flag = true;
                             }
                         }
@@ -733,9 +726,12 @@ public class ProgramData implements Serializable {
      * flag: true or false depending on successful or failed addition
      */
     public static void addAirport() {
-        String icao = AddAirport.getICAO();
-        String name = AddAirport.getName();
+//        String icao = AddAirport.getICAO();
+//        String name = AddAirport.getName();
+        String icao = "LALA";
+        String name = "AKALA";
         
+
         boolean exists = false;
         boolean flag = false;
         
@@ -746,10 +742,10 @@ public class ProgramData implements Serializable {
         }
         if(!exists) {
             Airport airport = new Airport(icao, name);
-            saveData();
+            airports.add(airport);
             flag = true;
         }
-         CheckAddingInput.message(flag);
+//        CheckAddingInput.message(flag);
     }
 
     /**
@@ -773,7 +769,6 @@ public class ProgramData implements Serializable {
                 }
                 if(!exists) {
                     airport.addStore(new AirportSection(name));
-                    saveData();
                     flag = true;
                 }
             }
@@ -802,7 +797,6 @@ public class ProgramData implements Serializable {
                 }
                 if(!exists) {
                     airport.addGate(new AirportSection(name));
-                    saveData();
                     flag = true;
                 }
             }
@@ -810,31 +804,36 @@ public class ProgramData implements Serializable {
          CheckAddingInput.message(flag);
     }
   
-//    public static boolean addCheckInStuff() {
-//        String icao = AddAirportStuff.getICAO();
-//        String ssn = AddAirportStuff.getSSN();
-//        String name = AddAirportStuff.getName();
-//        String lastName = AddAirportStuff.getLastName();
-//        String address = AddAirportStuff.getAddress();
-//        String phone = AddAirportStuff.getPhone();
-//        ArrayList<String> workHours = new  ArrayList<String>();
-//        
-//        boolean exists = false;
-//        
-//        if(!ifExistsStuff(ssn)) {
-//            for(Airport airport : getAirports()) {
-//                if(airport.getAirportICAO().equals(icao)) {
-////                    for()
-//                    for(AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
-//                        
-//                    }
-//                }
-//            }
-//        }
-//        return true;
-//        }
-
+    public static void addCheckInStuff() {
+        String icao = AddAirportStuff.getICAO();
+        String ssn = AddAirportStuff.getSSN();
+        String name = AddAirportStuff.getName();
+        String lastName = AddAirportStuff.getLastName();
+        String address = AddAirportStuff.getAddress();
+        String phone = AddAirportStuff.getPhone();
+        ArrayList<String> workHours = new  ArrayList<String>();
         
+        boolean exists = false;
+        boolean flag = false;
+        
+        if(!ifExistsStuff(ssn)) {
+            for(Airport airport : getAirports()) {
+                if(airport.getAirportICAO().equals(icao)) {
+                    for(int i = 1; i <= 7; i++) {
+                        DayOfWeek day = DayOfWeek.of(i);
+                        LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                        LocalTime endTime = startTime.plusHours(8);
+                        airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                    }
+                }
+                for(AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
+                    
+                }
+            }
+        }
+    }
+
+
     public static boolean ifExistsStuff(String ssn) {
         for (Airport airport : getAirports()) {
             for(AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
