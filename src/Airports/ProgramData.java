@@ -572,14 +572,13 @@ public class ProgramData implements Serializable {
         String flightId = AddFlightCrew.getID();
         
         boolean flag = false;
-        int id = Integer.parseInt(flightId) - 1;
+        int id = Integer.parseInt(flightId);
         boolean exists = false;
         Person crew = null;
                 
         for(Flight flight: getFlights()) {
             if(flight.getFlightId() == id) {
                 exists = true;
-                System.out.println("PAOKARA");
                 break;
             }
         }
@@ -595,10 +594,8 @@ public class ProgramData implements Serializable {
                     if(crew == null) {
                         crew = new Person(ssn, name, lastName, address, phone);
                         flightCrew.add(crew);
-                        System.out.println("INNNNNNN");
                     }
-                    if(getFlights().get(id).addFlightCrew(crew)) {
-                        System.out.println("MESAAAAAA");
+                    if(getFlights().get(id - 1).addFlightCrew(crew)) {
                         flag = true;
                     }
                 }   
@@ -608,7 +605,7 @@ public class ProgramData implements Serializable {
     }
     
     /**
-     * Adds new ticket to a the arrayList of a specific flight and save it to binary file flightsData
+     * Adds new ticket to a the arrayList of a specific flight
      * If passenger of the ticket doesn't already exist, he is also added to binary file people
      * flag: true or false depending on successful or failed addition
      */
@@ -619,13 +616,15 @@ public class ProgramData implements Serializable {
         String pasAddress = AddTicket.getAddress(); 
         String pasPhone = AddTicket.getPhone();
         String flightId = AddTicket.getID();
-        String checkInDateTime = AddTicket.getCheckIn();
+        String checkInDate = AddTicket.getCheckIn();
+        String checkInTime = AddTicket.getTime();
         String luggage = AddTicket.getLuggage();
         String depGateName = AddTicket.getDpgate();
         String destGateName = AddTicket.getDsgate();
         String depIcao = AddTicket.getDpICAO();
         String destIcao = AddTicket.getDsICAO();
-                
+        
+        String checkInDateTime = checkInDate + "T" + checkInTime;
         int flightIdInt = Integer.parseInt(flightId);
         Boolean ifLuggage = Boolean.parseBoolean(luggage);
         boolean exists = false;
@@ -634,9 +633,8 @@ public class ProgramData implements Serializable {
         Person pass = null;
         boolean existsT = false;
         boolean flag = false;
-                
-                
-        for(Flight flight: getFlights()) {
+                         
+        for(Flight flight : getFlights()) {
             if(flight.getFlightId() == flightIdInt) {
                 exists =  true;
                 break;
@@ -660,26 +658,34 @@ public class ProgramData implements Serializable {
                 }
             }
             if(departureGate != null && destinationGate != null) {
-                for (Person passenger : getPasengers()) {
-                    if(passenger.getSSN().equals(pasSSN)) {
-                        pass = passenger;
-                        break;
+                if(!ifExistsStuff(pasSSN)) {
+                    if(!ifExistsFlightCrew(pasSSN)) {
+                        for (Person passenger : getPasengers()) {
+                            if(passenger.getSSN().equals(pasSSN)) {
+                                pass = passenger;
+                                break;
+                            }
+                        }
+                        if(pass == null) {
+                            pass = new Person(pasSSN, pasName, pasLastName, pasAddress, pasPhone);
+                            passengers.add(pass);
+                            System.out.println("NEW PERSON");
+                        }
+                        for (Ticket ticket : getFlights().get(flightIdInt - 1).getTickets()) {
+                            if (ticket.getPassenger().getSSN().equals(pass.getSSN())) {
+                                existsT = true;
+                                System.out.println("YPARXEI TICKET");
+                            }
+                        }
+                        if(!existsT) {
+                            getFlights().get(flightIdInt - 1).addTicket(
+                                new Ticket(pass, checkInDateTime, ifLuggage, departureGate, destinationGate));
+                            flag = true;
+                            System.out.println("NEW TICKET");
+                        }
                     }
                 }
-                if(pass == null) {
-                    pass = new Person(pasSSN, pasName, pasLastName, pasAddress, pasPhone);
-                    passengers.add(pass);
-                }
-                for (Ticket ticket : getFlights().get(flightIdInt).getTickets()) {
-                    if (ticket.getPassenger().getSSN().equals(pass.getSSN())) {
-                        existsT = true;
-                    }
-                }
-                if(!existsT) {
-                    getFlights().get(flightIdInt).addTicket(
-                        new Ticket(pass, checkInDateTime, ifLuggage, departureGate, destinationGate));
-                    flag = true;
-                }
+
             
             }
         }
@@ -949,6 +955,15 @@ public class ProgramData implements Serializable {
     private static boolean ifExistsPassenger(String ssn) {
         for (Person passenger : getPasengers()) {
             if(passenger.getSSN().equals(ssn)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean ifExistsFlightCrew(String ssn) {
+        for(Person crew : getFlightCrew()) {
+            if(crew.getSSN().equals(crew.getSSN())) {
                 return true;
             }
         }

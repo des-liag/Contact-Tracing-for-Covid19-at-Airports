@@ -69,7 +69,7 @@ public class AddTicket {
       GridPane.setColumnIndex(checkinDate, 0);
       Label time = SetStyles.createLabels("Please enter passenger's check-In time: ", 14,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
-      Label warning = SetStyles.createLabels("please type next to date the time in this form: HH:MM:SS",15,
+      Label warning = SetStyles.createLabels("please type the time in this form: HH:MM:SS",15,
                 0, Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 14));
       SetStyles.setPosition(textAreaTime,16,0);
 
@@ -196,6 +196,7 @@ public class AddTicket {
     public static void correctData() {
         if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[6] && flag[7] && flag[8]) {
             stage.close();
+            ProgramData.addTicket();
         }
     }
 
