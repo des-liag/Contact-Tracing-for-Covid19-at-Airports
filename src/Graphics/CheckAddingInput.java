@@ -17,6 +17,7 @@ import  javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.CheckBox;
 
 /**
  * @class CheckAddingInput check if the input from the administrator
@@ -27,7 +28,7 @@ public class CheckAddingInput {
     static boolean checkSSN = false;
     static boolean checkICAO = false;
 
-    public static int checkSSN(TextField textField, Stage stage) {
+    public static boolean checkSSN(TextField textField, Stage stage) {
         if (textField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Null Data");
@@ -39,7 +40,6 @@ public class CheckAddingInput {
             }
         }
         if (textField.getText().length() != 9) {
-            checkSSN = true;
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Invalid Data");
             alert.setContentText("SSN number should have ONLY 9 digits");
@@ -48,9 +48,9 @@ public class CheckAddingInput {
                 alert.close();
                 stage.show();
             }
+            return checkSSN = true;
         } else {
-//            checkSSN = false;
-            return 1;
+           return checkSSN = false;
         }
         return 0;
     }
@@ -66,8 +66,6 @@ public class CheckAddingInput {
                 alert.close();
                 stage.show();
             }
-        } else{
-            ++k;
         }
         int count = 0;
         char ch;
@@ -91,13 +89,7 @@ public class CheckAddingInput {
                 stage.show();
             }
         }
-        if(checkICAO) {
-            ++k;
-        }
-        if(k == 2) {
-            stage.close();
-            ProgramData.addAirport();
-        }
+
     }
 
     public static void  checkPersonData(TextField name, TextField lastname, TextField address, TextField phone, Stage stage) {
@@ -250,6 +242,38 @@ public class CheckAddingInput {
             }
         }
     }
+
+    public static void checkScheduleDate(Stage stage, CheckBox cb1,CheckBox cb2, CheckBox cb3, CheckBox cb4, CheckBox cb5,
+                                         CheckBox cb6, CheckBox cb7 ) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Null Data");
+        if (!cb1.isSelected() && !cb2.isSelected() && !cb3.isSelected() && !cb4.isSelected() && !cb5.isSelected() &&
+                !cb6.isSelected() && !cb7.isSelected()) {
+            alert.setContentText("You forgot to pick date");
+            java.util.Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && (result.get() == ButtonType.OK)) {
+                alert.close();
+                stage.show();
+            }
+        }
+    }
+
+    public static void checkScheduleTime(Stage stage, TextField t1, TextField t2, TextField t3, TextField t4, TextField t5,
+                                         TextField t6,TextField t7 ) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Null Data");
+        if (t1.getText().equals("") && t2.getText().equals("") && t3.getText().equals("") && t4.getText().equals("") &&
+                t5.getText().equals("") && t6.getText().equals("") && t7.getText().equals("")) {
+            alert.setContentText("You forgot to enter time");
+            java.util.Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && (result.get() == ButtonType.OK)) {
+                alert.close();
+                stage.show();
+            }
+        }
+    }
+
+
     /**
      * @param situation defines if the addition have been completed
      * show up suitable message for the administrator

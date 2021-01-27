@@ -18,11 +18,12 @@ public class AddFlightCrew {
     protected static TextField textAreaAddress = new TextField();
     protected static TextField textAreaPhone = new TextField();
     protected static TextField textAreaFlightID = new TextField();
+    static final boolean[] flag = {false};
+    static Stage stage = new Stage();
 
     public static void newFlightCrew() {
 
         GridPane gridPane = new GridPane();
-        Stage stage = new Stage();
         SetStyles.creatWindow("ADDING A NEW FLIGHT CREW", 1000,800, stage, gridPane);
         Label ssn = SetStyles.createLabels("Please enter the SSN number of the flight crew member:", 3,0,
                Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
@@ -45,10 +46,13 @@ public class AddFlightCrew {
 
         Button okButton = new Button("OK");
         SetStyles.setStyleForButtons(okButton, 40, 30);
+
         okButton.setOnMouseClicked(event -> {
-            CheckAddingInput.checkSSN(textAreaSSN,stage);
+            if (CheckAddingInput.checkSSN(textAreaSSN, stage)) flag[0] = false;
+            else flag[0] = true;
             CheckAddingInput.checkPersonData(textAreaName,textAreaLastName,textAreaAddress,textAreaPhone,stage);
             CheckAddingInput.checkID(textAreaFlightID,stage);
+            correctData();
         });
 
         gridPane.getChildren().addAll(ssn,textAreaSSN, name, textAreaName, lastName, textAreaLastName, address,
@@ -74,5 +78,16 @@ public class AddFlightCrew {
         return textAreaFlightID.getText();
     }
 
+    public static void correctData() {
+        if (flag[0] && !textAreaName.getText().equals("") && !textAreaSSN.getText().equals("") &&
+                !textAreaLastName.getText().equals("") && !textAreaAddress.getText().equals("") &&
+                !textAreaPhone.getText().equals("") && !textAreaFlightID.getText().equals("")) {
+            stage.close();
+        }
+    }
 
 }
+
+
+
+
