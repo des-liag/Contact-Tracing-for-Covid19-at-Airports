@@ -1,7 +1,6 @@
 package Airports;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Airport implements Serializable {
@@ -65,14 +64,17 @@ public class Airport implements Serializable {
      * Adds an object AirportSection to the ArrayList stores
      * Check if this object already exists into the ArrayList stores
      * @param store Object AirportSection containing a store of this airport
+     * @return boolean according to succesfully or failed addition
      * @see AirportSection
      */
-    public void addStore(AirportSection store) {
-        if(!this.stores.contains(store)){
-            this.stores.add(store);
-        } else {
-            System.out.println("This store is already exists");
+    public boolean addStore(AirportSection store) {
+        for(AirportSection section : this.getStores()) {
+            if(section.getSectionName().equals(store.getSectionName())) {
+                return false;
+            }
         }
+        this.stores.add(store); 
+        return true;
     }
 
     /**
@@ -89,13 +91,16 @@ public class Airport implements Serializable {
      * Check if this object already exists into the ArrayList gates
      * @param gate Object AirportSection containing a gate of this airport
      * @see AirportSection
+     * @return boolean according to succesfully or failed addition
      */
-    public void addGate(AirportSection gate) {
-        if(!this.gates.contains(gate)){
-            this.gates.add(gate);
-        } else {
-            System.out.println("This gate is already exists");
+    public boolean addGate(AirportSection gate) {
+        for(AirportSection section : this.getGates()) {
+            if(section.getSectionName().equals(gate.getSectionName())) {
+                return false;
+            }
         }
+        this.gates.add(gate);
+        return true;
     }
 
     /**
@@ -138,19 +143,6 @@ public class Airport implements Serializable {
         return null;
     }
 
-//    /**
-//     * Gets the Employee working that time and date
-//     * @param dateTime the time we search for
-//     * @return People representing the Employee working that time
-//     */
-//    public Person getWorkingEmployee(LocalDateTime dateTime){
-//        for(AirportStuff employee : this.getCheckInPlace().getSectionStuff()){
-//            if(employee.isWorking(dateTime)){
-//                return employee;
-//            }
-//        }
-//        return null;
-//    }
 
     /**
      * Gets the ArrayList with all a gate's employees

@@ -121,14 +121,17 @@ public class Ticket implements Serializable  {
      * Adds an object VisitedStore to the ArrayList departureVisitedStore
      * Check if this object already exists into the ArrayList departureVisitedStore
      * @param store Object VisitedStore containing a store of the departure's airport that passenger visited
+     * @return boolean according to succesfully or failed addition
      * @see VisitedStore
      */
-    public void addDepartureVisitedStore(VisitedStore store) {
-        if(!this.departureVisitedStores.contains(store)) {
-            this.departureVisitedStores.add(store);
-        } else {
-               System.out.println("This store has already been visited");
+    public boolean addDepartureVisitedStore(VisitedStore store) {
+        for(VisitedStore vStore : this.getDepartureVisitedStores()) {
+            if(vStore.getStore().getSectionName().equals(store.getStore().getSectionName())) {
+                return false;
+            }
         }
+        this.departureVisitedStores.add(store);
+        return true;
     }
 
     /**

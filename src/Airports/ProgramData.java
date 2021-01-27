@@ -560,7 +560,7 @@ public class ProgramData implements Serializable {
     
     /**
      * Adds flightCrew to the arrayList of a specific flight 
-     * If this Person doesn't already exist, he is also added to binary file people
+     * If this Person with type flightCrew doesn't already exist, then is created
      * flag: true or false depending on successful or failed addition
      */
     public static void addFlightCrew() {
@@ -572,32 +572,37 @@ public class ProgramData implements Serializable {
         String flightId = AddFlightCrew.getID();
         
         boolean flag = false;
-        int id = Integer.parseInt(flightId);
+        int id = Integer.parseInt(flightId) - 1;
         boolean exists = false;
         Person crew = null;
                 
         for(Flight flight: getFlights()) {
             if(flight.getFlightId() == id) {
                 exists = true;
+                System.out.println("PAOKARA");
                 break;
             }
         }
-
         if (exists) {
-            for(Person fCrew: getFlightCrew()) {
-                if(fCrew.getSSN().equals(ssn)) {
-                    crew = fCrew;
-                    break;
-                }
+            if(!ifExistsPassenger(ssn)) {
+                if(!ifExistsStuff(ssn)) {
+                    for(Person fCrew : getFlightCrew()) {
+                        if(fCrew.getSSN().equals(ssn)) {
+                            crew = fCrew;
+                            break;
+                        }
+                    }
+                    if(crew == null) {
+                        crew = new Person(ssn, name, lastName, address, phone);
+                        flightCrew.add(crew);
+                        System.out.println("INNNNNNN");
+                    }
+                    if(getFlights().get(id).addFlightCrew(crew)) {
+                        System.out.println("MESAAAAAA");
+                        flag = true;
+                    }
+                }   
             }
-            if(crew == null) {
-                crew = new Person(ssn, name, lastName, address, phone);
-                flightCrew.add(crew);
-                System.out.println("INNNNNNN");
-            }
-            getFlights().get(id).addFlightCrew(crew);
-            System.out.println("MESAAAAAA");
-            flag = true;
         }
          CheckAddingInput.message(flag);
     }
@@ -911,9 +916,12 @@ public class ProgramData implements Serializable {
         CheckAddingInput.message(flag);
     }
     
-
-
-    public static boolean ifExistsStuff(String ssn) {
+    /**
+     * Check if this ssn is already exists
+     * @param ssn String containing the unique ssn of person
+     * @return boolean depending on if exists or not
+     */
+    private static boolean ifExistsStuff(String ssn) {
         for (Airport airport : getAirports()) {
             for(AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
                 if(stuff.getSSN().equals(ssn)) {
@@ -934,6 +942,15 @@ public class ProgramData implements Serializable {
                     }
                 }
             }           
+        }
+        return false;
+    }
+        
+    private static boolean ifExistsPassenger(String ssn) {
+        for (Person passenger : getPasengers()) {
+            if(passenger.getSSN().equals(ssn)) {
+                return true;
+            }
         }
         return false;
     }

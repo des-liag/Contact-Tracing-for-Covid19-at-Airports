@@ -41,11 +41,16 @@ public class AirportSection implements Serializable {
      * Check if this object already exists into the ArrayList sectionStuff
      * @param sectionStuff Object AirportStuff containing an employee of this section
      * @see AirportStuff
+     * @return boolean according to succesfully or failed addition
      */
-    public void addSectionStuff(AirportStuff sectionStuff) {
-        if(!this.sectionStuff.contains(sectionStuff)) {
-            this.sectionStuff.add(sectionStuff);
+    public boolean addSectionStuff(AirportStuff sectionStuff) {
+        for(AirportStuff stuff : this.getSectionStuff()) {
+            if(stuff.getSSN().equals(sectionStuff.getSSN())) {
+                return false;
+            }
         }
+        this.sectionStuff.add(sectionStuff);
+        return true;
     }
 
     /**
