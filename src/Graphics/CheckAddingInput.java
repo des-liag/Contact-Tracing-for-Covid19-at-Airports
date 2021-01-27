@@ -52,7 +52,6 @@ public class CheckAddingInput {
         } else {
            return checkSSN = false;
         }
-        return 0;
     }
 
     public static void checkAirport(TextField name, TextField icao,  Stage stage) {
