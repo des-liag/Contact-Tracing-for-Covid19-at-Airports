@@ -166,7 +166,10 @@ public class AddAirportStuff {
             if (combo3.getValue().equals("Store Stuff")) {
                 if (CheckAddingInput.checkStore(textAreaStore,stage)) {
                     flag[6] = false;
-                } else flag[6] = true;
+                } else {
+                    flag[6] = true;
+                }
+                correctData();
             } else if (combo3.getValue().equals("Gate Stuff")) {
                 try {
                     if (CheckAddingInput.checkGate(textAreaGate, stage)) {
@@ -175,6 +178,7 @@ public class AddAirportStuff {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                correctData();
             }
             correctData();
         });
@@ -217,12 +221,14 @@ public class AddAirportStuff {
     // and close stage
     public static void correctData() {
         if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[6] && flag[7]) {
-            stage.close();
             if(combo3.getValue().equals("CheckIn Stuff")) {
+                stage.close();
                 ProgramData.addCheckInStuff();
             } else if(combo3.getValue().equals("Store Stuff")) {
+                stage.close();
                 ProgramData.addStoreStuff();
             } else {
+                stage.close();
                 ProgramData.addGateStuff();
             }
         }

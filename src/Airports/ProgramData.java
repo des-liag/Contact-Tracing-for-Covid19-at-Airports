@@ -816,6 +816,10 @@ public class ProgramData implements Serializable {
         CheckAddingInput.message(flag);
     }
   
+    /**
+     * Adds a Person with type Check In stuff, only if this ssn doesn't already exist
+     * flag: true or false depending on successful or failed addition
+     */
     public static void addCheckInStuff() {
         String icao = AddAirportStuff.getICAO();
         String ssn = AddAirportStuff.getSSN();
@@ -828,24 +832,33 @@ public class ProgramData implements Serializable {
         
         boolean flag = false;
         
-        if(!ifExistsStuff(ssn)) {
-            for(Airport airport : getAirports()) {
-                if(airport.getAirportICAO().equals(icao)) {
-                    AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
-                    airport.getCheckInPlace().addSectionStuff(stuff);
-                    flag = true;
-                    for(int i = 1; i <= 7; i++) {
-                        DayOfWeek day = DayOfWeek.of(i);
-                        LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
-                        LocalTime endTime = startTime.plusHours(8);
-                        airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
-                    }  
+        if(!ifExistsFlightCrew(ssn)) {
+            if(!ifExistsPassenger(ssn)) {
+                if(!ifExistsStuff(ssn)) {
+                    for(Airport airport : getAirports()) {
+                        if(airport.getAirportICAO().equals(icao)) {
+                            AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
+                            airport.getCheckInPlace().addSectionStuff(stuff);
+                            flag = true;
+                            for(int i = 1; i <= 7; i++) {
+                                DayOfWeek day = DayOfWeek.of(i);
+                                LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                                LocalTime endTime = startTime.plusHours(8);
+                                airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                            }  
+                        }
+                    }
                 }
             }
         }
+
         CheckAddingInput.message(flag);
     }
     
+    /**
+     * Adds a Person with type Gate stuff, only if this ssn doesn't already exist
+     * flag: true or false depending on successful or failed addition
+     */
     public static void addStoreStuff() {
         String icao = AddAirportStuff.getICAO();
         String ssn = AddAirportStuff.getSSN();
@@ -859,29 +872,37 @@ public class ProgramData implements Serializable {
         
         boolean flag = false;
         
-        if(!ifExistsStuff(ssn)) {
-            for(Airport airport : getAirports()) {
-                if(airport.getAirportICAO().equals(icao)) {
-                    for(AirportSection store : airport.getStores()) {
-                        if(store.getSectionName().equals(storeName)) {
-                            AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
-                            store.addSectionStuff(stuff);
-                            flag = true;
-                            for(int i = 1; i <= 7; i++) {
-                                DayOfWeek day = DayOfWeek.of(i);
-                                LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
-                                LocalTime endTime = startTime.plusHours(8);
-                                store.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+        if(!ifExistsFlightCrew(ssn)) {
+            if(!ifExistsPassenger(ssn)) {
+                if(!ifExistsStuff(ssn)) {
+                    for(Airport airport : getAirports()) {
+                        if(airport.getAirportICAO().equals(icao)) {
+                            for(AirportSection store : airport.getStores()) {
+                                if(store.getSectionName().equals(storeName)) {
+                                    AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
+                                    store.addSectionStuff(stuff);
+                                    flag = true;
+                                    for(int i = 1; i <= 7; i++) {
+                                        DayOfWeek day = DayOfWeek.of(i);
+                                        LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                                        LocalTime endTime = startTime.plusHours(8);
+                                        store.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                                    }
+                                }
                             }
+
                         }
                     }
-  
-                }
+                } 
             }
         }
         CheckAddingInput.message(flag);
     }
     
+    /**
+     * Adds a Person with type Store stuff, only if this ssn doesn't already exist
+     * flag: true or false depending on successful or failed addition
+     */
     public static void addGateStuff() {
         String icao = AddAirportStuff.getICAO();
         String ssn = AddAirportStuff.getSSN();
@@ -895,23 +916,27 @@ public class ProgramData implements Serializable {
         
         boolean flag = false;
         
-        if(!ifExistsStuff(ssn)) {
-            for(Airport airport : getAirports()) {
-                if(airport.getAirportICAO().equals(icao)) {
-                    for(AirportSection gate : airport.getGates()) {
-                        if(gate.getSectionName().equals(gateName)) {
-                            AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
-                            gate.addSectionStuff(stuff);
-                            flag = true;
-                            for(int i = 1; i <= 7; i++) {
-                                DayOfWeek day = DayOfWeek.of(i);
-                                LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
-                                LocalTime endTime = startTime.plusHours(8);
-                                gate.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+        if(!ifExistsFlightCrew(ssn)) {
+            if(!ifExistsPassenger(ssn)) {
+                if(!ifExistsStuff(ssn)) {
+                    for(Airport airport : getAirports()) {
+                        if(airport.getAirportICAO().equals(icao)) {
+                            for(AirportSection gate : airport.getGates()) {
+                                if(gate.getSectionName().equals(gateName)) {
+                                    AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
+                                    gate.addSectionStuff(stuff);
+                                    flag = true;
+                                    for(int i = 1; i <= 7; i++) {
+                                        DayOfWeek day = DayOfWeek.of(i);
+                                        LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                                        LocalTime endTime = startTime.plusHours(8);
+                                        gate.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                                    }
+                                }
                             }
+
                         }
                     }
-  
                 }
             }
         }
@@ -919,7 +944,7 @@ public class ProgramData implements Serializable {
     }
     
     /**
-     * Check if this ssn is already exists
+     * Check if this ssn is already exists in people with type AirportStuff
      * @param ssn String containing the unique ssn of person
      * @return boolean depending on if exists or not
      */
@@ -948,6 +973,11 @@ public class ProgramData implements Serializable {
         return false;
     }
         
+    /**
+     * Check if this ssn is already exists in passengers
+     * @param ssn String containing the unique ssn of person
+     * @return boolean depending on if exists or not
+     */
     private static boolean ifExistsPassenger(String ssn) {
         for (Person passenger : getPasengers()) {
             if(passenger.getSSN().equals(ssn)) {
@@ -957,6 +987,11 @@ public class ProgramData implements Serializable {
         return false;
     }
 
+    /**
+     * Check if this ssn is already exists in flight crew
+     * @param ssn String containing the unique ssn of person
+     * @return boolean depending on if exists or not
+     */
     private static boolean ifExistsFlightCrew(String ssn) {
         for(Person crew : getFlightCrew()) {
             if(crew.getSSN().equals(crew.getSSN())) {
