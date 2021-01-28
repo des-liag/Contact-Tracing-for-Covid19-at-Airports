@@ -112,6 +112,7 @@ public class AddAirportStuff {
         workingSchedule[4] = f.getText();
         workingSchedule[5] = st.getText();
         workingSchedule[6] = sn.getText();
+        System.out.println(workingSchedule[0]);
 
 
         combo3.setOnAction(event -> {
@@ -207,6 +208,34 @@ public class AddAirportStuff {
     }
     public static String getICAO() {
         return icao.getValue();
+    }
+
+    public static String getM() {
+        return m.getText();
+    }
+
+    public static TextField getTu() {
+        return tu;
+    }
+
+    public static TextField getW() {
+        return w;
+    }
+
+    public static TextField getTh() {
+        return th;
+    }
+
+    public static TextField getF() {
+        return f;
+    }
+
+    public static TextField getSt() {
+        return st;
+    }
+
+    public static TextField getSn() {
+        return sn;
     }
     public static String getStore() {
         return textAreaStore.getText();

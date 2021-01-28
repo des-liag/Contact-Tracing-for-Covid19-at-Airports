@@ -202,11 +202,16 @@ public class Flight implements Serializable {
         Ticket ticket =  this.getTicketBySSN(ssn);
  
         if (ticket != null) {
-            LocalDateTime time = ticket.getCheckInDateTime();
+            LocalDateTime dTime = ticket.getCheckInDateTime();
+            LocalTime time = dTime.toLocalTime();
 
             //finds the employee that works in checkIn place the time that passenger did the check-in
             for(AirportStuff employee : this.getDepartureAirport().getCheckInPlace().getSectionStuff()){
-                if(employee.isWorking(time)){
+                if(employee.isWorking(dTime)){
+                    closeContacts.add(employee);
+                }
+                if(time.equals(LocalTime.parse("00:00"))) {
+                    employee.isWorkingPreviousDay(dTime);
                     closeContacts.add(employee);
                 }
             }

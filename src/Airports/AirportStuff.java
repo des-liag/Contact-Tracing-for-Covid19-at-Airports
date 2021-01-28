@@ -84,13 +84,9 @@ public class AirportStuff extends Person {
         DayOfWeek day = dateTime.getDayOfWeek();
         LocalTime time = dateTime.toLocalTime();
         
-        if(time.equals(LocalTime.parse("00:00"))) {
-            day = day.minus(1);
-        }
-        
         for(LocalTime[] localtimes : this.workHoursMap.get(day)){
             if(localtimes[1].equals(LocalTime.parse("00:00"))) {
-                localtimes[1] = LocalTime.parse("23:59");
+                localtimes[1] = localtimes[1].minusMinutes(1);
             }
             //in order to include the shift change of employees 
             if(!localtimes[0].equals(LocalTime.parse("00:00"))) {
@@ -99,8 +95,6 @@ public class AirportStuff extends Person {
             if(time.equals(LocalTime.parse("00:00"))) {
                 if (localtimes[0].equals(LocalTime.parse("00:00"))) {
                     time = time.plusSeconds(1);
-                } else {
-                    time = time.minusMinutes(1);
                 }
             }
             if(time.isAfter(localtimes[0]) && time.isBefore(localtimes[1].plusSeconds(1))){
@@ -110,5 +104,21 @@ public class AirportStuff extends Person {
         return false;
     }
 
+    /**
+     * Covers the case that dateTime is 00:00 and have to take the employee that works
+     * in the shift change the previoys day
+     * @param dateTime the date and the time we want to search for
+     * @return boolean depending if there is someone working the day and time we look for at the workHoursMap
+     */
+    public boolean isWorkingPreviousDay(LocalDateTime dateTime) {
+        DayOfWeek day = dateTime.getDayOfWeek();
+        day = day.minus(1);
 
+        for(LocalTime[] localtimes : this.workHoursMap.get(day)) {
+            if(localtimes[0].equals(LocalTime.parse("16:00"))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

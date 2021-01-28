@@ -805,12 +805,13 @@ public class ProgramData implements Serializable {
         String lastName = AddAirportStuff.getLastName();
         String address = AddAirportStuff.getAddress();
         String phone = AddAirportStuff.getPhone();
-        String[] workHours = new  String[7];
-        workHours = AddAirportStuff.getSchedule();
-
-        for(String time : workHours) {
-            System.out.println(time);
-        }
+//        String[] workHours = new  String[7];
+//        workHours = AddAirportStuff.getSchedule();
+//
+//        for(String time : workHours) {
+//            System.out.println(time);
+//        }
+        String timeMonday = AddAirportStuff.getM();
         boolean flag = false;
 
         if(!ifExistsFlightCrew(ssn)) {
@@ -825,13 +826,13 @@ public class ProgramData implements Serializable {
                             flag = true;
                             for(int i = 1; i <= 7; i++) {
                                 DayOfWeek day = DayOfWeek.of(i);
-                                if(!workHours[i - 1].equals("NULL")) {
-                                    LocalTime startTime = LocalTime.parse(workHours[i - 1]);
-                                    LocalTime endTime = startTime.plusHours(8);
-                                    System.out.println(startTime + "-" + endTime);
-                                    airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
-                                    System.out.println("NEW WORKHOUR"); 
-                                }
+//                                if(!workHours[i - 1].equals("NULL")) {
+//                                    LocalTime startTime = LocalTime.parse(workHours[i - 1]);
+//                                    LocalTime endTime = startTime.plusHours(8);
+//                                    System.out.println(startTime + "-" + endTime);
+//                                    airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+//                                    System.out.println("NEW WORKHOUR"); 
+//                                }
                             }  
                         }
                     }
