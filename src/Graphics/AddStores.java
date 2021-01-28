@@ -52,7 +52,14 @@ public class AddStores {
             correctData();
         });
 
-        gridPane.getChildren().addAll(textAreaStore,icao,gateName,airportcode,okButton);
+        Button buttonBack = new Button("BACK");
+        SetStyles.setStyleForButtons(buttonBack, 26, 32);
+        buttonBack.setOnMouseClicked(event -> {
+            AddingData.switchWindow((javafx.stage.Stage) buttonBack.getScene().getWindow());
+            stage.close();
+        });
+
+        gridPane.getChildren().addAll(textAreaStore,icao,gateName,airportcode,okButton,buttonBack);
 
     }
 

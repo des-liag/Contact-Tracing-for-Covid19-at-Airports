@@ -116,7 +116,7 @@ public class Admininstrator {
                         }
                     }
                     if(departureGate != null && destinationGate != null) {
-                        for (Person passenger : programData.getPasengers()) {
+                        for (Person passenger : programData.getPassengers()) {
                             if(passenger.getSSN().equals(pasSSN)) {
                                 pass = passenger;
                                 break;

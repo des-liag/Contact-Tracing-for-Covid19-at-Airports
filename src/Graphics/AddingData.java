@@ -3,11 +3,12 @@ package Graphics;
 import Airports.ProgramData;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
-import  javafx.scene.control.Label;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import  javafx.scene.control.ToggleGroup;
-import  javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Button;
 /**
  * @class AddingData creates a window for the administrator
  * and ask to pick what kind of data wants to add.
@@ -17,7 +18,7 @@ public class AddingData {
     public static void start() {
        GridPane gridPane = new GridPane();
        Stage stage = new Stage();
-       SetStyles.creatWindow("Updating Data",1000,800,stage,gridPane);
+       SetStyles.creatWindow("Updating Data",1000,600,stage,gridPane);
 
        Label message = SetStyles.createLabels("As an administrator you have the right to add data which referrs to airports. ",
                 0,0, Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
@@ -49,7 +50,7 @@ public class AddingData {
        
        airportStuff.setOnMouseClicked(event -> {
            stage.close();
-           AddAirportStuff.newAirportStuff();             //little add//
+           AddAirportStuff.newAirportStuff();
        });
        flight.setOnMouseClicked(event -> {
            stage.close();
@@ -68,9 +69,24 @@ public class AddingData {
            AddStores.newStore();
        });
 
-       gridPane.getChildren().addAll(message, instructions,airport, flight, ticket, flightCrew,
-               airportStuff, gate, store, vistStore);
+        Button buttonBack = new Button("BACK");
+        SetStyles.setStyleForButtons(buttonBack, 25, 3);
+        buttonBack.setOnMouseClicked(event -> {
+            Entrance.switchWindow((Stage) buttonBack.getScene().getWindow(), new Graphics.Entrance());
+        });
 
+       gridPane.getChildren().addAll(message, instructions,airport, flight, ticket, flightCrew,
+               airportStuff, gate, store, vistStore, buttonBack);
+
+    }
+
+    public static void switchWindow(Stage window) {
+        try {
+            AddingData.start();
+          //  app.start(window);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

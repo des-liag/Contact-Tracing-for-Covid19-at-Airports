@@ -37,7 +37,7 @@ public class AddFlight {
     public static void addNewFlight() {
 
         GridPane gridPane = new GridPane();
-        SetStyles.creatWindow("ADDING A NEW FLIGHT", 700,700, stage, gridPane);
+        SetStyles.creatWindow("ADDING A NEW FLIGHT", 800,700, stage, gridPane);
 
         Label dpICAO = SetStyles.createLabels("Please enter departure airport ICAO:", 1,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
@@ -100,8 +100,15 @@ public class AddFlight {
             correctData();
         });
 
+        Button buttonBack = new Button("BACK");
+        SetStyles.setStyleForButtons(buttonBack, 26, 20);
+        buttonBack.setOnMouseClicked(event -> {
+            AddingData.switchWindow((javafx.stage.Stage) buttonBack.getScene().getWindow());
+            stage.close();
+        });
+
         gridPane.getChildren().addAll(depICAO, destICAO, destinationDate, depTime, destTime, warning, warning2,
-                okButton, dsICAO, dpICAO, destDate,depDate,departureDate,departureTime,destinationTime);
+                okButton, dsICAO, dpICAO, destDate,depDate,departureDate,departureTime,destinationTime, buttonBack);
     }
 
     public static String getDpICAO() {

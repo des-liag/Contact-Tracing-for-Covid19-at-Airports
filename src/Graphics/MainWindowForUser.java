@@ -1,14 +1,16 @@
 package Graphics;
 
-import javafx.scene.layout.GridPane;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.layout.Background;
 import Airports.Airport;
 import Airports.ProgramData;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.Scene;
+
 
  public class MainWindowForUser {
     protected static TextField textArea1 = new TextField();
@@ -73,7 +75,7 @@ import javafx.collections.ObservableList;
     
 
     public static void start(javafx.stage.Stage primaryStage) throws Exception {
-        javafx.scene.layout.GridPane gridPane = new javafx.scene.layout.GridPane();
+        GridPane gridPane = new GridPane();
         gridPane.setHgap(1);
         gridPane.setVgap(10);
 
@@ -185,13 +187,19 @@ import javafx.collections.ObservableList;
             OkButtonHandle.checkInput(primaryStage);
             OkButtonHandle.ifNotNull(primaryStage);
         });
+        Button buttonBack = new Button("BACK");
+        SetStyles.setStyleForButtons(buttonBack, 40, 220);
+        buttonBack.setOnMouseClicked(event -> {
+            Entrance.switchWindow((javafx.stage.Stage) buttonBack.getScene().getWindow(), new Graphics.Entrance());
+
+        });
 
         gridPane.getChildren().addAll(labelFName, labelLName, textArea1, textArea2, labelSSNNumber, ps, labelTest, test1, test2,
                 labelDay, date, labelTypeOfUser, pas, emp, labelTypeOfEmployee, combo2, okButton,
-                helpButton, labelWorkAirport, icao);
+                helpButton, labelWorkAirport, icao, buttonBack);
         gridPane.setBackground(background);
-        primaryStage.setTitle("Airport application for COVID-19");
-        primaryStage.setScene(new javafx.scene.Scene(gridPane, 1950, 1000));
+        primaryStage.setTitle("Positive case");
+        primaryStage.setScene(new Scene(gridPane, 1950, 1000));
         primaryStage.show();
     }
 

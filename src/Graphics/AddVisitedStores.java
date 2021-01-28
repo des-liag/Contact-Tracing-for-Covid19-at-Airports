@@ -29,7 +29,7 @@ public class AddVisitedStores {
     public static void newVisitedStores () {
 
         GridPane gridPane = new GridPane();
-        SetStyles.creatWindow("ADDING A NEW VISITED STORE",900,700,stage,gridPane);
+        SetStyles.creatWindow("ADDING A NEW VISITED STORE",1000,700,stage,gridPane);
 
         Label ssn = SetStyles.createLabels("Please enter passenger's SSN number:", 1,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
@@ -71,8 +71,15 @@ public class AddVisitedStores {
             correctData();
         });
 
+        Button buttonBack = new Button("BACK");
+        SetStyles.setStyleForButtons(buttonBack, 35, 27);
+        buttonBack.setOnMouseClicked(event -> {
+            AddingData.switchWindow((javafx.stage.Stage) buttonBack.getScene().getWindow());
+            stage.close();
+        });
+
         gridPane.getChildren().addAll(ssn,textAreaSSN,id,textAreaFlightID,entrance, entranceDate,
-                warning,storeName,store, time, entranceTime, okButton);
+                warning,storeName,store, time, entranceTime, okButton, buttonBack);
     }
 
     public static String getEntrance() {

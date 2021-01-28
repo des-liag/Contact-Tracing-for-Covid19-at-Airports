@@ -137,7 +137,7 @@ public class OkButtonHandle  {
         } else if(MainWindowForUser.getCombo2().getValue().equals("CheckIn Stuff")) {
             ProgramData.searchForCheckInStuff();
         } else if(MainWindowForUser.getCombo2().getValue().equals("Store Stuff")){
-            ProgramData.searchForStroreStuff();
+            ProgramData.searchForStoreStuff();
         } else if(MainWindowForUser.getCombo2().getValue().equals("Gate Stuff")){
             ProgramData.searchForGateStuff();
         }

@@ -57,7 +57,15 @@ public class AddGate {
             } else flag[1] = true;
             correctData();
         });
-        gridPane.getChildren().addAll(textAreaGate,icao,gateName,airportcode,okButton);
+
+        Button buttonBack = new Button("BACK");
+        SetStyles.setStyleForButtons(buttonBack, 26, 32);
+        buttonBack.setOnMouseClicked(event -> {
+            AddingData.switchWindow((javafx.stage.Stage) buttonBack.getScene().getWindow());
+            stage.close();
+        });
+
+        gridPane.getChildren().addAll(textAreaGate,icao,gateName,airportcode,okButton, buttonBack);
     }
 
     public static String getGate() { 

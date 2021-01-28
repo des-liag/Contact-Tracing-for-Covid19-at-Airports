@@ -27,7 +27,7 @@ public class AddFlightCrew {
     public static void newFlightCrew() {
 
         GridPane gridPane = new GridPane();
-        SetStyles.creatWindow("ADDING A NEW FLIGHT CREW", 1000,800, stage, gridPane);
+        SetStyles.creatWindow("ADDING A NEW FLIGHT CREW", 1200,800, stage, gridPane);
         Label ssn = SetStyles.createLabels("Please enter the SSN number of the flight crew member:", 3,0,
                Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
         SetStyles.setPosition(textAreaSSN,4,0);
@@ -62,8 +62,15 @@ public class AddFlightCrew {
            } else flag[2] = true;
             correctData();
         });
+
+        Button buttonBack = new Button("BACK");
+        SetStyles.setStyleForButtons(buttonBack, 40, 32);
+        buttonBack.setOnMouseClicked(event -> {
+            AddingData.switchWindow((javafx.stage.Stage) buttonBack.getScene().getWindow());
+            stage.close();
+        });
         gridPane.getChildren().addAll(ssn,textAreaSSN, name, textAreaName, lastName, textAreaLastName, address,
-              textAreaAddress, phone, textAreaPhone, id, textAreaFlightID, okButton)  ;
+              textAreaAddress, phone, textAreaPhone, id, textAreaFlightID, okButton, buttonBack)  ;
     }
 
     public static String getSSN() { 

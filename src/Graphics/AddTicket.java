@@ -145,10 +145,17 @@ public class AddTicket {
           correctData();
       });
 
+        Button buttonBack = new Button("BACK");
+        SetStyles.setStyleForButtons(buttonBack, 28, 5);
+        buttonBack.setOnMouseClicked(event -> {
+            AddingData.switchWindow((javafx.stage.Stage) buttonBack.getScene().getWindow());
+            stage.close();
+        });
+
       gridPane.getChildren().addAll(ssn,textAreaSSN, name, textAreaName, lastName, textAreaLastName, address,
                 textAreaAddress, phone, textAreaPhone, id, textAreaFlightID,time,checkInDate, checkinDate,
               textAreaTime, luggage, textArealuggage, dpgate, textAreaDepGate, dsgate, textAreaDestGate,
-              dpICAO, depICAO, dsICAO, destICAO,okButton, warning) ;
+              dpICAO, depICAO, dsICAO, destICAO,okButton, warning, buttonBack) ;
     }
 
     public static String getSSN() { 

@@ -22,7 +22,7 @@ public class AddAirport {
 
     public static void newAirport() {
         GridPane gridPane = new GridPane();
-        SetStyles.creatWindow("ADDING A NEW AIRPORT", 700,300, stage, gridPane);
+        SetStyles.creatWindow("ADDING A NEW AIRPORT", 800,300, stage, gridPane);
 
         Label airportName = SetStyles.createLabels("Please enter the name of the airport:", 1,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
@@ -39,10 +39,18 @@ public class AddAirport {
            correctData();
         });
 
-//        ProgramData.addAirport();
-        gridPane.getChildren().addAll(textAreaName,airportName,icao,airportICAO,okButton);
+        Button buttonBack = new Button("BACK");
+        SetStyles.setStyleForButtons(buttonBack, 12, 24);
+        buttonBack.setOnMouseClicked(event -> {
+            AddingData.switchWindow((javafx.stage.Stage) buttonBack.getScene().getWindow());
+            stage.close();
+        });
 
+//        ProgramData.addAirport();
+        gridPane.getChildren().addAll(textAreaName,airportName,icao,airportICAO,okButton, buttonBack);
     }
+
+
     public static String getName() {
         return textAreaName.getText();
     }

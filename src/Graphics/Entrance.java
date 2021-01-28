@@ -15,12 +15,17 @@ import javafx.geometry.Pos;
  * @class Entrance create the main window of our app
  * the user can select either a regular user or the administrator of the app
  */
+
 public class Entrance extends Application {
+    protected static  GridPane gridPane = new GridPane();
+    protected static  Scene entrance = new Scene(gridPane,1950,1000);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        ProgramData.loadData();
-        GridPane gridPane = new GridPane();
+
+
+//     ProgramData.loadData();
+
         gridPane.setHgap(1);
         gridPane.setVgap(10);
         /**
@@ -69,7 +74,8 @@ public class Entrance extends Application {
         gridPane.getChildren().addAll(welcome, message, user, admin, userButton, addButton);
         primaryStage.setTitle("Airport application for COVID-19");
         gridPane.setBackground(background);
-        primaryStage.setScene(new Scene(gridPane, 1950, 1000));
+        primaryStage.setScene(entrance);
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
@@ -78,6 +84,14 @@ public class Entrance extends Application {
         GridPane.setColumnIndex(name, column);
         name.setTextFill(color);
         name.setFont(font);
+    }
+
+    public static void switchWindow(Stage window, Application app) {
+        try {
+            app.start(window);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

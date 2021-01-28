@@ -22,7 +22,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * ProgmaData class is the main class of the program
+ * ProgramData class is the main class of the program
  * Here data are load and saved
  * Also here starts every searching for data and addition of data
  */
@@ -46,7 +46,7 @@ public class ProgramData implements Serializable {
 
     /**
      * Gets the ArrayList airports with all airports' data
-     * @return ArrayList<Airport> containing Airport objects representing the aiports' data 
+     * @return ArrayList<Airport> containing Airport objects representing the airports' data
      */
     public static ArrayList<Airport> getAirports() {
         return airports;
@@ -61,10 +61,10 @@ public class ProgramData implements Serializable {
     }
 
     /**
-     * Gets the ArrayList pasengers with all pasengers' data
-     * @return ArrayList<Person> containing Person objects representing the pasengers' data 
+     * Gets the ArrayList passengers with all passengers' data
+     * @return ArrayList<Person> containing Person objects representing the passengers' data
      */
-    public static ArrayList<Person> getPasengers() {
+    public static ArrayList<Person> getPassengers() {
         return passengers;
     }
 
@@ -87,7 +87,7 @@ public class ProgramData implements Serializable {
     }
 
     /**
-     * When initilization is completed save the data to binary files
+     * When initialization is completed save the data to binary files
      */
     public static void saveData() {
         saveObject(airports, "airports");
@@ -305,7 +305,7 @@ public class ProgramData implements Serializable {
     /**
      * Search for casual contacts when the positive case is working as store stuff
      */
-    public static void searchForStroreStuff() {
+    public static void searchForStoreStuff() {
         ArrayList<Person> closeContacts =  new ArrayList<Person>();
         ArrayList<Person> casualContacts =  new ArrayList<Person>();
         ArrayList<Person> contacts =  new ArrayList<Person>();
@@ -440,8 +440,8 @@ public class ProgramData implements Serializable {
     }
 
     /**
-     * Calsulate how many days we have to search for tracers depending on covid-19 type of test
-     * @return LocaDate[] representing the prositive date and the last searching date
+     * Calculate how many days we have to search for tracers depending on covid-19 type of test
+     * @return LocalDate[] representing the positive date and the last searching date
      */
     private static LocalDate[] calculateDays(LocalDate positiveDate) {
         LocalDate[] dates = new LocalDate[2];
@@ -641,7 +641,7 @@ public class ProgramData implements Serializable {
             if(departureGate != null && destinationGate != null) {
                 if(!ifExistsStuff(pasSSN)) {
                     if(!ifExistsFlightCrew(pasSSN)) {
-                        for (Person passenger : getPasengers()) {
+                        for (Person passenger : getPassengers()) {
                             if(passenger.getSSN().equals(pasSSN)) {
                                 pass = passenger;
                                 break;
@@ -984,7 +984,7 @@ public class ProgramData implements Serializable {
      * @return boolean depending on if exists or not
      */
     private static boolean ifExistsPassenger(String ssn) {
-        for (Person passenger : getPasengers()) {
+        for (Person passenger : getPassengers()) {
             if(passenger.getSSN().equals(ssn)) {
                 return true;
             }

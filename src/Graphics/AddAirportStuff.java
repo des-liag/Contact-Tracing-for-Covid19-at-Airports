@@ -2,7 +2,6 @@ package Graphics;
 
 import Airports.Airport;
 import Airports.ProgramData;
-import java.util.ArrayList;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
@@ -104,6 +103,35 @@ public class AddAirportStuff {
         SetStyles.setPosition(f,6,4);
         SetStyles.setPosition(st,7,4);
         SetStyles.setPosition(sn,8,4);
+        m.setDisable(true);
+        tu.setDisable(true);
+        w.setDisable(true);
+        th.setDisable(true);
+        f.setDisable(true);
+        st.setDisable(true);
+        sn.setDisable(true);
+
+        monday.setOnAction(event -> {
+            m.setDisable(false);
+        });
+        tuesday.setOnAction(event -> {
+            tu.setDisable(false);
+        });
+        wednesday.setOnAction(event -> {
+            w.setDisable(false);
+        });
+        thursday.setOnAction(event -> {
+            th.setDisable(false);
+        });
+        friday.setOnAction(event -> {
+            f.setDisable(false);
+        });
+        saturday.setOnAction(event -> {
+            st.setDisable(false);
+        });
+        sunday.setOnAction(event -> {
+            sn.setDisable(false);
+        });
 
 
         combo3.setOnAction(event -> {
@@ -128,6 +156,8 @@ public class AddAirportStuff {
             }
         });
 
+
+
         Button okButton = new Button("OK");
         SetStyles.setStyleForButtons(okButton, 30, 4);
         okButton.setOnMouseClicked(event -> {
@@ -148,7 +178,6 @@ public class AddAirportStuff {
             } else flag[3] = true;
 
             if (CheckAddingInput.checkScheduleTime(stage,m,tu,w,th,f,st,sn)) {
-
                 flag[4] = false;
             } else flag[4] = true;
 
@@ -163,7 +192,6 @@ public class AddAirportStuff {
                 } else {
                     flag[7] = true;
                 }
-
             } else if (combo3.getValue().equals("Gate Stuff")) {
                 flag[7] = false;
                 try {
@@ -181,10 +209,17 @@ public class AddAirportStuff {
             correctData();
         });
 
+        Button buttonBack = new Button("BACK");
+        SetStyles.setStyleForButtons(buttonBack, 30, 6);
+        buttonBack.setOnMouseClicked(event -> {
+            AddingData.switchWindow((javafx.stage.Stage) buttonBack.getScene().getWindow());
+            stage.close();
+        });
+
         gridPane.getChildren().addAll(ssn, textAreaSSN, name, textAreaName, lastName, textAreaLastName, address,
                 textAreaAddress, phone, textAreaPhone, labelTypeOfEmployee , combo3, gate, textAreaGate,
                 store , textAreaStore,icao,airportcode, schedule, monday, tuesday, wednesday, thursday, friday,
-                saturday, sunday, m, tu, w, th, f, st, sn, warning,okButton );
+                saturday, sunday, m, tu, w, th, f, st, sn, warning,okButton,buttonBack );
     }
 
     public static String getSSN() {
