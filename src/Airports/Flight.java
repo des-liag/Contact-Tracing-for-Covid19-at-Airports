@@ -389,7 +389,6 @@ public class Flight implements Serializable {
         if (this.getTickets().get(0).getDepartureGate().getSectionName().equals(gate.getSectionName())) {
             for (Ticket ticket : this.getTickets()) {
                 casualContacts.add(ticket.getPassenger());
-                System.out.println("INNN");
             }
         }
         LocalTime time = dateTime.toLocalTime();

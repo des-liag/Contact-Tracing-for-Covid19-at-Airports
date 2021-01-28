@@ -878,10 +878,7 @@ public class ProgramData implements Serializable {
                                         if(!workHours.get(i - 1).equals("")) {
                                             LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
                                             LocalTime endTime = startTime.plusHours(8);
-                                            System.out.println(startTime + "-" + endTime);
                                             store.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
-                                            System.out.println(day.toString());
-                                            System.out.println("NEW WORKHOUR");
                                             flag = true;
                                         }
                                     }  
