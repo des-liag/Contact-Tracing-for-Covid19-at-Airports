@@ -27,7 +27,14 @@ public class AddAirportStuff {
     protected static TextField textAreaStore = new TextField();
     protected static ComboBox<String> combo3 = new ComboBox<>();
     protected static ComboBox<String> icao = new ComboBox<>();
-    protected static  ArrayList <String> workingSchedule = new ArrayList<String>();
+    protected static String[] workingSchedule = new String[7];
+    protected static TextField m = new TextField();
+    protected static TextField tu = new TextField();
+    protected static TextField w = new TextField();
+    protected static TextField th = new TextField();
+    protected static  TextField f = new TextField();
+    protected static TextField st = new TextField();
+    protected static TextField sn = new TextField();
     // array flag saves false or true if the check method / methods from class CheckAddingInput
     // had been done
     static final boolean[] flag = {false,false,false,false,false,false,false,false,false};
@@ -80,7 +87,7 @@ public class AddAirportStuff {
 
         Label schedule = SetStyles.createLabels("Please pick days and start time for working schedule: ",0,
                 3, Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
-        Label warning = SetStyles.createLabels("please type time in this form: HH:MM",1,3,
+        Label warning = SetStyles.createLabels("please type time in this form: HH:MM and if you have a day off type NULL",1,3,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 14));
         CheckBox monday = SetStyles.createCheckBox("Monday",2, 3);
         CheckBox tuesday = SetStyles.createCheckBox("Tuesday",3,3);
@@ -89,29 +96,22 @@ public class AddAirportStuff {
         CheckBox friday = SetStyles.createCheckBox("Friday",6,3);
         CheckBox saturday = SetStyles.createCheckBox("Saturday",7,3);
         CheckBox sunday = SetStyles.createCheckBox("Sunday",8,3);
-        TextField m = new TextField();
+
         SetStyles.setPosition(m,2,4);
-        TextField tu = new TextField();
         SetStyles.setPosition(tu,3,4);
-        TextField w = new TextField();
         SetStyles.setPosition(w,4,4);
-        TextField th = new TextField();
         SetStyles.setPosition(th,5,4);
-        TextField f = new TextField();
         SetStyles.setPosition(f,6,4);
-        TextField st = new TextField();
         SetStyles.setPosition(st,7,4);
-        TextField sn = new TextField();
         SetStyles.setPosition(sn,8,4);
 
-        workingSchedule.add(m.getText());
-        workingSchedule.add(tu.getText());
-        workingSchedule.add(w.getText());
-        workingSchedule.add(th.getText());
-        workingSchedule.add(f.getText());
-        workingSchedule.add(st.getText());
-        workingSchedule.add(sn.getText());
-
+        workingSchedule[0] = m.getText();
+        workingSchedule[1] = tu.getText();
+        workingSchedule[2] = w.getText();
+        workingSchedule[3] = th.getText();
+        workingSchedule[4] = f.getText();
+        workingSchedule[5] = st.getText();
+        workingSchedule[6] = sn.getText();
 
 
         combo3.setOnAction(event -> {
@@ -156,6 +156,7 @@ public class AddAirportStuff {
             } else flag[3] = true;
 
             if (CheckAddingInput.checkScheduleTime(stage,m,tu,w,th,f,st,sn)) {
+
                 flag[4] = false;
             } else flag[4] = true;
 
@@ -213,7 +214,7 @@ public class AddAirportStuff {
     public static String getGate() {
         return textAreaGate.getText();
     }
-    public static ArrayList getSchedule () {
+    public static String[] getSchedule() {
         return workingSchedule;
     }
 

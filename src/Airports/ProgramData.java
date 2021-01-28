@@ -805,7 +805,7 @@ public class ProgramData implements Serializable {
         String lastName = AddAirportStuff.getLastName();
         String address = AddAirportStuff.getAddress();
         String phone = AddAirportStuff.getPhone();
-        ArrayList<String> workHours = new  ArrayList<String>();
+        String[] workHours = new  String[7];
         workHours = AddAirportStuff.getSchedule();
 
         for(String time : workHours) {
@@ -825,8 +825,8 @@ public class ProgramData implements Serializable {
                             flag = true;
                             for(int i = 1; i <= 7; i++) {
                                 DayOfWeek day = DayOfWeek.of(i);
-                                if(!workHours.get(i - 1).equals("NULL")) {
-                                    LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                                if(!workHours[i - 1].equals("NULL")) {
+                                    LocalTime startTime = LocalTime.parse(workHours[i - 1]);
                                     LocalTime endTime = startTime.plusHours(8);
                                     System.out.println(startTime + "-" + endTime);
                                     airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
@@ -854,7 +854,7 @@ public class ProgramData implements Serializable {
         String address = AddAirportStuff.getAddress();
         String phone = AddAirportStuff.getPhone();
         String storeName = AddAirportStuff.getStore();
-        ArrayList<String> workHours = new  ArrayList<String>();
+        String[] workHours = new  String[7];
         workHours = AddAirportStuff.getSchedule();
 
         boolean flag = false;
@@ -871,7 +871,7 @@ public class ProgramData implements Serializable {
                                     flag = true;
                                     for(int i = 1; i <= 7; i++) {
                                         DayOfWeek day = DayOfWeek.of(i);
-                                        LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                                        LocalTime startTime = LocalTime.parse(workHours[i - 1]);
                                         LocalTime endTime = startTime.plusHours(8);
                                         store.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
                                     }
@@ -898,7 +898,7 @@ public class ProgramData implements Serializable {
         String address = AddAirportStuff.getAddress();
         String phone = AddAirportStuff.getPhone();
         String gateName = AddAirportStuff.getGate();
-        ArrayList<String> workHours = new  ArrayList<String>();
+        String[] workHours = new  String[7];
         workHours = AddAirportStuff.getSchedule();
 
         boolean flag = false;
@@ -915,7 +915,7 @@ public class ProgramData implements Serializable {
                                     flag = true;
                                     for(int i = 1; i <= 7; i++) {
                                         DayOfWeek day = DayOfWeek.of(i);
-                                        LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                                        LocalTime startTime = LocalTime.parse(workHours[i - 1]);
                                         LocalTime endTime = startTime.plusHours(8);
                                         gate.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
                                     }
