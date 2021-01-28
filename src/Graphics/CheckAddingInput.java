@@ -123,26 +123,27 @@ public class CheckAddingInput {
 
     public static boolean checkLuggage(TextField luggage, Stage stage) {
         boolean checkLuggage = false;
-        if (luggage.getText().equals("")) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Null Data");
-            alert.setContentText("You forgot to enter luggage");
-            java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && (result.get() == ButtonType.OK)) {
-                alert.close();
-                stage.show();
-            }
-        }
-        if (!luggage.getText().equals("TRUE") || !luggage.getText().equals("FALSE")) {
+//        if (luggage.getText().equals("")) {
+//            Alert alert = new Alert(Alert.AlertType.WARNING);
+//            alert.setTitle("Null Data");
+//            alert.setContentText("You forgot to enter luggage");
+//            java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
+//            if (result.isPresent() && (result.get() == ButtonType.OK)) {
+//                alert.close();
+//                stage.show();
+//            }
+//        }
+        if (luggage.getText().equals("YES") || luggage.getText().equals("NO") || !luggage.getText().equals("")) {
+            checkLuggage = true;
+        } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Invalid Data");
-            alert.setContentText("Please enter TRUE OR FALSE for luggage ");
-            java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && (result.get() == ButtonType.OK)) {
+            alert.setContentText("The gate should have ONLY 1 CAPITAL LETTERS");
+            java.util.Optional<ButtonType> result3 = alert.showAndWait();
+            if (result3.isPresent() && (result3.get() == ButtonType.OK)) {
                 alert.close();
                 stage.show();
             }
-           return checkLuggage = true;
         }
         return checkLuggage;
     }

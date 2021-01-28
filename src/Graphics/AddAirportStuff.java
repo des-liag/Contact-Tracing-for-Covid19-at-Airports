@@ -30,7 +30,7 @@ public class AddAirportStuff {
     protected static  ArrayList <String> workingSchedule = new ArrayList<String>();
     // array flag saves false or true if the check method / methods from class CheckAddingInput
     // had been done
-    static final boolean[] flag = {false,false,false,false,false,false,false,false};
+    static final boolean[] flag = {false,false,false,false,false,false,false,false,false};
     static Stage stage = new Stage();
 
     public static void newAirportStuff() {
@@ -112,7 +112,6 @@ public class AddAirportStuff {
         workingSchedule.add(st.getText());
         workingSchedule.add(sn.getText());
 
-        System.out.println(workingSchedule);
 
         combo3.setOnAction(event -> {
             switch (combo3.getValue()) {
@@ -169,7 +168,7 @@ public class AddAirportStuff {
                 } else {
                     flag[6] = true;
                 }
-                correctData();
+
             } else if (combo3.getValue().equals("Gate Stuff")) {
                 try {
                     if (CheckAddingInput.checkGate(textAreaGate, stage)) {
@@ -178,8 +177,8 @@ public class AddAirportStuff {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                correctData();
-            }
+
+            } else flag[8] = true;
             correctData();
         });
 
@@ -220,16 +219,16 @@ public class AddAirportStuff {
     // if all flags are true means all data are correct
     // and close stage
     public static void correctData() {
-        if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5] && flag[6] && flag[7]) {
-            if(combo3.getValue().equals("CheckIn Stuff")) {
-                stage.close();
-                ProgramData.addCheckInStuff();
-            } else if(combo3.getValue().equals("Store Stuff")) {
+        if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5]) {
+            if (flag[6]) {
                 stage.close();
                 ProgramData.addStoreStuff();
-            } else {
+            } else if (flag[7]) {
                 stage.close();
                 ProgramData.addGateStuff();
+            } else if (flag[8]) {
+                stage.close();
+                ProgramData.addCheckInStuff();
             }
         }
     }

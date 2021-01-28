@@ -52,7 +52,7 @@ public class AddFlight {
         
         Label dsICAO = SetStyles.createLabels("Please enter destination airport ICAO:", 3,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
-        destICAO.setPromptText("Departure airport");
+        destICAO.setPromptText("Destination airport");
         GridPane.setRowIndex(destICAO, 4);
         GridPane.setColumnIndex(destICAO, 0);
         

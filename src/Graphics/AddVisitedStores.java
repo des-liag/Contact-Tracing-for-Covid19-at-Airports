@@ -3,12 +3,13 @@ package Graphics;
 import Airports.ProgramData;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
-import  javafx.scene.layout.GridPane;
-import  javafx.stage.Stage;
-import  javafx.scene.control.Label;
-import  javafx.scene.paint.Paint;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import  javafx.scene.control.Button;
+import javafx.scene.control.Button;
+
 /**
  * @class AddVisitedStores adding a new store which a passenger can visit
  */
@@ -19,6 +20,7 @@ public class AddVisitedStores {
     protected static TextField textAreaFlightID = new TextField();
     protected static TextField storeName = new TextField();
     protected static TextField  entranceTime = new TextField();
+
     // array flag saves false or true if the check method / methods from class CheckAddingInput
     // had been done
     static final boolean[] flag = {false,false,false,false};
@@ -47,6 +49,7 @@ public class AddVisitedStores {
         Label store = SetStyles.createLabels("Please enter the store which the passenger visited:", 10,0,
                 Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
         SetStyles.setPosition(storeName,11,0);
+
 
         Button okButton = new Button("OK");
         SetStyles.setStyleForButtons(okButton, 35,25);

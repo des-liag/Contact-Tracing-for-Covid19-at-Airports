@@ -73,7 +73,7 @@ public class AddTicket {
                 0, Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 14));
       SetStyles.setPosition(textAreaTime,16,0);
 
-      Label luggage = SetStyles.createLabels("Please enter if passenger has luggage or not (type TRUE or FALSE): ",
+      Label luggage = SetStyles.createLabels("Please enter if passenger has luggage or not (type YES or NO): ",
                 17,0, Paint.valueOf("black"), Font.font("Arial Rounded MT Bold", 22));
       SetStyles.setPosition(textArealuggage,18,0);
       Label dpgate = SetStyles.createLabels("Please enter passenger's departure gate:", 19,0,
@@ -119,8 +119,10 @@ public class AddTicket {
           } else flag[2] = true;
 
           if (CheckAddingInput.checkLuggage(textArealuggage,stage)) {
-              flag[3] = false;
-          } else  flag[3] = true;
+              System.out.println(textArealuggage.getText());
+              flag[3] = true;
+          } else  flag[3] = false;
+          System.out.println(flag[3]);
            try {
                if (CheckAddingInput.checkGate(textAreaDepGate, stage)) {
                    flag[4] = false;
