@@ -113,6 +113,7 @@ public class AddAirportStuff {
         workingSchedule.add(sn.getText());
 
 
+
         combo3.setOnAction(event -> {
             switch (combo3.getValue()) {
                 case "Store Stuff":
@@ -220,14 +221,12 @@ public class AddAirportStuff {
     // and close stage
     public static void correctData() {
         if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5]) {
+            stage.close();
             if (flag[6]) {
-                stage.close();
                 ProgramData.addStoreStuff();
             } else if (flag[7]) {
-                stage.close();
                 ProgramData.addGateStuff();
             } else if (flag[8]) {
-                stage.close();
                 ProgramData.addCheckInStuff();
             }
         }

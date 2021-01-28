@@ -808,21 +808,30 @@ public class ProgramData implements Serializable {
         ArrayList<String> workHours = new  ArrayList<String>();
         workHours = AddAirportStuff.getSchedule();
 
+        for(String time : workHours) {
+            System.out.println(time);
+        }
         boolean flag = false;
 
         if(!ifExistsFlightCrew(ssn)) {
             if(!ifExistsPassenger(ssn)) {
                 if(!ifExistsStuff(ssn)) {
+                    System.out.println("NO CREW NO PASS NO STUFF");
                     for(Airport airport : getAirports()) {
                         if(airport.getAirportICAO().equals(icao)) {
                             AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
                             airport.getCheckInPlace().addSectionStuff(stuff);
+                            System.out.println("NEW AIRPORTSTUFF");
                             flag = true;
                             for(int i = 1; i <= 7; i++) {
                                 DayOfWeek day = DayOfWeek.of(i);
-                                LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
-                                LocalTime endTime = startTime.plusHours(8);
-                                airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                                if(!workHours.get(i - 1).equals("NULL")) {
+                                    LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                                    LocalTime endTime = startTime.plusHours(8);
+                                    System.out.println(startTime + "-" + endTime);
+                                    airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                                    System.out.println("NEW WORKHOUR"); 
+                                }
                             }  
                         }
                     }
