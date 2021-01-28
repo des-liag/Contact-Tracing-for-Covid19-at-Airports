@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+/**
+ * Ticket class represents the tickets of every flight and of every passenger
+ */
 public class Ticket implements Serializable  {
 
     private Person passenger;
@@ -64,7 +67,7 @@ public class Ticket implements Serializable  {
      * @return Date representing the date and the time when passenger arrives to the airport
      */
     public LocalDateTime getCheckInDateTime() {
-		return checkInDateTime;
+	return checkInDateTime;
     }
 
     /**
@@ -72,7 +75,7 @@ public class Ticket implements Serializable  {
      * @param ifLuggage Boolean containing the information about having luggages
      */
     public void setIfLuggage(boolean ifLuggage) {
-		this.ifLuggage = ifLuggage;
+	this.ifLuggage = ifLuggage;
     }
 
     /**
@@ -80,8 +83,8 @@ public class Ticket implements Serializable  {
      * @return boolean depending on whether this passenger has luggages
      */
     public boolean getIfLuggage() {
-		return ifLuggage;
-	}
+	return ifLuggage;
+    }
 
     /**
      * Sets the gate of the departure's airport

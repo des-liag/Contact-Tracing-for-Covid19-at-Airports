@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+/**
+ * Flight class represents all the flights thet depart from all airports
+ */
 public class Flight implements Serializable {
 
     // A unique id for each flight
@@ -68,16 +71,16 @@ public class Flight implements Serializable {
      * @see Airport
      */
     public void setDestinationAirport(Airport destinationAirport) {
-		this.destinationAirport = destinationAirport;
-	}
+	this.destinationAirport = destinationAirport;
+    }
 
     /**
      * Gets the aiport where flight arrives
      * @return Airport representing the airport of destination
      */
     public Airport getDestinationAirport() {
-		return this.destinationAirport;
-	}
+	return this.destinationAirport;
+    }
 
     /**
      * Set the date and time when airplane takes off
@@ -93,15 +96,15 @@ public class Flight implements Serializable {
      * @return LocalDateTime representing the date and time of this flight's departure
      */
     public LocalDateTime getDepartureDateTime() {
-		return departureDateTime;
-	}
+	return departureDateTime;
+    }
 
     /**
      * Set the date and time when airplane lands
      * @param destinationDateTime String containing the date and time of this flight's destination
      */
     public void setDestinationDateTime(String destinationDateTime) {
-            this.destinationDateTime = LocalDateTime.parse(destinationDateTime);
+        this.destinationDateTime = LocalDateTime.parse(destinationDateTime);
     }
 
     /**
@@ -109,8 +112,8 @@ public class Flight implements Serializable {
      * @return LocalDateTime representing the date and time of this flight's destination
      */
     public LocalDateTime getDestinationDateTime() {
-		return destinationDateTime;
-	}
+	return destinationDateTime;
+    }
 
     /**
      * Adds an object Person to the ArrayList flightCrew
@@ -156,9 +159,9 @@ public class Flight implements Serializable {
     }
 
     /**
-	 * Gets the ArrayList tickets with all tickets of this flight
-	 * @return ArrayList<Ticket> containing objects Ticket representing the tickets of this flight
-	 * @Ticket
+     * Gets the ArrayList tickets with all tickets of this flight
+     * @return ArrayList<Ticket> containing objects Ticket representing the tickets of this flight
+     * @Ticket
      */
     public ArrayList<Ticket> getTickets() {
         return this.tickets;
@@ -200,7 +203,7 @@ public class Flight implements Serializable {
  
         if (ticket != null) {
             LocalDateTime time = ticket.getCheckInDateTime();
-            
+
             //finds the employee that works in checkIn place the time that passenger did the check-in
             for(AirportStuff employee : this.getDepartureAirport().getCheckInPlace().getSectionStuff()){
                 if(employee.isWorking(time)){
@@ -260,13 +263,10 @@ public class Flight implements Serializable {
                         casualContacts.add(person);
                     }
                 }
-
-
             }
         }
         return casualContacts;
     }
-
 
     /**
      * Gets an ArrayList with all the passengers
@@ -328,7 +328,6 @@ public class Flight implements Serializable {
                 }
             }
         }
-
         return closeContacts;
     }
 
@@ -359,7 +358,6 @@ public class Flight implements Serializable {
             for (Person person : contact) {
                 casualContacts.add(person);
             }
-
         }
         return casualContacts;
     }

@@ -2,6 +2,10 @@ package Airports;
 
 import java.io.Serializable;
 
+/**
+ * Person class represents all the people of the program
+ * AirportStuff, flightCrew and passenger is a Person
+ */
 public class Person implements Serializable {
 
     private String ssn;

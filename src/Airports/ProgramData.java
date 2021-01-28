@@ -21,8 +21,13 @@ import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * ProgmaData class is the main class of the program
+ * Here data are load and saved
+ * Also here starts every searching for data and addition of data
+ */
 public class ProgramData implements Serializable {
-    
+
     // An arrayList with the data of Airport Objects
     private static ArrayList<Airport> airports = new ArrayList<Airport>();
     // An arrayList with the data of Person flightCrew Objects
@@ -31,40 +36,13 @@ public class ProgramData implements Serializable {
     private static ArrayList<Person> passengers = new ArrayList<Person>();
     // An arrayList with the data of Flight Objects
     private static ArrayList<Flight> flights = new ArrayList<Flight>();
-    
-    /**
-     * Constructor of the class
-     * If there aren't data to binary files, calls the methods initializeFromFile and saveData
-     */
-//    public ProgramData() {
-//        if (!this.load()) {
-//            initializeFromFile();
-//            saveData();
-//        }
-//    }
-    
+
     public static void loadData(){
          if (!load()) {
             initializeFromFile();
             saveData();
         }
     }
-
-    /**
-     * Constructor of the class
-     * @param initializeFromFiles
-     */
-//    public ProgramData(boolean initializeFromFiles) {
-//        if (initializeFromFiles) {
-//            initializeFromFile();
-//            saveData();
-//        } else {
-//            if (!this.load()) {
-//                initializeFromFile();
-//                saveData();
-//            }
-//        }
-//    }
 
     /**
      * Gets the ArrayList airports with all airports' data
@@ -98,7 +76,6 @@ public class ProgramData implements Serializable {
         return flights;
     }
 
-
     /**
      * Initialize the ArrayLists with data from CSV files
      */
@@ -131,9 +108,6 @@ public class ProgramData implements Serializable {
             fout = new FileOutputStream(fileName + ".ser", false);
             oos = new ObjectOutputStream(fout);
             oos.writeObject(object);
-//            if(object.equals("airports")) {
-//                airports.add((Airport)object);
-//            }
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -434,7 +408,7 @@ public class ProgramData implements Serializable {
             }
         }
     }
-    
+
     /**
      * Gets the working airport of an employee
      * @return Airport representing the airport where employee is working
@@ -449,7 +423,7 @@ public class ProgramData implements Serializable {
         Output.icaoNotFound();
         return null;
     }
-    
+
     /**
      * Check if have passed more than 30 days since the covid-19 test
      * @return boolean true if haven't passed more that 30 days
@@ -464,7 +438,7 @@ public class ProgramData implements Serializable {
             return false;
         }
     }
-    
+
     /**
      * Calsulate how many days we have to search for tracers depending on covid-19 type of test
      * @return LocaDate[] representing the prositive date and the last searching date
@@ -491,7 +465,7 @@ public class ProgramData implements Serializable {
         dates[1] = positiveDate.minusDays(daysBack);
         return dates;
     }
-    
+
     /**
      * Searches for passengers that were in the same time in the baggage reclaim area to get their luggages
      * Passengers get their luggages only from the destination's airport
@@ -501,7 +475,7 @@ public class ProgramData implements Serializable {
     public static ArrayList<Person> baggageReclaimArea(Flight flight) {
         ArrayList<Person> passengers = new ArrayList<Person>();
         int sumFlights = getFlights().size() - 1;
-        
+
         for (int id = sumFlights; id >= 0; id--) {
             Flight flight2 = getFlights().get(id);
             if (flight.getFlightId() != flight2.getFlightId() && flight2.getDestinationAirport().equals(flight.getDestinationAirport())) {
@@ -522,7 +496,6 @@ public class ProgramData implements Serializable {
         return passengers;
     }
 
-
     /**
      * Adds new flight to binary file flights
      * flag: true or false depending on successful or failed addition
@@ -534,10 +507,10 @@ public class ProgramData implements Serializable {
         String destinationDate = AddFlight.getDsDate();
         String departureTime = AddFlight.getDpTime();
         String destinationTime = AddFlight.getDsTime();
-        
+
         String departureDateTime = departureDate + "T" + departureTime;
         String destinationDateTime = destinationDate + "T" + destinationTime;
-        
+
         boolean flag = false;      
         Airport departureAirport = null;
         Airport destinationAirport = null;
@@ -557,7 +530,7 @@ public class ProgramData implements Serializable {
         }
         CheckAddingInput.message(flag);
     }
-    
+
     /**
      * Adds flightCrew to the arrayList of a specific flight 
      * If this Person with type flightCrew doesn't already exist, then is created
@@ -570,12 +543,12 @@ public class ProgramData implements Serializable {
         String address = AddFlightCrew.getAddress();
         String phone = AddFlightCrew.getPhone();
         String flightId = AddFlightCrew.getID();
-        
+
         boolean flag = false;
         int id = Integer.parseInt(flightId);
         boolean exists = false;
         Person crew = null;
-                
+       
         for(Flight flight: getFlights()) {
             if(flight.getFlightId() == id) {
                 exists = true;
@@ -603,7 +576,7 @@ public class ProgramData implements Serializable {
         }
          CheckAddingInput.message(flag);
     }
-    
+
     /**
      * Adds new ticket to a the arrayList of a specific flight
      * If passenger of the ticket doesn't already exist, he is also added to binary file people
@@ -623,7 +596,7 @@ public class ProgramData implements Serializable {
         String destGateName = AddTicket.getDsgate();
         String depIcao = AddTicket.getDpICAO();
         String destIcao = AddTicket.getDsICAO();
-        
+
         String checkInDateTime = checkInDate + "T" + checkInTime;
         int flightIdInt = Integer.parseInt(flightId);
         Boolean ifLuggage = Boolean.parseBoolean(luggage);
@@ -633,7 +606,7 @@ public class ProgramData implements Serializable {
         Person pass = null;
         boolean existsT = false;
         boolean flag = false;
-                         
+               
         for(Flight flight : getFlights()) {
             if(flight.getFlightId() == flightIdInt) {
                 exists =  true;
@@ -700,9 +673,9 @@ public class ProgramData implements Serializable {
         String entranceDate = AddVisitedStores.getEntrance();
         String entranceTime = AddVisitedStores.getTime();
         String storeName = AddVisitedStores.getStore();
-        
+
         String entranceDateTime = entranceDate + "T" +entranceTime; 
-                
+   
         boolean exists = false;
         boolean existsStore = false;
         boolean flag = false;
@@ -748,7 +721,7 @@ public class ProgramData implements Serializable {
 
         boolean exists = false;
         boolean flag = false;
-        
+
         for (Airport airport : getAirports()) {
             if(airport.getAirportICAO().equals(icao)) {
                 exists = true;
@@ -769,10 +742,10 @@ public class ProgramData implements Serializable {
     public static void addStore() {
         String icao = AddStores.getICAO();
         String name = AddStores.getStore();
-        
+
         boolean exists = false;
         boolean flag = false;
-        
+
         for (Airport airport : getAirports()) {
             if(airport.getAirportICAO().equals(icao)) {
                 for (AirportSection store : airport.getStores()) {
@@ -796,10 +769,10 @@ public class ProgramData implements Serializable {
     public static void addGate() {
         String icao = AddGate.getICAO();
         String name = AddGate.getGate();
-        
+
         boolean exists = false;
         boolean flag = false;
-        
+
         for (Airport airport : getAirports()) {
             if(airport.getAirportICAO().equals(icao)) {
                 for (AirportSection gate : airport.getGates()) {
@@ -815,7 +788,7 @@ public class ProgramData implements Serializable {
         }
         CheckAddingInput.message(flag);
     }
-  
+
     /**
      * Adds a Person with type Check In stuff, only if this ssn doesn't already exist
      * flag: true or false depending on successful or failed addition
@@ -829,9 +802,9 @@ public class ProgramData implements Serializable {
         String phone = AddAirportStuff.getPhone();
         ArrayList<String> workHours = new  ArrayList<String>();
         workHours = AddAirportStuff.getSchedule();
-        
+
         boolean flag = false;
-        
+
         if(!ifExistsFlightCrew(ssn)) {
             if(!ifExistsPassenger(ssn)) {
                 if(!ifExistsStuff(ssn)) {
@@ -854,7 +827,7 @@ public class ProgramData implements Serializable {
 
         CheckAddingInput.message(flag);
     }
-    
+
     /**
      * Adds a Person with type Gate stuff, only if this ssn doesn't already exist
      * flag: true or false depending on successful or failed addition
@@ -869,9 +842,9 @@ public class ProgramData implements Serializable {
         String storeName = AddAirportStuff.getStore();
         ArrayList<String> workHours = new  ArrayList<String>();
         workHours = AddAirportStuff.getSchedule();
-        
+
         boolean flag = false;
-        
+
         if(!ifExistsFlightCrew(ssn)) {
             if(!ifExistsPassenger(ssn)) {
                 if(!ifExistsStuff(ssn)) {
@@ -898,7 +871,7 @@ public class ProgramData implements Serializable {
         }
         CheckAddingInput.message(flag);
     }
-    
+
     /**
      * Adds a Person with type Store stuff, only if this ssn doesn't already exist
      * flag: true or false depending on successful or failed addition
@@ -913,9 +886,9 @@ public class ProgramData implements Serializable {
         String gateName = AddAirportStuff.getGate();
         ArrayList<String> workHours = new  ArrayList<String>();
         workHours = AddAirportStuff.getSchedule();
-        
+
         boolean flag = false;
-        
+
         if(!ifExistsFlightCrew(ssn)) {
             if(!ifExistsPassenger(ssn)) {
                 if(!ifExistsStuff(ssn)) {
@@ -942,7 +915,7 @@ public class ProgramData implements Serializable {
         }
         CheckAddingInput.message(flag);
     }
-    
+
     /**
      * Check if this ssn is already exists in people with type AirportStuff
      * @param ssn String containing the unique ssn of person
@@ -972,7 +945,7 @@ public class ProgramData implements Serializable {
         }
         return false;
     }
-        
+
     /**
      * Check if this ssn is already exists in passengers
      * @param ssn String containing the unique ssn of person
@@ -1001,17 +974,4 @@ public class ProgramData implements Serializable {
         return false;
     }
 
-    }
-
-
-    
-
-    
- 
-    
-    
-
-    
-
-    
-   
+}

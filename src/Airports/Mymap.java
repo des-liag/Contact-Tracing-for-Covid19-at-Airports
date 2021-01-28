@@ -66,6 +66,12 @@ public class Mymap<T,E> extends HashMap<String[], E> {
         return new ArrayList<String[]>(this.keySet());
     }
 
+    /**
+     * Gets an ArrayList with the keys that are given
+     * @param key1 String containing the first key of the map that refers to
+     * @param key2 String containing the second key of the map that refers to
+     * @return ArrayList<E> representing the arrayList with the keys
+     */
     public ArrayList<E> getValuesArrayListByKey1and2(String key1, String key2){
         ArrayList<E> valuesList = new ArrayList<E>();
         for( String[] key : this.keySet()){

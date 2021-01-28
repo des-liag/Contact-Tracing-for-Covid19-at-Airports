@@ -3,11 +3,13 @@ package Airports;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * VisitedStore class represents all the stores that some passengers visited during their stay at the airport
+ */
 public class VisitedStore implements Serializable {
 
     private LocalDateTime entranceDateTime;
     private AirportSection store;
-
 
     /**
      * Constructor of the class
@@ -21,7 +23,6 @@ public class VisitedStore implements Serializable {
         this.store = store;
     }
 
-
     /**
      * Sets the date and the time when passenger visited the store
      * @param entranceDateTime String containing the date and the time when passenger visited the store
@@ -29,7 +30,6 @@ public class VisitedStore implements Serializable {
     public void setEntranceDateTime(String entranceDateTime) {
         this.entranceDateTime = LocalDateTime.parse(entranceDateTime);
     }
-
 
     /**
      * Gets the date and the time when passenger visited the store
@@ -39,7 +39,6 @@ public class VisitedStore implements Serializable {
         return this.entranceDateTime;
     }
 
-
     /**
      * Sets the store that passenger visited
      * @param store Object AirportSection containing the store that passenger visited
@@ -48,7 +47,6 @@ public class VisitedStore implements Serializable {
     public void setStore(AirportSection store) {
         this.store = store;
     } 
-
 
     /**
      * Gets the store that passenger visited

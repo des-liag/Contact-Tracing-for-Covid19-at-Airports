@@ -32,6 +32,7 @@ public class FileManager {
                 String values[] = line.split(";");
                 String icao = values[0];
                 String name = values[1];
+                //create new Airport and get it into the ArrayList 
                 airports.add(new Airport(icao, name));
             }
         } catch (Exception e) {
@@ -162,6 +163,14 @@ public class FileManager {
         return airports;        
     }
 
+    /**
+     * Read and write data of file flights.csv
+     * @param fileName String containing the name of the csv file
+     * @param airportsFromFile ArrayList<Airport> that has been created previously from files
+     * @param flightCrewFromFile  ArrayList<Person> that has been created previously from files
+     * @param passengersFromFile ArrayList<Person> that has been created previously from files
+     * @return ArrayList<Flight> representing all the objects Flight with necessary information about them
+     */
     public static ArrayList<Flight> loadFlights(
         String fileName, ArrayList<Airport> airportsFromFile, ArrayList<Person> flightCrewFromFile, ArrayList<Person> passengersFromFile ) {
 
@@ -174,6 +183,7 @@ public class FileManager {
 
         try (BufferedReader br = new BufferedReader(new FileReader(FilePath))) {
             String line;
+            //read csv file line by line
             while ((line = br.readLine()) != null) {
                 String values[] = line.split(";");
                 String depICAOString = values[1];
@@ -191,14 +201,16 @@ public class FileManager {
                         destAirport = airports.get(i);
                     }
                 }
+                //create new Flight and get it into the ArrayList 
                 flights.add(new Flight(depAirport, destAirport, depDateString, destDateString));
             }
-
         } catch (Exception e) {
             System.out.println("\nLoad failed.\n");
             System.exit(1);
         }
 
+        //Read and write data of file flightsData.csv
+        //this file contains information about tickets of every flight and of every passenger
         ArrayList<String[]> flightsDataFile = loadStringsFile("CSVFiles//flightsData.csv//");
 
         for(int i = 0; i < flightsDataFile.size(); i++) {
@@ -213,21 +225,24 @@ public class FileManager {
             AirportSection depGate = null;
             AirportSection destGate = null;
 
+            //the gates of departure's airport of the flight
             ArrayList <AirportSection> thisDepAirportGates = flights.get(flightId).getDepartureAirport().getGates();
+            //the gates of destination's airport of the flight
             ArrayList <AirportSection> thisDestAirportGates = flights.get(flightId).getDestinationAirport().getGates();
 
 
             if(personType.equals("FLIGHTCREW")){
                 for (int j = 0; j < flightCrew.size(); j++) {
                     if (flightCrew.get(j).getSSN().equals(ssn)){
+                        //import flightCrew to flights
                         flights.get(flightId).addFlightCrew(flightCrew.get(j));
                     }
                 }
             } else if (personType.equals("PASSENGER")) {
                 for (int j = 0; j < passengers.size(); j++) {
                     if (passengers.get(j).getSSN().equals(ssn)) {
-                        for(int k = 0; k < flights.get(flightId).getDepartureAirport().getGates().size(); k++) {
-                            if (flights.get(flightId).getDepartureAirport().getGates().get(k).getSectionName().equals(depGateName)) {
+                        for(int k = 0; k < thisDepAirportGates.size(); k++) {
+                            if (thisDepAirportGates.get(k).getSectionName().equals(depGateName)) {
                                 depGate = thisDepAirportGates.get(k);
                                 break;
                             } 
@@ -239,25 +254,34 @@ public class FileManager {
                             } 
                         }
 
+                        //is created a new ticket
                         Ticket ticket = new Ticket(passengers.get(j), checkInTime, ifLuggage, depGate, destGate);
+                        //a map with visited stores
                         Mymap<String[], String[]> visitedStoresMap = loadVisitedStoresMap();
 
                         for(String[] value : visitedStoresMap.getValuesArrayListByKey1and2(ssn,((Integer)(flightId + 1)).toString())){
                             AirportSection store = flights.get(flightId).getDepartureAirport().getStoreByName(value[0]);
+                            //create new VisitedStore and add them to ticket
                             ticket.addDepartureVisitedStore(new VisitedStore(value[1], store));
                         }
-
+                        //add tickets to flights
                         flights.get(flightId).addTicket(ticket);
                     }
                 } 
             }  
         }
-
         return flights;
     }
 
+    /**
+     * Create a map that contains the visited stores of the csv file
+     * @return the map
+     */
     private static Mymap<String[], String[]> loadVisitedStoresMap(){
+        //Read and write data of file people.csv
         ArrayList<String[]> visitedStoresFile = loadStringsFile("CSVFiles//visitedStores.csv//");
+        //map that has as key the combination of passenger's ssn, flight's id and file's id in an array, that makes it unique,
+        //and as value an array of store's name and time that passenger got into the store
         Mymap<String[], String[]> visitedStoresMap = new  Mymap<String[], String[]>();
 
         for(int i = 0; i < visitedStoresFile.size(); i++) {
@@ -274,6 +298,11 @@ public class FileManager {
         return visitedStoresMap;
     }
 
+    /**
+     * Read and write CSV files
+     * @param fileName String contatining the file's name
+     * @return ArrayList<String[]> containing all lines of the file
+     */
     private static ArrayList<String[]> loadStringsFile(String fileName) {
 
         ArrayList<String[]> strings = new ArrayList<String[]>();
@@ -281,6 +310,7 @@ public class FileManager {
 
         try (BufferedReader br = new BufferedReader(new FileReader(FilePath))) {
             String line;
+            //read line by line
             while ((line = br.readLine()) != null) {
                 String values[] = line.split(";");
                 strings.add(values);
@@ -293,6 +323,11 @@ public class FileManager {
         return strings;
     }
 
+    /**
+     * Creates the arraylist with all flightCrew
+     * @param fileName String contatining the file's name
+     * @return ArrayList<Person> with all flightCrew
+     */
     public static ArrayList<Person> getFlightCrew(String fileName){
         ArrayList<Person> flightCrew = new ArrayList<Person>();
         ArrayList<String[]> peopleFile = loadStringsFile(fileName);
@@ -304,12 +339,18 @@ public class FileManager {
             String phone = peopleFile.get(i)[5];
             String type = peopleFile.get(i)[6];
             if(type.equals("FLIGHTCREW")){
+                //create new person and add it to the arraylist
                 flightCrew.add(new Person(SSN, name, lastName, address, phone));
             }
         }
         return flightCrew;
     }
 
+    /**
+     * Creates the arraylist with all passengers
+     * @param fileName String contatining the file's name
+     * @return ArrayList<Person> with all passengers
+     */
     public static ArrayList<Person> getPassengers(String fileName){
         ArrayList<Person> passengers = new ArrayList<Person>();
         ArrayList<String[]> peopleFile = loadStringsFile(fileName);
@@ -321,6 +362,7 @@ public class FileManager {
             String phone = peopleFile.get(i)[5];
             String type = peopleFile.get(i)[6];
             if(type.equals("PASSENGER")){
+                //create new person and add it to the arraylist
                 passengers.add(new Person(SSN, name, lastName, address, phone));
             }
         }
