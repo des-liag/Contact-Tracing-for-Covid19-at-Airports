@@ -805,34 +805,32 @@ public class ProgramData implements Serializable {
         String lastName = AddAirportStuff.getLastName();
         String address = AddAirportStuff.getAddress();
         String phone = AddAirportStuff.getPhone();
-//        String[] workHours = new  String[7];
-//        workHours = AddAirportStuff.getSchedule();
-//
-//        for(String time : workHours) {
-//            System.out.println(time);
-//        }
-        String timeMonday = AddAirportStuff.getM();
+        ArrayList<String> workHours = new ArrayList<String>();
+        workHours.add(AddAirportStuff.getM());
+        workHours.add(AddAirportStuff.getTu());
+        workHours.add(AddAirportStuff.getW());
+        workHours.add(AddAirportStuff.getTh());
+        workHours.add(AddAirportStuff.getF());
+        workHours.add(AddAirportStuff.getSt());
+        workHours.add(AddAirportStuff.getSn());
+
         boolean flag = false;
 
         if(!ifExistsFlightCrew(ssn)) {
             if(!ifExistsPassenger(ssn)) {
                 if(!ifExistsStuff(ssn)) {
-                    System.out.println("NO CREW NO PASS NO STUFF");
                     for(Airport airport : getAirports()) {
                         if(airport.getAirportICAO().equals(icao)) {
                             AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
                             airport.getCheckInPlace().addSectionStuff(stuff);
-                            System.out.println("NEW AIRPORTSTUFF");
-                            flag = true;
                             for(int i = 1; i <= 7; i++) {
                                 DayOfWeek day = DayOfWeek.of(i);
-//                                if(!workHours[i - 1].equals("NULL")) {
-//                                    LocalTime startTime = LocalTime.parse(workHours[i - 1]);
-//                                    LocalTime endTime = startTime.plusHours(8);
-//                                    System.out.println(startTime + "-" + endTime);
-//                                    airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
-//                                    System.out.println("NEW WORKHOUR"); 
-//                                }
+                                if(!workHours.get(i - 1).equals("")) {
+                                    LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                                    LocalTime endTime = startTime.plusHours(8);
+                                    airport.getCheckInPlace().getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                                    flag = true;
+                                }
                             }  
                         }
                     }
@@ -855,8 +853,14 @@ public class ProgramData implements Serializable {
         String address = AddAirportStuff.getAddress();
         String phone = AddAirportStuff.getPhone();
         String storeName = AddAirportStuff.getStore();
-        String[] workHours = new  String[7];
-        workHours = AddAirportStuff.getSchedule();
+        ArrayList<String> workHours = new ArrayList<String>();
+        workHours.add(AddAirportStuff.getM());
+        workHours.add(AddAirportStuff.getTu());
+        workHours.add(AddAirportStuff.getW());
+        workHours.add(AddAirportStuff.getTh());
+        workHours.add(AddAirportStuff.getF());
+        workHours.add(AddAirportStuff.getSt());
+        workHours.add(AddAirportStuff.getSn());
 
         boolean flag = false;
 
@@ -869,16 +873,20 @@ public class ProgramData implements Serializable {
                                 if(store.getSectionName().equals(storeName)) {
                                     AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
                                     store.addSectionStuff(stuff);
-                                    flag = true;
                                     for(int i = 1; i <= 7; i++) {
                                         DayOfWeek day = DayOfWeek.of(i);
-                                        LocalTime startTime = LocalTime.parse(workHours[i - 1]);
-                                        LocalTime endTime = startTime.plusHours(8);
-                                        store.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
-                                    }
+                                        if(!workHours.get(i - 1).equals("")) {
+                                            LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                                            LocalTime endTime = startTime.plusHours(8);
+                                            System.out.println(startTime + "-" + endTime);
+                                            store.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                                            System.out.println(day.toString());
+                                            System.out.println("NEW WORKHOUR");
+                                            flag = true;
+                                        }
+                                    }  
                                 }
                             }
-
                         }
                     }
                 } 
@@ -899,8 +907,14 @@ public class ProgramData implements Serializable {
         String address = AddAirportStuff.getAddress();
         String phone = AddAirportStuff.getPhone();
         String gateName = AddAirportStuff.getGate();
-        String[] workHours = new  String[7];
-        workHours = AddAirportStuff.getSchedule();
+        ArrayList<String> workHours = new ArrayList<String>();
+        workHours.add(AddAirportStuff.getM());
+        workHours.add(AddAirportStuff.getTu());
+        workHours.add(AddAirportStuff.getW());
+        workHours.add(AddAirportStuff.getTh());
+        workHours.add(AddAirportStuff.getF());
+        workHours.add(AddAirportStuff.getSt());
+        workHours.add(AddAirportStuff.getSn());
 
         boolean flag = false;
 
@@ -913,12 +927,14 @@ public class ProgramData implements Serializable {
                                 if(gate.getSectionName().equals(gateName)) {
                                     AirportStuff stuff = new AirportStuff(ssn, name, lastName, address, phone);
                                     gate.addSectionStuff(stuff);
-                                    flag = true;
                                     for(int i = 1; i <= 7; i++) {
                                         DayOfWeek day = DayOfWeek.of(i);
-                                        LocalTime startTime = LocalTime.parse(workHours[i - 1]);
-                                        LocalTime endTime = startTime.plusHours(8);
-                                        gate.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                                        if(!workHours.get(i - 1).equals("")) {
+                                            LocalTime startTime = LocalTime.parse(workHours.get(i - 1));
+                                            LocalTime endTime = startTime.plusHours(8);
+                                            gate.getAirportStuffBySSN(ssn).addWorkHours(day,startTime, endTime);
+                                            flag = true;
+                                        }
                                     }
                                 }
                             }
@@ -973,6 +989,7 @@ public class ProgramData implements Serializable {
                 return true;
             }
         }
+        System.out.println("no pass");
         return false;
     }
 

@@ -211,8 +211,9 @@ public class Flight implements Serializable {
                     closeContacts.add(employee);
                 }
                 if(time.equals(LocalTime.parse("00:00"))) {
-                    employee.isWorkingPreviousDay(dTime);
-                    closeContacts.add(employee);
+                    if(employee.isWorkingPreviousDay(dTime)) {
+                        closeContacts.add(employee);
+                    }
                 }
             }
 
@@ -240,12 +241,17 @@ public class Flight implements Serializable {
     public ArrayList<Person> findCasualContactsOfPassenger(String ssn){
         ArrayList<Person> casualContacts = new ArrayList<Person>();
         LocalDateTime flightDateTime = this.getDepartureDateTime();
+        LocalTime time = flightDateTime.toLocalTime();
 
         Ticket ticket = this.getTicketBySSN(ssn);
         if (ticket != null) {
             //finds the employee(s) that work in gate where the flight gone
             for(AirportStuff employee : ticket.getDepartureGate().getSectionStuff()){
                 if(employee.isWorking(flightDateTime)){
+                    casualContacts.add(employee);
+                }
+                if(time.equals(LocalTime.parse("00:00"))) {
+                    employee.isWorkingPreviousDay(flightDateTime);
                     casualContacts.add(employee);
                 }
             }
@@ -328,6 +334,12 @@ public class Flight implements Serializable {
                             if(stuff.isWorking(dateTime)) {
                                 closeContacts.add(stuff);
                             }
+                            if(checkInTime.equals(time3)) {
+//                                ftu
+//                                      .isWorkingPreviousDay(flightDateTime);
+//                    casualContacts.add(employee);
+                }
+                            
                         }
                     }
                 }

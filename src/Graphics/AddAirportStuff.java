@@ -2,17 +2,17 @@ package Graphics;
 
 import Airports.Airport;
 import Airports.ProgramData;
+import java.util.ArrayList;
 import javafx.collections.ObservableList;
-import  javafx.scene.control.Label;
-import  javafx.scene.paint.Paint;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.control.TextField;
-import  javafx.scene.control.Button;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.CheckBox;
-import java.util.ArrayList;
 /**
  * @class AddAirportStuff adding a new employee
  * (Store Stuff, Gate Stuff, CheckIn Stuff)
@@ -27,17 +27,17 @@ public class AddAirportStuff {
     protected static TextField textAreaStore = new TextField();
     protected static ComboBox<String> combo3 = new ComboBox<>();
     protected static ComboBox<String> icao = new ComboBox<>();
-    protected static String[] workingSchedule = new String[7];
     protected static TextField m = new TextField();
     protected static TextField tu = new TextField();
     protected static TextField w = new TextField();
     protected static TextField th = new TextField();
-    protected static  TextField f = new TextField();
+    protected static TextField f = new TextField();
     protected static TextField st = new TextField();
     protected static TextField sn = new TextField();
+
     // array flag saves false or true if the check method / methods from class CheckAddingInput
     // had been done
-    static final boolean[] flag = {false,false,false,false,false,false,false,false,false};
+    static final boolean[] flag = {false,false,false,false,false,false,false,false};
     static Stage stage = new Stage();
 
     public static void newAirportStuff() {
@@ -105,15 +105,6 @@ public class AddAirportStuff {
         SetStyles.setPosition(st,7,4);
         SetStyles.setPosition(sn,8,4);
 
-        workingSchedule[0] = m.getText();
-        workingSchedule[1] = tu.getText();
-        workingSchedule[2] = w.getText();
-        workingSchedule[3] = th.getText();
-        workingSchedule[4] = f.getText();
-        workingSchedule[5] = st.getText();
-        workingSchedule[6] = sn.getText();
-        System.out.println(workingSchedule[0]);
-
 
         combo3.setOnAction(event -> {
             switch (combo3.getValue()) {
@@ -166,22 +157,27 @@ public class AddAirportStuff {
             } else flag[5] = true;
 
             if (combo3.getValue().equals("Store Stuff")) {
+                flag[6] = false;
                 if (CheckAddingInput.checkStore(textAreaStore,stage)) {
-                    flag[6] = false;
+                    flag[7] = false;
                 } else {
-                    flag[6] = true;
+                    flag[7] = true;
                 }
 
             } else if (combo3.getValue().equals("Gate Stuff")) {
+                flag[7] = false;
                 try {
                     if (CheckAddingInput.checkGate(textAreaGate, stage)) {
-                        flag[7] = false;
-                    } else flag[7] = true;
+                        flag[6] = false;
+                    } else flag[6] = true;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-            } else flag[8] = true;
+            } else {
+                flag[6] = false;
+                flag[7] = false;
+            }
             correctData();
         });
 
@@ -209,54 +205,53 @@ public class AddAirportStuff {
     public static String getICAO() {
         return icao.getValue();
     }
-
-    public static String getM() {
-        return m.getText();
-    }
-
-    public static TextField getTu() {
-        return tu;
-    }
-
-    public static TextField getW() {
-        return w;
-    }
-
-    public static TextField getTh() {
-        return th;
-    }
-
-    public static TextField getF() {
-        return f;
-    }
-
-    public static TextField getSt() {
-        return st;
-    }
-
-    public static TextField getSn() {
-        return sn;
-    }
     public static String getStore() {
         return textAreaStore.getText();
     }
     public static String getGate() {
         return textAreaGate.getText();
     }
-    public static String[] getSchedule() {
-        return workingSchedule;
+
+    public static String getM() {
+        return m.getText();
     }
+
+    public static String getTu() {
+        return tu.getText();
+    }
+
+    public static String getW() {
+        return w.getText();
+    }
+
+    public static String getTh() {
+        return th.getText();
+    }
+
+    public static String getF() {
+        return f.getText();
+    }
+
+    public static String getSt() {
+        return st.getText();
+    }
+
+    public static String getSn() {
+        return sn.getText();
+    }
+
+
 
     // if all flags are true means all data are correct
     // and close stage
     public static void correctData() {
         if (flag[0] && flag[1] && flag[2] && flag[3] && flag[4] && flag[5]) {
             stage.close();
-            if (flag[6]) {
+            if (flag[7] && !flag[6]) {
                 ProgramData.addStoreStuff();
-            } else if (flag[7]) {
+            } else if (flag[6] && !flag[7]) {
                 ProgramData.addGateStuff();
-            } else if (flag[8]) {
+            } else {
                 ProgramData.addCheckInStuff();
             }
         }
