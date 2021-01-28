@@ -3,6 +3,12 @@ package Airports;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Airport class represent airports from Europe
+ * Each airport consists of sections and stuff
+ * @see AirportSection
+ * @see AirportStuff
+ */
 public class Airport implements Serializable {
 
     private String airportICAO;
@@ -143,7 +149,6 @@ public class Airport implements Serializable {
         return null;
     }
 
-
     /**
      * Gets the ArrayList with all a gate's employees
      * @param gateName the name of the gate of which we want the employees
@@ -188,6 +193,5 @@ public class Airport implements Serializable {
         }
         return null;
     }
-
 
 }

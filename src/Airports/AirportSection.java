@@ -3,6 +3,11 @@ package Airports;
 import java.util.ArrayList;
 import java.io.Serializable;
 
+/**
+ * AirportSection class represents the sections of the airport. These can be:
+ * one checkIn place where passengers do the ckeck-in, stores that passengers can visit and gates where flights depart
+ * Each section has its employees that work only in this section
+ */
 public class AirportSection implements Serializable {
 
     private String sectionName;

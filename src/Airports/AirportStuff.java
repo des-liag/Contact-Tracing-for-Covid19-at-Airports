@@ -1,9 +1,14 @@
-    package Airports;
+package Airports;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.time.*;
 
+/**
+ * AirportStuff class represents the employees that work in airport. Employees constist of 3 types:
+ * checkIn stuff that work in Check-In place, store stuff that works in stores and gate stuff that work in gates
+ * All employees have one stable work-hour program, and all of them, due to the situation of covid-19, work alone, without other employee
+ */
 public class AirportStuff extends Person {
 
     // A map that has as key one of the days of the week, and as value an arraylist which has inside an array with 2 rows

@@ -8,8 +8,18 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * FileManager class manages the CSV files in order to initialize data
+ * Its methods are called only the first time that program runs
+ * Every other time, data have been saved to binary files
+ */
 public class FileManager {
 
+    /**
+     * Read and write data of file airports.csv
+     * @param fileName String containing the name of the csv file
+     * @return ArrayList<Airport> representing all the objects Airport with necessary information about them
+     */
     public static ArrayList<Airport> loadAirports(String fileName) {
 
         ArrayList<Airport> airports = new ArrayList<Airport>();
@@ -17,6 +27,7 @@ public class FileManager {
 
         try (BufferedReader br = new BufferedReader(new FileReader(FilePath))) {
             String line;
+            //read csv file line by line
             while ((line = br.readLine()) != null) {
                 String values[] = line.split(";");
                 String icao = values[0];
@@ -28,9 +39,13 @@ public class FileManager {
             System.exit(1);
         }
 
+        //A map in which put all the gates of the file
         Mymap<String[], AirportSection> gatesMap = new  Mymap<String[], AirportSection>();
+        //A map in which put all the stores of the file
         Mymap<String[], AirportSection> storesMap = new  Mymap<String[], AirportSection>();
+        //A map in which put all the checkIn places of the file
         Mymap<String[], AirportSection> checkInPlacesMap = new  Mymap<String[], AirportSection>();
+        //Read and write data of file sections.csv
         ArrayList<String[]> sectionsFile = loadStringsFile("CSVFiles//sections.csv//");
 
 
@@ -39,30 +54,39 @@ public class FileManager {
             String iciao = sectionsFile.get(i)[1];
             String typeOfSection = sectionsFile.get(i)[2];
             String name = sectionsFile.get(i)[3];
-
+            
+            //the key of each map contists of id and icao because this combination makes exery section unique
             String[] key = new String[]{sectionId, iciao};
             if(typeOfSection.equals("GATE")){
+                //is created new AirportSection gate
                 gatesMap.put(key, new AirportSection(name));
             } else if(typeOfSection.equals("STORE")) {
+                //is created new AirportSection store
                 storesMap.put(key, new AirportSection(name));
             } else {
+                //is created new AirportSection check-In place
                 checkInPlacesMap.put(key, new AirportSection(name));
             }
         }
 
-
+        //Read and write data of file workHours.csv
         ArrayList<String[]> workHoursFile = loadStringsFile("CSVFiles//workHours.csv//");
+        //A map in which put all workk-hour programs from file
         HashMap<Integer, HashMap<DayOfWeek, LocalTime[]>> workHoursMap = new HashMap<Integer, HashMap<DayOfWeek, LocalTime[]>>();
 
+        //each line of file represents one work-hour program that has unique id
         for (int j = 0; j < workHoursFile.size(); j++) {
             int id = Integer.parseInt(workHoursFile.get(j)[0]);
+            //how many hours work every day
             int hours = Integer.parseInt(workHoursFile.get(j)[8]);
 
+            //as key is the id and as values a nested HashMap with key the day of the week and values an array with 2 elements: the start and end time of work 
             workHoursMap.put(id,new HashMap<DayOfWeek, LocalTime[]>());
 
             for (int index = 1; index <= 7; index++) {
                 DayOfWeek day = DayOfWeek.of(index);
                 String startTime =  workHoursFile.get(j)[index];
+                //if null means that this day employee doesn't work
                 if(!startTime.equals("NULL")){
                     LocalTime startTimeDate = LocalTime.parse(startTime);
                     LocalTime endTimeDate = LocalTime.parse(startTime).plusHours(hours);
@@ -71,6 +95,8 @@ public class FileManager {
             }
         }
 
+        //Read and write data of file people.csv
+        //This file have 3 types of people: AirportStuff, FlightCrew and Passenger
         ArrayList<String[]> peopleFile = loadStringsFile("CSVFiles//people.csv//");
 
         for (int i=0; i < peopleFile.size(); i++) {
@@ -80,24 +106,28 @@ public class FileManager {
             String address = peopleFile.get(i)[4];
             String phone = peopleFile.get(i)[5];
             String type = peopleFile.get(i)[6];
+            //the id of work-hour program in order to match it
             String workHoursString = peopleFile.get(i)[7];
-
             String sectionIdString = peopleFile.get(i)[8];
 
             if(type.equals("AIRPORTSTUFF")) {
                 int workHoursId = Integer.parseInt(workHoursString);
+                //is created new AirportStuff
                 AirportStuff sectionEmployee  = new AirportStuff(ssn, name, lastName, address, phone);
                 HashMap<DayOfWeek, LocalTime[]> workHoursOfEmployeeMap =  workHoursMap.get(workHoursId);
-
+                //is created the work-hour program of employee
                 for(DayOfWeek day : workHoursOfEmployeeMap.keySet()){
                     sectionEmployee.addWorkHours(day, workHoursOfEmployeeMap.get(day)[0], workHoursOfEmployeeMap.get(day)[1]);
                 }
 
                 if(gatesMap.containsKey1(sectionIdString)){
+                    //add gate stuff to a gate
                     gatesMap.getByKey1(sectionIdString).addSectionStuff(sectionEmployee);
                 } else if(storesMap.containsKey1(sectionIdString)) {
+                    //add store stuff to a store
                     storesMap.getByKey1(sectionIdString).addSectionStuff(sectionEmployee);
                 } else {
+                    //add check-In stuff to a check-In place
                     checkInPlacesMap.getByKey1(sectionIdString).addSectionStuff(sectionEmployee);
                 }
             }
