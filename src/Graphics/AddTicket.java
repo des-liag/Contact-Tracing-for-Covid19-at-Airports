@@ -119,10 +119,8 @@ public class AddTicket {
           } else flag[2] = true;
 
           if (CheckAddingInput.checkLuggage(textArealuggage,stage)) {
-              System.out.println(textArealuggage.getText());
               flag[3] = true;
           } else  flag[3] = false;
-          System.out.println(flag[3]);
            try {
                if (CheckAddingInput.checkGate(textAreaDepGate, stage)) {
                    flag[4] = false;

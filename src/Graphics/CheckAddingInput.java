@@ -123,22 +123,12 @@ public class CheckAddingInput {
 
     public static boolean checkLuggage(TextField luggage, Stage stage) {
         boolean checkLuggage = false;
-//        if (luggage.getText().equals("")) {
-//            Alert alert = new Alert(Alert.AlertType.WARNING);
-//            alert.setTitle("Null Data");
-//            alert.setContentText("You forgot to enter luggage");
-//            java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
-//            if (result.isPresent() && (result.get() == ButtonType.OK)) {
-//                alert.close();
-//                stage.show();
-//            }
-//        }
-        if (luggage.getText().equals("YES") || luggage.getText().equals("NO") || !luggage.getText().equals("")) {
+        if ((luggage.getText().equals("YES") || luggage.getText().equals("NO")) && !luggage.getText().equals("")) {
             checkLuggage = true;
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Invalid Data");
-            alert.setContentText("The gate should have ONLY 1 CAPITAL LETTERS");
+            alert.setContentText("You should type 'YES' OR 'NO'");
             java.util.Optional<ButtonType> result3 = alert.showAndWait();
             if (result3.isPresent() && (result3.get() == ButtonType.OK)) {
                 alert.close();

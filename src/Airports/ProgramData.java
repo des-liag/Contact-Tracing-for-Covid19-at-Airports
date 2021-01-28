@@ -595,11 +595,16 @@ public class ProgramData implements Serializable {
         String depGateName = AddTicket.getDpgate();
         String destGateName = AddTicket.getDsgate();
         String depIcao = AddTicket.getDpICAO();
+        System.out.println(depIcao);
         String destIcao = AddTicket.getDsICAO();
+        System.out.println(destIcao);
 
         String checkInDateTime = checkInDate + "T" + checkInTime;
         int flightIdInt = Integer.parseInt(flightId);
-        Boolean ifLuggage = Boolean.parseBoolean(luggage);
+        boolean ifLuggage = false;
+        if(luggage.equals("YES")) {
+            ifLuggage = true;
+        }
         boolean exists = false;
         AirportSection departureGate = null;
         AirportSection destinationGate = null;
@@ -615,20 +620,23 @@ public class ProgramData implements Serializable {
         }
 
         if (exists) {
-            for(Airport airport: getAirports()) {
-                if (airport.getAirportICAO().equals(depIcao)) {
-                    for (AirportSection section : airport.getGates()) {
-                        if (section.getSectionName().equals(depGateName)) {
-                            departureGate = section;
+            if((getFlights().get(flightIdInt - 1).getDepartureAirport().getAirportICAO()).equals(depIcao) &&
+                    (getFlights().get(flightIdInt - 1).getDestinationAirport().getAirportICAO()).equals(destIcao)) {
+                        for(Airport airport: getAirports()) {
+                            if (airport.getAirportICAO().equals(depIcao)) {
+                                for (AirportSection section : airport.getGates()) {
+                                    if (section.getSectionName().equals(depGateName)) {
+                                        departureGate = section;
+                                    }
+                                }
+                            } else if (airport.getAirportICAO().equals(destIcao)) {
+                                for (AirportSection section : airport.getGates()) {
+                                    if (section.getSectionName().equals(destGateName)) {
+                                        destinationGate = section;
+                                    }
+                                }
+                            }
                         }
-                    }
-                } else if (airport.getAirportICAO().equals(destIcao)) {
-                    for (AirportSection section : airport.getGates()) {
-                        if (section.getSectionName().equals(destGateName)) {
-                            destinationGate = section;
-                        }
-                    }
-                }
             }
             if(departureGate != null && destinationGate != null) {
                 if(!ifExistsStuff(pasSSN)) {
@@ -642,19 +650,16 @@ public class ProgramData implements Serializable {
                         if(pass == null) {
                             pass = new Person(pasSSN, pasName, pasLastName, pasAddress, pasPhone);
                             passengers.add(pass);
-                            System.out.println("NEW PERSON");
                         }
                         for (Ticket ticket : getFlights().get(flightIdInt - 1).getTickets()) {
                             if (ticket.getPassenger().getSSN().equals(pass.getSSN())) {
                                 existsT = true;
-                                System.out.println("YPARXEI TICKET");
                             }
                         }
                         if(!existsT) {
                             getFlights().get(flightIdInt - 1).addTicket(
                                 new Ticket(pass, checkInDateTime, ifLuggage, departureGate, destinationGate));
                             flag = true;
-                            System.out.println("NEW TICKET");
                         }
                     }
                 }
@@ -943,6 +948,7 @@ public class ProgramData implements Serializable {
                 }
             }           
         }
+        System.out.println("no stuff");
         return false;
     }
 
@@ -967,10 +973,11 @@ public class ProgramData implements Serializable {
      */
     private static boolean ifExistsFlightCrew(String ssn) {
         for(Person crew : getFlightCrew()) {
-            if(crew.getSSN().equals(crew.getSSN())) {
+            if(crew.getSSN().equals(ssn)) {
                 return true;
             }
         }
+        System.out.println("no crew");
         return false;
     }
 
