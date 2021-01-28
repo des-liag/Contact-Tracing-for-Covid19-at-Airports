@@ -112,25 +112,39 @@ public class AddAirportStuff {
         sn.setDisable(true);
 
         monday.setOnAction(event -> {
-            m.setDisable(false);
+            if (monday.isSelected()) {
+                m.setDisable(false);
+            } else m.setDisable(true);
         });
         tuesday.setOnAction(event -> {
-            tu.setDisable(false);
+            if (tuesday.isSelected()) {
+                 tu.setDisable(false);
+            } else tu.setDisable(true);
         });
         wednesday.setOnAction(event -> {
-            w.setDisable(false);
+            if (wednesday.isSelected()) {
+                w.setDisable(false);
+            } else w.setDisable(true);
         });
         thursday.setOnAction(event -> {
-            th.setDisable(false);
+            if (thursday.isSelected()) {
+                th.setDisable(false);
+            } else th.setDisable(true);
         });
         friday.setOnAction(event -> {
-            f.setDisable(false);
+            if (friday.isSelected()) {
+                f.setDisable(false);
+            } else f.setDisable(true);
         });
         saturday.setOnAction(event -> {
-            st.setDisable(false);
+            if (saturday.isSelected()) {
+                st.setDisable(false);
+            } else st.setDisable(true);
         });
         sunday.setOnAction(event -> {
-            sn.setDisable(false);
+            if (sunday.isSelected()) {
+                sn.setDisable(false);
+            } else sn.setDisable(true);
         });
 
 
