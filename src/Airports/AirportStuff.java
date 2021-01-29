@@ -84,21 +84,23 @@ public class AirportStuff extends Person {
         DayOfWeek day = dateTime.getDayOfWeek();
         LocalTime time = dateTime.toLocalTime();
         for(LocalTime[] localtimes : this.workHoursMap.get(day)){
+            LocalTime time0 = localtimes[0];
+            LocalTime time1 = localtimes[1];
             if(localtimes[1].equals(LocalTime.parse("00:00"))) {
-                localtimes[1] = LocalTime.parse("23:59");
+                time1 =  LocalTime.parse("23:59");
             }
             //in order to include the shift change of employees 
             if(!localtimes[0].equals(LocalTime.parse("00:00"))) {
-                localtimes[0] = localtimes[0].minusSeconds(1);
+                time0 = localtimes[0].minusSeconds(1);
             }
             if(time.equals(LocalTime.parse("00:00"))) {
                 if (localtimes[0].equals(LocalTime.parse("00:00"))) {
                     time = time.plusSeconds(1);
                 }
             }
-            if(time.isAfter(localtimes[0]) && time.isBefore(localtimes[1].plusSeconds(1))){
-                return true;
-            }
+                if(time.isAfter(time0) && time.isBefore(time1.plusSeconds(1))) {
+                    return true;
+                }
         }
         return false;
     }
@@ -121,22 +123,39 @@ public class AirportStuff extends Person {
         return false;
     }
 
-    public boolean isWorkingColleague(AirportStuff employee, LocalDateTime dateTime) {
-        DayOfWeek day = dateTime.getDayOfWeek();
-        LocalTime startTime = null;
-        LocalTime endTime = null;
-
-        for(LocalTime[] localtimes : employee.workHoursMap.get(day)) {
-           startTime = localtimes[0];
-           endTime = localtimes[1];
+    /**
+     * Finds the colleages of employee that might be in contact with him as he was positive in covid test
+     * @param day the day that employee works
+     * @param startTime the time that employee start working
+     * @param  the time that employee end working
+     * @return ArrayList<Person> with all contacts during the shift change
+     */
+    public ArrayList<Person> isWorkingShiftChange(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
+        ArrayList<Person> contacts = new ArrayList<Person>();
+        if(endTime.equals(LocalTime.parse("08:00")) || startTime.equals(LocalTime.parse("08:00")) ||
+            endTime.equals(LocalTime.parse("16:00")) || startTime.equals(LocalTime.parse("16:00"))) {
+                for(LocalTime[] localtimes : this.workHoursMap.get(day)) {
+                    if(localtimes[0].equals(endTime) || localtimes[1].equals(startTime)) {
+                        contacts.add(this);
+                    } 
+                }
         }
-        for(LocalTime[] localtimes : this.workHoursMap.get(day)) {
-            if(startTime.equals(LocalTime.parse("16:00")) || endTime.equals(LocalTime.parse("16:00"))) {
-                if(localtimes[0].equals(endTime) || localtimes[1].equals(startTime)) {
-                    return true;
+        if(startTime.equals(LocalTime.parse("00:00"))) {
+            day = day.minus(1);
+            for(LocalTime[] localtimes : this.workHoursMap.get(day)) {
+                if(localtimes[1].equals(startTime)) {
+                    contacts.add(this);
                 }
             }
         }
-        return false;
+        if(endTime.equals("00:00")) {
+            day = day.plus(1);
+            for(LocalTime[] localtimes : this.workHoursMap.get(day)) {
+                if(localtimes[0].equals(endTime)) {
+                    contacts.add(this);
+                }   
+            }
+        }
+        return contacts;
     }
 }

@@ -344,37 +344,19 @@ public class Flight implements Serializable {
      */
     public ArrayList<Person> findCloseContactsOfCheckInStuff(AirportStuff employee, Airport airport) {
         ArrayList<Person> closeContacts = new ArrayList<Person>();
-        LocalTime time1 = LocalTime.parse("00:00");
-        LocalTime time2 = LocalTime.parse("08:00");
-        LocalTime time3 = LocalTime.parse("16:00");
         for (Ticket ticket : this.getTickets()) {
             LocalDateTime dateTime = ticket.getCheckInDateTime();
             if (employee.isWorking(dateTime)) {
                 closeContacts.add(ticket.getPassenger());
-
-                //in order to find the employee in the shift change
-                LocalTime checkInTime = dateTime.toLocalTime();
-//                if(checkInTime.equals(time1) || checkInTime.equals(time2) || checkInTime.equals(time3)) {
-                    for (AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
-//                        if (!stuff.getSSN().equals(employee.getSSN())) {
-//                            if(stuff.isWorking(dateTime)) {
-//                                closeContacts.add(stuff);
-//                            }
-                            if(checkInTime.equals(time3)) {
-                              if(employee.isWorkingPreviousDay(dateTime)) {
-                                closeContacts.add(ticket.getPassenger());
-                              }
-                            }  
-//                        }
+            }
+            //in order to find the employee in the shift change
+            LocalTime checkInTime = dateTime.toLocalTime();
+            for (AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
+                if(checkInTime.equals(LocalTime.parse("00:00"))) {
+                    if(employee.isWorkingPreviousDay(dateTime)) {
+                        closeContacts.add(ticket.getPassenger());
                     }
-//                }
-                 for (AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
-                    if (!stuff.getSSN().equals(employee.getSSN())) {
-                        if(stuff.isWorkingColleague(employee, dateTime)) {
-                            closeContacts.add(stuff);
-                        }
-                    }
-                 }
+                } 
             }
         }
         return closeContacts;
