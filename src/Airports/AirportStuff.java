@@ -122,40 +122,4 @@ public class AirportStuff extends Person {
         }
         return false;
     }
-
-    /**
-     * Finds the colleages of employee that might be in contact with him as he was positive in covid test
-     * @param day the day that employee works
-     * @param startTime the time that employee start working
-     * @param  the time that employee end working
-     * @return ArrayList<Person> with all contacts during the shift change
-     */
-    public ArrayList<Person> isWorkingShiftChange(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
-        ArrayList<Person> contacts = new ArrayList<Person>();
-        if(endTime.equals(LocalTime.parse("08:00")) || startTime.equals(LocalTime.parse("08:00")) ||
-            endTime.equals(LocalTime.parse("16:00")) || startTime.equals(LocalTime.parse("16:00"))) {
-                for(LocalTime[] localtimes : this.workHoursMap.get(day)) {
-                    if(localtimes[0].equals(endTime) || localtimes[1].equals(startTime)) {
-                        contacts.add(this);
-                    } 
-                }
-        }
-        if(startTime.equals(LocalTime.parse("00:00"))) {
-            day = day.minus(1);
-            for(LocalTime[] localtimes : this.workHoursMap.get(day)) {
-                if(localtimes[1].equals(startTime)) {
-                    contacts.add(this);
-                }
-            }
-        }
-        if(endTime.equals("00:00")) {
-            day = day.plus(1);
-            for(LocalTime[] localtimes : this.workHoursMap.get(day)) {
-                if(localtimes[0].equals(endTime)) {
-                    contacts.add(this);
-                }   
-            }
-        }
-        return contacts;
-    }
 }

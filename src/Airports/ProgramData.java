@@ -289,28 +289,7 @@ public class ProgramData implements Serializable {
                                 }
                             }
                         }
-                    }
-                    for (LocalDate date = posDate; date.isAfter(lastSearchDate); date = date.minusDays(1)) {
-                        DayOfWeek day = date.getDayOfWeek();
-                        LocalTime startTime = null;
-                        LocalTime endTime = null;
-                        for(AirportStuff stuff : workingAirport.getCheckInPlace().getSectionStuff()) {
-                            if(!stuff.getSSN().equals(checkInEmployee.getSSN())) {
-                                for(LocalTime[] localtimes : checkInEmployee.getWorkHoursMap().get(day)) {
-                                    startTime = localtimes[0];
-                                    endTime = localtimes[1];
-                                }
-                                if (startTime != null && endTime != null) {
-                                    contacts = stuff.isWorkingShiftChange(day, startTime, endTime);
-                                    for (int i = 0; i < contacts.size(); i++ ) {
-                                        if (!closeContacts.contains(contacts.get(i))) {
-                                            closeContacts.add(contacts.get(i));
-                                        }
-                                    }  
-                                }
-                            }
-                        }
-                    }       
+                    }      
                     try {
                         Output.contacts(closeContacts, casualContacts);
                     } catch (NullPointerException e) {
@@ -360,27 +339,6 @@ public class ProgramData implements Serializable {
                             }
                         }
                     }
-                    for (LocalDate date = posDate; date.isAfter(lastSearchDate); date = date.minusDays(1)) {
-                        DayOfWeek day = date.getDayOfWeek();
-                        LocalTime startTime = null;
-                        LocalTime endTime = null;
-                        for(AirportStuff stuff : workingStore.getSectionStuff()) {
-                            if(!stuff.getSSN().equals(storeEmployee.getSSN())) {
-                                for(LocalTime[] localtimes : storeEmployee.getWorkHoursMap().get(day)) {
-                                    startTime = localtimes[0];
-                                    endTime = localtimes[1];
-                                }
-                                if (startTime != null && endTime != null) {
-                                    contacts = stuff.isWorkingShiftChange(day, startTime, endTime);
-                                    for (int i = 0; i < contacts.size(); i++ ) {
-                                        if (!closeContacts.contains(contacts.get(i))) {
-                                            closeContacts.add(contacts.get(i));
-                                        }
-                                    }  
-                                }
-                            }
-                        }
-                    } 
                     try {
                         Output.contacts(closeContacts, casualContacts);
                     } catch (NullPointerException e) {
@@ -433,11 +391,6 @@ public class ProgramData implements Serializable {
                                 }
                             }
                         }
-                    }
-                    if (casualContacts.size() == 0) {
-                        System.out.println("There are no tracers");
-                    } else {
-                        System.out.println(casualContacts);
                     }
                     try {
                         Output.contacts(closeContacts, casualContacts);

@@ -349,18 +349,16 @@ public class Flight implements Serializable {
             if (employee.isWorking(dateTime)) {
                 closeContacts.add(ticket.getPassenger());
             }
-            //in order to find the employee in the shift change
             LocalTime checkInTime = dateTime.toLocalTime();
-            for (AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
-                if(checkInTime.equals(LocalTime.parse("00:00"))) {
-                    if(employee.isWorkingPreviousDay(dateTime)) {
-                        closeContacts.add(ticket.getPassenger());
-                    }
-                } 
+            if(checkInTime.equals(LocalTime.parse("00:00"))) {
+                if(employee.isWorkingPreviousDay(dateTime)) {
+                    closeContacts.add(ticket.getPassenger());
+                }
             }
         }
         return closeContacts;
     }
+    
 
     /**
      * Finds if a FlightCrew employee exists
@@ -403,24 +401,11 @@ public class Flight implements Serializable {
         if (this.getTickets().get(0).getDepartureGate().getSectionName().equals(gate.getSectionName())) {
             for (Ticket ticket : this.getTickets()) {
                 casualContacts.add(ticket.getPassenger());
-            }
-        }
-        LocalTime time = dateTime.toLocalTime();
-        LocalTime time1 = LocalTime.parse("00:00");
-        LocalTime time2 = LocalTime.parse("08:00");
-        LocalTime time3 = LocalTime.parse("16:00");
-        //in order to find the employee in the shift change
-        if(time.equals(time1) || time.equals(time2) || time.equals(time3)) {
-            for (AirportStuff stuff : gate.getSectionStuff()) {
-                if (!stuff.getSSN().equals(employee.getSSN())) {
-                    if(stuff.isWorking(dateTime)) {
-                        casualContacts.add(stuff);
+                LocalTime flightDate = dateTime.toLocalTime();
+                if(flightDate.equals(LocalTime.parse("00:00"))) {
+                    if(employee.isWorkingPreviousDay(dateTime)) {
+                        casualContacts.add(ticket.getPassenger());
                     }
-                    if(time.equals(time3)) {
-                        if(stuff.isWorkingPreviousDay(dateTime)) {
-                            casualContacts.add(stuff);
-                        }
-                    }  
                 }
             }
         }

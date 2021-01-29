@@ -159,17 +159,6 @@ public class Ticket implements Serializable  {
                 LocalDateTime dateTime = visitedStore.getEntranceDateTime();
                 if(employee.isWorking(dateTime)) {
                     contacts.add(this.getPassenger());
-                    //in order to find the employee in the shift change
-                    LocalTime entranceTime = dateTime.toLocalTime();
-                    if(entranceTime.equals(LocalTime.parse("16:00"))) {
-                        for (AirportStuff stuff : store.getSectionStuff()) {
-                            if (!stuff.getSSN().equals(employee.getSSN())) {
-                                if(stuff.isWorking(dateTime)) {
-                                    contacts.add(stuff);
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }
