@@ -361,13 +361,10 @@ public class Flight implements Serializable {
                                 closeContacts.add(stuff);
                             }
                             if(checkInTime.equals(time3)) {
-//                              if(stuff.isWorkingPreviousDay(time3)) {
-//                                  
-//                              }
-//                                      .isWorkingPreviousDay(flightDateTime);
-//                    casualContacts.add(employee);
-                }
-                            
+                              if(stuff.isWorkingPreviousDay(dateTime)) {
+                                closeContacts.add(stuff);
+                              }
+                            }  
                         }
                     }
                 }
@@ -430,6 +427,11 @@ public class Flight implements Serializable {
                     if(stuff.isWorking(dateTime)) {
                         casualContacts.add(stuff);
                     }
+                    if(time.equals(time3)) {
+                        if(stuff.isWorkingPreviousDay(dateTime)) {
+                            casualContacts.add(stuff);
+                        }
+                    }  
                 }
             }
         }
