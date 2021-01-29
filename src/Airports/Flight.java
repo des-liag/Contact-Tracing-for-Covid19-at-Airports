@@ -40,6 +40,26 @@ public class Flight implements Serializable {
         flightId = sumFlights += 1;
     }
 
+     /**
+     * Constructor of the class
+     * Creates a flight with the specified gate's name, departure and destination airport's ICAO and flight's date
+     * @param departureAirport The airport where flight departs
+     * @param destinationAirport The airport where flight arrives
+     * @param departureDateTime The date and time of take off
+     * @param destinationDateTime The date and time of landing
+     * @param id a unique id for each flight
+     */
+    public Flight(Airport departureAirport, Airport destinationAirport, String departureDateTime, String destinationDateTime, int id) {
+        this.departureAirport = departureAirport;
+        this.destinationAirport = destinationAirport;
+        setDepartureDateTime(departureDateTime);
+        setDestinationDateTime(destinationDateTime);
+        this.flightCrew = new ArrayList<Person>();
+        this.tickets = new ArrayList<Ticket>();
+        flightId = id;
+        System.out.println(flightId);
+    }
+    
     /**
      * Gets the id of the flight
      * @return int representing the flight id
@@ -204,7 +224,6 @@ public class Flight implements Serializable {
         if (ticket != null) {
             LocalDateTime dTime = ticket.getCheckInDateTime();
             LocalTime time = dTime.toLocalTime();
-
             //finds the employee that works in checkIn place the time that passenger did the check-in
             for(AirportStuff employee : this.getDepartureAirport().getCheckInPlace().getSectionStuff()){
                 if(employee.isWorking(dTime)){
@@ -251,8 +270,9 @@ public class Flight implements Serializable {
                     casualContacts.add(employee);
                 }
                 if(time.equals(LocalTime.parse("00:00"))) {
-                    employee.isWorkingPreviousDay(flightDateTime);
-                    casualContacts.add(employee);
+                    if(employee.isWorkingPreviousDay(flightDateTime)) {
+                        casualContacts.add(employee);
+                    }
                 }
             }
             //finds the employee(s) that work in store where passenger visited
@@ -261,6 +281,12 @@ public class Flight implements Serializable {
                     for(AirportStuff employee : visitedStore.getStore().getSectionStuff()){
                         if(employee.isWorking(visitedStore.getEntranceDateTime())){
                             casualContacts.add(employee);
+                        }
+                        LocalTime time1 = visitedStore.getEntranceDateTime().toLocalTime();
+                        if(time1.equals(LocalTime.parse("00:00"))) {
+                            if(employee.isWorkingPreviousDay(visitedStore.getEntranceDateTime())) {
+                                casualContacts.add(employee);
+                            }
                         }
                     }
                 }   
@@ -325,7 +351,7 @@ public class Flight implements Serializable {
             LocalDateTime dateTime = ticket.getCheckInDateTime();
             if (employee.isWorking(dateTime)) {
                 closeContacts.add(ticket.getPassenger());
-                
+
                 //in order to find the employee in the shift change
                 LocalTime checkInTime = dateTime.toLocalTime();
                 if(checkInTime.equals(time1) || checkInTime.equals(time2) || checkInTime.equals(time3)) {
@@ -335,7 +361,9 @@ public class Flight implements Serializable {
                                 closeContacts.add(stuff);
                             }
                             if(checkInTime.equals(time3)) {
-//                                ftu
+//                              if(stuff.isWorkingPreviousDay(time3)) {
+//                                  
+//                              }
 //                                      .isWorkingPreviousDay(flightDateTime);
 //                    casualContacts.add(employee);
                 }

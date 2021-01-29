@@ -83,10 +83,11 @@ public class AirportStuff extends Person {
     public boolean isWorking(LocalDateTime dateTime){
         DayOfWeek day = dateTime.getDayOfWeek();
         LocalTime time = dateTime.toLocalTime();
-        
         for(LocalTime[] localtimes : this.workHoursMap.get(day)){
             if(localtimes[1].equals(LocalTime.parse("00:00"))) {
-                localtimes[1] = localtimes[1].minusMinutes(1);
+                localtimes[1] = LocalTime.parse("23:59");
+                System.out.println("LALLALALLA");
+                System.out.println(localtimes[1].toString());
             }
             //in order to include the shift change of employees 
             if(!localtimes[0].equals(LocalTime.parse("00:00"))) {

@@ -3,11 +3,11 @@ package Graphics;
 import Airports.Airport;
 import Airports.ProgramData;
 import javafx.collections.ObservableList;
-import  javafx.scene.control.Label;
-import  javafx.scene.paint.Paint;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.control.TextField;
-import  javafx.scene.control.Button;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.ComboBox;
@@ -42,7 +42,7 @@ public class AddStores {
         Button okButton = new Button("OK");
         SetStyles.setStyleForButtons(okButton, 26, 30);
         okButton.setOnMouseClicked(event -> {
-            if (Graphics.CheckAddingInput.checkStore(textAreaStore,stage)) {
+            if (CheckAddingInput.checkStore(textAreaStore,stage)) {
                 flag[0] = false;
             } else flag[0] = true;
 

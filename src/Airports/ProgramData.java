@@ -1,14 +1,14 @@
 package Airports;
 
-import Graphics.CheckAddingInput;
-import Graphics.AddVisitedStores;
-import Graphics.AddTicket;
-import Graphics.AddStores;
-import Graphics.AddGate;
 import Graphics.AddAirport;
-import Graphics.AddFlightCrew;
-import Graphics.AddFlight;
 import Graphics.AddAirportStuff;
+import Graphics.AddFlight;
+import Graphics.AddFlightCrew;
+import Graphics.AddGate;
+import Graphics.AddStores;
+import Graphics.AddTicket;
+import Graphics.AddVisitedStores;
+import Graphics.CheckAddingInput;
 import Graphics.MainWindowForUser;
 import Graphics.Output;
 import java.time.*;
@@ -430,7 +430,7 @@ public class ProgramData implements Serializable {
      */
     private static boolean checkDate(LocalDate positiveDate) {
         // The date of today in order to compare the dates
-        LocalDate nowDate = LocalDate.parse("2020-02-27"); //LocalDate.now()
+        LocalDate nowDate = LocalDate.parse("2020-11-27"); //LocalDate.now()
         if (positiveDate.plusDays(30).compareTo(nowDate) > 0) {
             return true;
         } else {
@@ -524,7 +524,8 @@ public class ProgramData implements Serializable {
         }
 
         if(departureAirport != null && destinationAirport != null && departureAirport != destinationAirport) {
-            Flight flight = new Flight(departureAirport, destinationAirport, departureDateTime, destinationDateTime);
+            int sumFlights = getFlights().size() + 1;
+            Flight flight = new Flight(departureAirport, destinationAirport, departureDateTime, destinationDateTime, sumFlights);
             flights.add(flight);
             flag = true;
         }
@@ -971,7 +972,6 @@ public class ProgramData implements Serializable {
                 }
             }           
         }
-        System.out.println("no stuff");
         return false;
     }
 
@@ -986,7 +986,6 @@ public class ProgramData implements Serializable {
                 return true;
             }
         }
-        System.out.println("no pass");
         return false;
     }
 
@@ -1001,7 +1000,6 @@ public class ProgramData implements Serializable {
                 return true;
             }
         }
-        System.out.println("no crew");
         return false;
     }
 

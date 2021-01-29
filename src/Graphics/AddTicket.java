@@ -3,13 +3,13 @@ package Graphics;
 import Airports.Airport;
 import Airports.ProgramData;
 import javafx.collections.ObservableList;
-import  javafx.scene.layout.GridPane;
-import  javafx.stage.Stage;
-import  javafx.scene.control.Label;
-import  javafx.scene.paint.Paint;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.control.TextField;
-import  javafx.scene.control.Button;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ComboBox;
 

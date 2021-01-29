@@ -1,6 +1,5 @@
 package Graphics;
 
-import Airports.ProgramData;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
@@ -72,7 +71,7 @@ public class AddingData {
         Button buttonBack = new Button("BACK");
         SetStyles.setStyleForButtons(buttonBack, 25, 3);
         buttonBack.setOnMouseClicked(event -> {
-            Entrance.switchWindow((Stage) buttonBack.getScene().getWindow(), new Graphics.Entrance());
+            Entrance.switchWindow((Stage) buttonBack.getScene().getWindow(), new Entrance());
         });
 
        gridPane.getChildren().addAll(message, instructions,airport, flight, ticket, flightCrew,

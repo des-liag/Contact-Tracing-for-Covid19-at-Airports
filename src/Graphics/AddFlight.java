@@ -1,6 +1,6 @@
 package Graphics;
 
-
+import Airports.Airport;
 import Airports.ProgramData;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.GridPane;
@@ -46,7 +46,7 @@ public class AddFlight {
         GridPane.setColumnIndex(depICAO, 0);
         
         ObservableList<String> list1 = depICAO.getItems();
-        for (Airports.Airport airport : Airports.ProgramData.getAirports()) {
+        for (Airport airport : ProgramData.getAirports()) {
             list1.add(airport.getAirportICAO());
         }
         
@@ -57,7 +57,7 @@ public class AddFlight {
         GridPane.setColumnIndex(destICAO, 0);
         
         ObservableList<String> list2 = destICAO.getItems();
-        for (Airports.Airport airport : Airports.ProgramData.getAirports()) {
+        for (Airport airport : ProgramData.getAirports()) {
             list2.add(airport.getAirportICAO());
         }
 

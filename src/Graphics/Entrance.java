@@ -1,6 +1,5 @@
 package Graphics;
 
-import java.lang.*;
 import Airports.ProgramData;
 import javafx.application.Application;
 import javafx.stage.Stage;

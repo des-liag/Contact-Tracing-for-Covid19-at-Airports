@@ -1,6 +1,5 @@
 package Graphics;
 
-import Airports.Airport;
 import Airports.ProgramData;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -142,7 +141,7 @@ import javafx.scene.Scene;
         GridPane.setColumnIndex(icao, 0);
 
         ObservableList<String> list = icao.getItems();
-        for (Airport airport : ProgramData.getAirports()) {
+        for (Airports.Airport airport : ProgramData.getAirports()) {
             list.add(airport.getAirportICAO());
         }
 
@@ -190,7 +189,7 @@ import javafx.scene.Scene;
         Button buttonBack = new Button("BACK");
         SetStyles.setStyleForButtons(buttonBack, 40, 220);
         buttonBack.setOnMouseClicked(event -> {
-            Entrance.switchWindow((javafx.stage.Stage) buttonBack.getScene().getWindow(), new Graphics.Entrance());
+            Entrance.switchWindow((javafx.stage.Stage) buttonBack.getScene().getWindow(), new Entrance());
 
         });
 

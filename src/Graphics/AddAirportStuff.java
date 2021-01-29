@@ -1,6 +1,5 @@
 package Graphics;
 
-import Airports.Airport;
 import Airports.ProgramData;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
@@ -80,7 +79,7 @@ public class AddAirportStuff {
         GridPane.setColumnIndex(icao, 0);
         
         ObservableList<String> list = icao.getItems();
-        for (Airport airport : ProgramData.getAirports()) {
+        for (Airports.Airport airport : ProgramData.getAirports()) {
             list.add(airport.getAirportICAO());
         }
 

@@ -76,7 +76,7 @@ public class OkButtonHandle  {
             }
         }
         if (MainWindowForUser.emp.isSelected()) {
-            if (Graphics.MainWindowForUser.icao.getValue().equals("")) {
+            if (MainWindowForUser.icao.getValue().equals("")) {
                 checkICAO = true;
                 alert.setContentText("You forgot to pick ICAO for airport");
                 java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
