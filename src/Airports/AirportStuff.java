@@ -86,8 +86,6 @@ public class AirportStuff extends Person {
         for(LocalTime[] localtimes : this.workHoursMap.get(day)){
             if(localtimes[1].equals(LocalTime.parse("00:00"))) {
                 localtimes[1] = LocalTime.parse("23:59");
-                System.out.println("LALLALALLA");
-                System.out.println(localtimes[1].toString());
             }
             //in order to include the shift change of employees 
             if(!localtimes[0].equals(LocalTime.parse("00:00"))) {
@@ -118,6 +116,25 @@ public class AirportStuff extends Person {
         for(LocalTime[] localtimes : this.workHoursMap.get(day)) {
             if(localtimes[0].equals(LocalTime.parse("16:00"))) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isWorkingColleague(AirportStuff employee, LocalDateTime dateTime) {
+        DayOfWeek day = dateTime.getDayOfWeek();
+        LocalTime startTime = null;
+        LocalTime endTime = null;
+
+        for(LocalTime[] localtimes : employee.workHoursMap.get(day)) {
+           startTime = localtimes[0];
+           endTime = localtimes[1];
+        }
+        for(LocalTime[] localtimes : this.workHoursMap.get(day)) {
+            if(startTime.equals(LocalTime.parse("16:00")) || endTime.equals(LocalTime.parse("16:00"))) {
+                if(localtimes[0].equals(endTime) || localtimes[1].equals(startTime)) {
+                    return true;
+                }
             }
         }
         return false;

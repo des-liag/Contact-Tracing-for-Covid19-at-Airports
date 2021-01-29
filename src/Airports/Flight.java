@@ -354,20 +354,27 @@ public class Flight implements Serializable {
 
                 //in order to find the employee in the shift change
                 LocalTime checkInTime = dateTime.toLocalTime();
-                if(checkInTime.equals(time1) || checkInTime.equals(time2) || checkInTime.equals(time3)) {
+//                if(checkInTime.equals(time1) || checkInTime.equals(time2) || checkInTime.equals(time3)) {
                     for (AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
-                        if (!stuff.getSSN().equals(employee.getSSN())) {
-                            if(stuff.isWorking(dateTime)) {
-                                closeContacts.add(stuff);
-                            }
+//                        if (!stuff.getSSN().equals(employee.getSSN())) {
+//                            if(stuff.isWorking(dateTime)) {
+//                                closeContacts.add(stuff);
+//                            }
                             if(checkInTime.equals(time3)) {
-                              if(stuff.isWorkingPreviousDay(dateTime)) {
-                                closeContacts.add(stuff);
+                              if(employee.isWorkingPreviousDay(dateTime)) {
+                                closeContacts.add(ticket.getPassenger());
                               }
                             }  
+//                        }
+                    }
+//                }
+                 for (AirportStuff stuff : airport.getCheckInPlace().getSectionStuff()) {
+                    if (!stuff.getSSN().equals(employee.getSSN())) {
+                        if(stuff.isWorkingColleague(employee, dateTime)) {
+                            closeContacts.add(stuff);
                         }
                     }
-                }
+                 }
             }
         }
         return closeContacts;
